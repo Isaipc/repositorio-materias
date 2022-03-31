@@ -39,11 +39,15 @@
                             class="btn btn-sm btn-danger">
                             <i class="bi bi-trash-fill"></i>
                         </a>
-                        <form id="delete-{{ $r_item->id }}" action="{{ route('materias.destroy', $r_item->id) }}"
+                        <a href="{{ route('materias.edit', $r_item->id) }} " class="btn btn-sm btn-info">
+                            <i class="bi bi-upload"></i>
+                        </a>
+                        <form id="delete-{{ $r_item->id }}" action="{{ route('materias.uploads', $r_item->id) }}"
                             method="POST">
                             @csrf
                             @method('DELETE')
                         </form>
+
 
                         @endif
                     </td>
