@@ -19,17 +19,17 @@
             <td>
                 </a>
                 @if ($r_item->estatus == 1)
-                <a href="{{ route('documentos.show', $r_item->id) }} " class="btn btn-sm btn-link">
+                <a href="{{ route('archivos.show', $r_item->id) }} " class="btn btn-sm btn-link">
                     Mostrar detalles
                 </a>
-                <a href="{{ route('documentos.edit', $r_item->id) }} " class="btn btn-sm btn-primary">
+                <a href="{{ route('archivos.edit', $r_item->id) }} " class="btn btn-sm btn-primary">
                     <i class="bi bi-pencil-fill"></i>
                 </a>
                 <a href="javascript: document.getElementById('delete-{{ $r_item->id }}').submit()"
                     class="btn btn-sm btn-danger">
                     <i class="bi bi-trash-fill"></i>
                 </a>
-                <form id="delete-{{ $r_item->id }}" action="{{ route('documentos.destroy', $r_item->id) }}"
+                <form id="delete-{{ $r_item->id }}" action="{{ route('archivos.destroy', $r_item->id) }}"
                     method="POST">
                     @csrf
                     @method('DELETE')
@@ -39,7 +39,7 @@
                     class="btn btn-sm btn-success">
                     <i class="bi bi-upload"></i>
                 </a>
-                <form id="restore-{{ $r_item->id }}" action="{{ route('documentos.restore', $r_item->id) }}"
+                <form id="restore-{{ $r_item->id }}" action="{{ route('archivos.restore', $r_item->id) }}"
                     method="POST">
                     @csrf
                     @method('PUT')

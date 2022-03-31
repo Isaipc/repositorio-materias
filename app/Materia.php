@@ -20,9 +20,9 @@ class Materia extends Common
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function documentos(): HasMany
+    public function archivos(): HasMany
     {
-        return $this->hasMany(Documento::class, 'materia_id', 'id');
+        return $this->hasMany(archivo::class, 'materia_id', 'id');
     }
 
 }

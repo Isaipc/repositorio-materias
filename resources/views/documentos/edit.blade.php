@@ -1,12 +1,12 @@
 @extends('layouts.dashboard')
 
-@section('breadcrumbs', Breadcrumbs::render('documentos.edit', $item))
+@section('breadcrumbs', Breadcrumbs::render('archivos.edit', $item))
 
 @section('title', 'Editar producto')
 
 @section('content')
 
-<form action="{{ route('documentos.update', $item) }} " method="POST" enctype="multipart/form-data">
+<form action="{{ route('archivos.update', $item) }} " method="POST" enctype="multipart/form-data">
     @csrf
     @method('PUT')
     <div class="form-group row">
@@ -73,11 +73,11 @@
         </div>
     </div>
     <button type="submit" class="btn btn-md btn-primary">Guardar</button>
-    <a href="{{ route('documentos.index') }} " class="btn btn-md btn-light">Cancelar</a>
+    <a href="{{ route('archivos.index') }} " class="btn btn-md btn-light">Cancelar</a>
 </form>
 
 @endsection
 
 @section('secondary-content')
-@include('documentos.list')
+@include('archivos.list')
 @endsection

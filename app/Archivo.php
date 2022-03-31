@@ -6,18 +6,18 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Facades\Storage;
 
-class Documento extends Common
+class Archivo extends Common
 {
-    protected $table = 'documentos';
-    const IMG_DEFAULT_URL = 'doc/no-disponible.svg';
+    protected $table = 'archivos';
     protected $fillable = [
         'nombre',
         'url',
         'estatus',
+        'materia_id',
     ];
 
     /**
-     * Get the user that owns the Documento
+     * Get the user that owns the archivo
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
@@ -34,8 +34,6 @@ class Documento extends Common
 
         $path = $doc->storeAs('/public', $docName);
         $url = Storage::url($docName);
-        $doc = Image::create(['url' => $url]);
-
-        return $doc;
+        return $url;
     }
 }

@@ -1,6 +1,6 @@
 @extends('layouts.dashboard')
 
-@section('breadcrumbs', Breadcrumbs::render('documentos.show', $item))
+@section('breadcrumbs', Breadcrumbs::render('archivos.show', $item))
 
 @section('title', 'Detalles de producto: ' . $item->nombre)
 

@@ -1,22 +1,19 @@
 @extends('layouts.dashboard')
 
-@section('breadcrumbs', Breadcrumbs::render('documentos.index'))
+@section('breadcrumbs', Breadcrumbs::render('archivos.index'))
 
 @section('title')
 <span>
-    Documentos
+    archivos
 </span>
-<a href="{{ route('documentos.create') }}" class="btn btn-md btn-light float-right">
+<a href="{{ route('archivos.create') }}" class="btn btn-md btn-light float-right">
     <i class="bi bi-plus"></i>
 </a>
 @endsection
 
 @section('content')
-<a href="{{ route('documentos.trash') }}" class="btn btn-md btn-link">
-    Mostrar eliminados ({{ $deleted }})
-</a>
 @endsection
 
 @section('secondary-content')
-@include('documentos.list')
+@include('archivos.list')
 @endsection

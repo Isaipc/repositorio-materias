@@ -1,13 +1,13 @@
 @extends('layouts.dashboard')
 
-@section('breadcrumbs', Breadcrumbs::render('documentos.trash'))
+@section('breadcrumbs', Breadcrumbs::render('archivos.trash'))
 
-@section('title', 'Documentos eliminados')
+@section('title', 'archivos eliminados')
 
 @section('content')
 
 @endsection
 
 @section('secondary-content')
-@include('documentos.list')
+@include('archivos.list')
 @endsection
