@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Documento;
+use App\archivo;
 use App\User;
 use App\Operador;
 use App\Producto;
@@ -29,11 +29,6 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home', [
-            'usuarios' => User::all()->count(),
-            'clientes' => '',
-            'documentos' => Documento::where('estatus', 1)->count(),
-            'servicios' => ''
-        ]);
+        return view('home', []);
     }
 }
