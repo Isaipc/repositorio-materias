@@ -19,7 +19,6 @@
                     aria-haspopup="true" aria-expanded="false">{{ __('Registros') }}</a>
                     <div class="dropdown-menu">
                         <a class="dropdown-item" href="{{ route('materias.index') }}">{{ __('Materias')}} </a>
-                        <a class="dropdown-item" href="{{ route('documentos.index') }}">{{ __('Archivos')}} </a>
                         <a class="dropdown-item" href="{{ route('usuarios.index') }}">{{ __('Usuarios')}} </a>
                     </div>
                 </li>
