@@ -9,11 +9,11 @@
         <div class="mt-3">
             @yield('breadcrumbs')
         </div>
-        <div class="card mt-3">
-            <div class="card-header bg-primary text-white">
-                <h5>
+        <div class="card mt-3 shadow-sm">
+            <div class="card-header bg-primary text-white text-center uppercase">
+                <h4>
                     @yield('title')
-                </h5>
+                </h4>
             </div>
             <div class="card-body container">
                 @if ($errors->any())
