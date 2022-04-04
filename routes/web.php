@@ -18,7 +18,10 @@ use Illuminate\Support\Facades\Auth;
 Auth::routes();
 
 Route::group(['middleware' => 'auth'], function () {
-    Route::get('/home', 'HomeController@index')->name('home');
+    Route::get('/bienvenida', function () {
+        return view('bienvenida');
+    })->name('welcome');
+    Route::get('/inicio', 'HomeController@index')->name('home');
     Route::get('/', 'HomeController@index');
 
     Route::get('roles', 'RoleController@index')->name('roles.index');
@@ -67,13 +70,13 @@ Route::group(['middleware' => 'auth'], function () {
     Route::put('materias/{materia}', 'MateriaController@update')->name('materias.update');
     Route::delete('materias/{materia}', 'MateriaController@destroy')->name('materias.destroy');
 
-    Route::get('documentos', 'DocumentoController@index')->name('documentos.index');
-    Route::get('documentos/eliminados', 'DocumentoController@trash')->name('documentos.trash');
-    Route::put('documentos/{documento}/restaurar', 'DocumentoController@restore')->name('documentos.restore');
-    Route::get('documentos/nuevo', 'DocumentoController@create')->name('documentos.create');
-    Route::post('documentos', 'DocumentoController@store')->name('documentos.store');
-    Route::get('documentos/{documento}', 'DocumentoController@show')->name('documentos.show');
-    Route::get('documentos/{documento}/editar', 'DocumentoController@edit')->name('documentos.edit');
-    Route::put('documentos/{documento}', 'DocumentoController@update')->name('documentos.update');
-    Route::delete('documentos/{documento}', 'DocumentoController@destroy')->name('documentos.destroy');
+    Route::get('materias/{materia}/archivos', 'ArchivoController@index')->name('archivos.index');
+    Route::get('materias/{materia}/eliminados', 'ArchivoController@trash')->name('archivos.trash');
+    Route::put('materias/{archivo}/restaurar', 'ArchivoController@restore')->name('archivos.restore');
+    Route::get('materias/{materia}/archivos/nuevo', 'ArchivoController@create')->name('archivos.create');
+    Route::post('materias/{materia}/archivos', 'ArchivoController@store')->name('archivos.store');
+    Route::get('materias/{materia}/archivos/{archivo}', 'ArchivoController@show')->name('archivos.show');
+    Route::get('materias/{materia}/archivos/{archivo}/editar', 'ArchivoController@edit')->name('archivos.edit');
+    Route::put('materias/archivos/{archivo}', 'ArchivoController@update')->name('archivos.update');
+    Route::delete('materias/archivos/{archivo}', 'ArchivoController@destroy')->name('archivos.destroy');
 });
