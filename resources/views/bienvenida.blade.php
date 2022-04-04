@@ -1,16 +1,9 @@
-@if (session('status'))
-<div class="alert alert-success" role="alert">
-    {{ session('status') }}
+@extends('layouts.dashboard')
+{{-- @section('title', 'Repositorio') --}}
+@section('content')
+<div class="row">
+    <div class="col-md-4 mx-auto">
+        <img src="{{ asset('img/isc.jpg') }}" class="img-fluid" alt="">
+    </div>
 </div>
-@endif
-
-@guest
-@else
-<h3 class="mx-auto text-center">
-    Bienvenid@
-
-    <strong class="text-uppercase">
-        {{ Auth::user()->name }}
-    </strong>
-</h3>
-@endguest
+@endsection
