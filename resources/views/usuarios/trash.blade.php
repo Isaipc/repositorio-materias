@@ -2,7 +2,7 @@
 
 @section('breadcrumbs', Breadcrumbs::render('usuarios.trash'))
 
-@section('title', 'Usuarios eliminados')
+@section('title', 'Alumnos eliminados')
 
 @section('content')
 @endsection
