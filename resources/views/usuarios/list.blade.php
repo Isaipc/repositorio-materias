@@ -5,9 +5,9 @@
             <thead>
                 <tr>
                     <th>#</th>
-                    <th>Usuario</th>
                     <th>Nombre</th>
-                    <th class="d-none d-md-table-cell">Correo</th>
+                    <th class="d-none d-md-table-cell">Correo electronico</th>
+                    <th>Usuario</th>
                     <th>Tipo de usuario</th>
                     <th></th>
                 </tr>
@@ -16,9 +16,9 @@
                 @foreach ($rows as $key=> $r_item)
                 <tr class="data-row">
                     <td>{{ $key + 1 }}</td>
-                    <td scope="row"> {{ $r_item->username }} </td>
                     <td>{{ $r_item->name }} </td>
                     <td class="d-none d-md-table-cell">{{ is_null($r_item->email) ? '-' : $r_item->email }} </td>
+                    <td scope="row"> {{ $r_item->username }} </td>
                     <td>
                         @if(!count($r_item->roles) == 0)
                         <ul>
