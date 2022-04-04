@@ -19,9 +19,9 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
 
-<body class="d-flex align-items-center">
+<body class="d-flex align-items-center bg-secondary">
     <div class="my-auto w-100">
-        <div class="mx-auto card col-md-4">
+        <div class="mx-auto card col-xl-3 col-lg-4 col-md-6 shadow-lg">
             <div class="card-body">
                 <form method="POST" action="{{ route('login') }}" autocomplete="off">
                     @csrf
@@ -29,54 +29,41 @@
                         <img src="{{ asset('img/isc.jpg') }}" width="200px" alt="" srcset="">
                     </div>
                     <div class="form-group">
-                        <div class="row">
-                            <label for="username" class="col-md-8 col-lg-6 col-form-label mx-auto">
-                                {{ __('Usuario') }}
-                            </label>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-8 col-lg-6 mx-auto">
-                                <input id="username" type="text" class="form-control 
-                        @error('username') is-invalid @enderror" name="username" value="{{ old('username') }}" required
-                                    autofocus maxlength="50">
+                        <label for="username" class="">
+                            {{ __('Usuario') }}
+                        </label>
+                        <input id="username" type="text" class="form-control @error('username') is-invalid @enderror"
+                            name="username" value="{{ old('username') }}" required autofocus>
 
-                                @error('username')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                                @enderror
-                            </div>
-                        </div>
+                        @error('username')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                        @enderror
                     </div>
                     <div class="form-group">
-                        <div class="row">
-                            <label for="password" class="col-md-8 col-lg-6 col-form-label mx-auto">
-                                {{ __('Contraseña') }}
-                            </label>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-8 col-lg-6 mx-auto">
-                                <input id="password" type="password" class="form-control 
-                        @error('password') is-invalid @enderror" name="password" required
-                                    autocomplete="current-password" maxlength="15">
-
-                                @error('password')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                                @enderror
-                            </div>
-                        </div>
+                        <label for="password" class="">
+                            {{ __('Contraseña') }}
+                        </label>
+                        <input id="password" type="password"
+                            class="form-control @error('password') is-invalid @enderror" name="password" required
+                            autocomplete="current-password">
+                        @error('password')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                        @enderror
                     </div>
 
                     <div class="form-group row mb-0">
-                        <div class="col-md-6 d-flex flex-column mx-auto">
+                        <div class="col-xl-9 col-lg-12 d-flex flex-column mx-auto">
                             <button type="submit" class="btn btn-primary">
                                 {{ __('Iniciar sesión') }}
                             </button>
 
-                            {{-- @if (Route::has('password.request')) <a class="btn btn-link" href="{{ route('password.request') }}">
-                            {{ __('Olvidé mi contraseña') }} </a> @endif --}}
+                            @if (Route::has('password.request')) <a class="btn btn-link"
+                                href="{{ route('password.request') }}">
+                                {{ __('Olvidé mi contraseña') }} </a> @endif
 
                             <a href="{{ route('register') }}" class="btn btn-link">
                                 {{ __('Crear cuenta') }} </a>
