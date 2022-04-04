@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\AlumnoEnMateria;
 use App\Http\Controllers\Controller;
+use App\Materia;
 use App\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
@@ -28,7 +30,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected $redirectTo = '/';
 
     /**
      * Create a new controller instance.
@@ -53,8 +55,10 @@ class RegisterController extends Controller
             'username' => ['required', 'string', 'max:50'],
             'email' => ['required', 'string', 'email', 'max:50', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'materias' => ['required', 'array'],
         ]);
     }
+
 
     /**
      * Create a new user instance after a valid registration.
@@ -71,7 +75,22 @@ class RegisterController extends Controller
             'password' => Hash::make($data['password']),
         ]);
 
-        $user->assignRole('Cliente');
+        $materias = $data['materias'];
+
+        foreach ($materias as $key => $m) {
+            AlumnoEnMateria::create([
+                'usuario_id' => $user->id,
+                'materia_id' => $m,
+            ]);
+        }
+
+        $user->assignRole('Alumno');
         return $user;
+    }
+
+    public function showRegistrationForm()
+    {
+        $materias = Materia::where('estatus', '!=', 0)->orderBy('nombre', 'ASC')->get();
+        return view('auth.register', ['materias' => $materias]);
     }
 }
