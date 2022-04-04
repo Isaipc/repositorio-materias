@@ -8,7 +8,7 @@
                     <th>Usuario</th>
                     <th>Nombre</th>
                     <th class="d-none d-md-table-cell">Correo</th>
-                    <th>Roles de usuario</th>
+                    <th>Tipo de usuario</th>
                     <th></th>
                 </tr>
             </thead>
@@ -48,12 +48,8 @@
                             Mostrar detalles
                         </a>
                         <a href="{{ route('usuarios.edit', $r_item->id) }} " class="btn btn-sm btn-primary">
-                            <i class="bi bi-pencil-fill"></i>
+                            <i class="bi bi-pencil-square"></i>
                         </a>
-                        {{-- <a href="{{ route('usuarios.password-edit', $r_item->id) }} " class="btn btn-sm
-                        btn-warning">
-                        <i class="bi bi-lock-fill"></i>
-                        </a> --}}
                         <a href="javascript: document.getElementById('delete-{{ $r_item->id }}').submit()"
                             class="btn btn-sm btn-danger">
                             <i class="bi bi-trash-fill"></i>
