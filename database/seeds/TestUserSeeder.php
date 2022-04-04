@@ -1,5 +1,6 @@
 <?php
 
+use App\AlumnoEnMateria;
 use App\User;
 use Illuminate\Database\Seeder;
 
@@ -22,7 +23,6 @@ class TestUserSeeder extends Seeder
         ])->save();
         $user->assignRole('Administrador');
 
-
         $user = new User;
         $user->fill([
             'name' => 'Gustavo Eslava',
@@ -32,6 +32,9 @@ class TestUserSeeder extends Seeder
         ])->save();
         $user->assignRole('Alumno');
 
+        AlumnoEnMateria::create(['usuario_id' => $user->id, 'materia_id' => 1]);
+        AlumnoEnMateria::create(['usuario_id' => $user->id, 'materia_id' => 2]);
+
         $user = new User;
         $user->fill([
             'name' => 'Alumno test',
@@ -40,5 +43,7 @@ class TestUserSeeder extends Seeder
             'password' => bcrypt('12345678')
         ])->save();
         $user->assignRole('Alumno');
+
+        AlumnoEnMateria::create(['usuario_id' => $user->id, 'materia_id' => 3]);
     }
 }
