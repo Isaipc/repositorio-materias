@@ -9,6 +9,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Traits\HasRoles;
 use App\Direccion;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class User extends Authenticatable
 {
@@ -46,12 +47,22 @@ class User extends Authenticatable
     }
 
     /**
-     * Get all of the direcciones for the User
+     * Get all of the alumnoEnMateria for the User
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function direcciones(): HasMany
+    public function alumnoEnMateria(): HasMany
     {
-        return $this->hasMany(Direccion::class);
+        return $this->hasMany(AlumnoEnMateria::class, 'usuario_id', 'id');
+    }
+
+    /**
+     * The materias that belong to the User
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function materias(): BelongsToMany
+    {
+        return $this->belongsToMany(Materia::class, 'usuario_materias', 'usuario_id', 'materia_id');
     }
 }
