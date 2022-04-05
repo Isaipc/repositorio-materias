@@ -46,6 +46,7 @@
 
     <div class="form-group row">
         <label for="email" class="col-md-4 col-form-label text-md-right">
+            <i class="bi bi-asterisk text-danger required"></i>
             {{ __('Correo electrónico') }}
         </label>
 
@@ -89,24 +90,7 @@
                 autocomplete="new-password">
         </div>
     </div>
-
-
-    <div class="form-group row">
-        <label for="role" class="col-md-4 col-form-label text-md-right">
-            <i class="bi bi-asterisk text-danger required"></i>
-            {{ __('Rol') }}
-        </label>
-
-        <div class="col-md-6">
-            <select id="role" name="roles[]" class="selectpicker" data-size="10" multiple title="Seleccione un rol">
-
-                @foreach ($roles as $r)
-                <option value="{{ $r->id}}">{{ $r->name }}</option>
-                @endforeach
-            </select>
-        </div>
-    </div>
-
+    
     <div class="form-group row mb-0">
         <div class="col-md-6 offset-md-4">
             <button type="submit" class="btn btn-primary">
