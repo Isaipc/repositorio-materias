@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Carbon\Carbon;
 use \Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -43,5 +44,15 @@ class User extends Authenticatable
     public function alias()
     {
         return $this->username;
+    }
+
+    public function getCreatedAtAttribute($value)
+    {
+        return Carbon::parse($value)->format(config('constants.timestamps_format'));
+    }
+
+    public function getUpdatedAtAttribute($value)
+    {
+        return Carbon::parse($value)->format(config('constants.timestamps_format'));
     }
 }
