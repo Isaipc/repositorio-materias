@@ -16,10 +16,10 @@
                 @can('catalogos-menu')
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button"
-                    aria-haspopup="true" aria-expanded="false">{{ __('Registros') }}</a>
+                    aria-haspopup="true" aria-expanded="false">{{ __('Repositorio') }}</a>
                     <div class="dropdown-menu">
                         <a class="dropdown-item" href="{{ route('materias.index') }}">{{ __('Materias')}} </a>
-                        <a class="dropdown-item" href="{{ route('usuarios.index') }}">{{ __('Alumnos')}} </a>
+                        <a class="dropdown-item" href="{{ route('usuarios.index') }}">{{ __('Usuarios')}} </a>
                     </div>
                 </li>
                 @endcan
