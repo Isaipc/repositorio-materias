@@ -1,41 +1,45 @@
 @extends('layouts.dashboard')
 
+@section('breadcrumbs', Breadcrumbs::render('usuarios.show', $item))
+
 @section('title', 'Detalles ' . $item->name)
 
 @section('content')
-<table class="table table-md">
-    <tbody>
-        <tr>
-            <th>Nombre</th>
-            <td> {{ $item->name }} </td>
-        </tr>
-        <tr>
-            <th>Estatus</th>
-            <td> {{ $item->estatus ? 'Activo' : 'Inactivo'}} </td>
-        </tr>
-        <tr>
-            <th>Fecha de creación</th>
-            <td> {{ $item->created_at }} </td>
-        </tr>
-        <tr>
-            <th>Fecha de ultima actualización</th>
-            <td> {{ $item->updated_at }} </td>
-        </tr>
-        <tr>
-            <th>Roles asociados</th>
-            <td>
-                <div class="row">
-                    @foreach ($item->roles as $r)
-                    <span class="col-md-12 col-lg-4">
-                        <li>
-                            <a href="{{ route('roles.show', $r->id )}}">
-                                {{ $r->name }}
-                            </a>
-                        </li>
-                    </span>
-                    @endforeach
-                </div>
-            </td>
-        </tr>
-    </tbody>
-    @endsection
+<div class="row">
+    <div class="col-md-8">
+        <table class="table table-borderless table-responsive">
+            <tbody>
+                <tr>
+                    <th class="text-right">Nombre</th>
+                    <td> {{ $item->name }} </td>
+                </tr>
+                <tr>
+                    <th class="text-right">Estatus</th>
+                    <td> {{ $item->estatus ? 'Activo' : 'Inactivo'}} </td>
+                </tr>
+                <tr>
+                    <th class="text-right">Creado</th>
+                    <td> {{ $item->created_at }} </td>
+                </tr>
+                <tr>
+                    <th class="text-right">Actualizado</th>
+                    <td> {{ $item->updated_at }} </td>
+                </tr>
+                <tr>
+                    <th class="text-right">Tipo de usuario</th>
+                    <td>
+                        @foreach ($item->roles as $r)
+                        {{ $r->name }}
+                        @endforeach
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+@endsection
+@section('secondary-content')
+
+@include('usuarios.list')
+
+@endsection
