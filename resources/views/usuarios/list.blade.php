@@ -23,11 +23,7 @@
                         @if(!count($r_item->roles) == 0)
                         <ul>
                             @foreach($r_item->roles as $r)
-                            <li>
-                                <a href="{{ route('roles.show', $r->id) }}">
-                                    {{ $r->name }}
-                                </a>
-                            </li>
+                            {{ $r->name }}
                             @endforeach
                             </ol>
                             @endif
