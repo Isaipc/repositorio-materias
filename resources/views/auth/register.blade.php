@@ -55,6 +55,21 @@
             </div>
 
             <div class="form-group row">
+                <label for="role" class="col-md-4 col-form-label text-md-right">
+                    {{ __('Materia') }}
+                </label>
+
+                <div class="col-md-6">
+                    <select id="materia" name="materias[]" class="selectpicker" data-size="10" multiple
+                        title="Seleccione una materia">
+                        @foreach ($materias as $r)
+                        <option value="{{ $r->id}}">{{ $r->nombre }}</option>
+                        @endforeach
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group row">
                 <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Contraseña') }}</label>
 
                 <div class="col-md-6">
