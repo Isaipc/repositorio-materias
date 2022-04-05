@@ -5,58 +5,98 @@
 @section('title', $item->nombre)
 
 @section('content')
-<table class="table">
-    <tbody>
-        <tr>
-            <th>Nombre</th>
-            <td> {{ $item->nombre}} </td>
-        </tr>
-        <tr>
-            <th>Estatus</th>
-            <td> {{ $item->getEstatusName() }} </td>
-        </tr>
-        <tr>
-            <th>Fecha de creación</th>
-            <td> {{ $item->created_at }} </td>
-        </tr>
-        <tr>
-            <th>Fecha de ultima actualización</th>
-            <td> {{ $item->updated_at }} </td>
-        </tr>
-    </tbody>
-</table>
-
-<hr>
-<label for="">Archivos</label>
-<div class="form-group row">
-    <div class="col-md-8">
-        @if ($item->documentos->count() == 0)
-        <p class="text-muted">
-            No hay archivos
-        </p>
-        @else
-        <table class="table">
-            <thead>
+<div class="row">
+    <div class="col-md-6">
+        <table class="table table-borderless">
+            <tbody>
                 <tr>
                     <th>Nombre</th>
-                    <th>Url</th>
+                    <td> {{ $item->nombre}} </td>
                 </tr>
-            </thead>
-            <tbody>
-                @foreach ($item->documentos as $doc)
                 <tr>
-                    <td>{{ $doc->nombre }} </td>
-                    <td>{{ $doc->url }} </td>
+                    <th>Estatus</th>
+                    <td> {{ $item->getEstatusName() }} </td>
                 </tr>
-                @endforeach
+                <tr>
+                    <th>Creado</th>
+                    <td> {{ $item->created_at }} </td>
+                </tr>
+                <tr>
+                    <th>Actualizado</th>
+                    <td> {{ $item->updated_at }} </td>
+                </tr>
             </tbody>
         </table>
-        @endif
     </div>
 </div>
 
-@endsection
 
+@endsection
 @section('secondary-content')
+<div class="card mt-2">
+    <div class="card-body container shadow-sm">
+
+        <h5> Archivos</h5>
+        <a href="{{ route('archivos.index', $item->id) }} " class="btn btn-sm btn-primary">
+            <i class="bi bi-plus"></i> Agregar
+        </a>
+        <div class="row">
+            <div class="col-md-6">
+                @if ($item->archivos->count() == 0)
+                <p class="text-muted">
+                    No hay archivos
+                </p>
+                @else
+
+                <ul class="list-group list-group-flush">
+                    @foreach ($item->archivos as $file)
+                    <a href="{{ $file->url }}"
+                        class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                        <span>
+                            <i class="bi bi-file-earmark-fill"></i>
+                            {{ $file->nombre }}
+                        </span>
+                        <span>
+                            {{ $file->url }}
+                        </span>
+                    </a>
+                    @endforeach
+                </ul>
+                @endif
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="card mt-2">
+    <div class="card-body container shadow-sm">
+        <h5> Alumnos </h5>
+        <div class="row">
+            <div class="col-md-6">
+                @if ($item->alumnos()->count() == 0)
+                <p class="text-muted">
+                    No hay alumnos
+                </p>
+                @else
+                <ul class="list-group list-group-flush">
+                    @foreach ($item->alumnos as $a)
+                    <a href=""
+                        class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                        <span>
+                            <i class="bi bi-person-fill"></i>
+                            {{ $a->name }}
+                        </span>
+                    </a>
+                    @endforeach
+                </ul>
+                @endif
+            </div>
+        </div>
+    </div>
+</div>
+
+
 @include('materias.list')
 @endsection
