@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Materia extends Common 
+class Materia extends Common
 {
     protected $table = 'materias';
     protected $fillable = [
@@ -15,7 +15,7 @@ class Materia extends Common
         'estatus',
     ];
 
-    
+
     /**
      * Get all of the comments for the Materia
      *
@@ -27,13 +27,13 @@ class Materia extends Common
     }
 
     /**
-     * Get all of the usuarios for the Materia
+     * Get all of the alumnoEnMateria for the Materia
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function usuarios(): HasMany
+    public function alumnoEnMateria(): HasMany
     {
-        return $this->hasMany(User::class, 'materia_id', '');
+        return $this->hasMany(AlumnoEnMateria::class, 'materia_id', 'id');
     }
 
     /**
@@ -43,8 +43,6 @@ class Materia extends Common
      */
     public function alumnos(): BelongsToMany
     {
-        return $this->belongsToMany(Role::class, 'role_user_table', 'user_id', 'role_id');
+        return $this->belongsToMany(User::class, 'usuario_materias', 'materia_id', 'usuario_id');
     }
-
-
 }
