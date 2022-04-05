@@ -4,7 +4,7 @@
 
 @section('title')
 <span>
-    Usuarios
+    Usuarios del sistema
 </span>
 <a href="{{ route('usuarios.create') }}" class="btn btn-md btn-light float-right">
     <i class="bi bi-plus"></i>
