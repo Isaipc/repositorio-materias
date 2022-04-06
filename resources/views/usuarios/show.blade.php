@@ -2,7 +2,7 @@
 
 @section('breadcrumbs', Breadcrumbs::render('usuarios.show', $item))
 
-@section('title', 'Detalles ' . $item->name)
+@section('title', $item->name)
 
 @section('content')
 <div class="row">
