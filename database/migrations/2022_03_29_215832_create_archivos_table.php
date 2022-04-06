@@ -18,7 +18,7 @@ class CreatearchivosTable extends Migration
             $table->string('nombre');
             $table->string('url');
             $table->unsignedBigInteger('materia_id');
-            $table->unsignedTinyInteger('estatus')->default(1);
+            $table->unsignedTinyInteger('estatus');
             $table->timestamps();
         });
     }

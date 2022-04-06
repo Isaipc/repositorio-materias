@@ -17,7 +17,7 @@ class CreateMateriasTable extends Migration
             $table->bigIncrements('id');
             $table->string('nombre');
             $table->string('descripcion')->nullable();
-            $table->unsignedTinyInteger('estatus')->default(1);
+            $table->unsignedTinyInteger('estatus');
             $table->timestamps();
         });
     }
