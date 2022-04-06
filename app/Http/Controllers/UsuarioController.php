@@ -34,7 +34,7 @@ class UsuarioController extends Controller
     public function trash()
     {
         return view('usuarios.trash', [
-            'rows' => $this->actives(),
+            'rows' => $this->deleted(),
         ]);
     }
 
