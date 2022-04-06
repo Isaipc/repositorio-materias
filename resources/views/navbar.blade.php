@@ -14,13 +14,16 @@
                 @guest
                 @else
                 @can('catalogos-menu')
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button"
-                    aria-haspopup="true" aria-expanded="false">{{ __('Repositorio') }}</a>
-                    <div class="dropdown-menu">
-                        <a class="dropdown-item" href="{{ route('materias.index') }}">{{ __('Materias')}} </a>
-                        <a class="dropdown-item" href="{{ route('usuarios.index') }}">{{ __('Usuarios')}} </a>
-                    </div>
+                <li class="nav-item">
+                    <a class="nav-link @if (request()->routeIs('materias.index'))active @endif"
+                        href="{{ route('materias.index') }}" aria-haspopup="true"
+                        aria-expanded="false">{{ __('Materias') }} </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link @if (request()->routeIs('usuarios.index'))active @endif"
+                        href="{{ route('usuarios.index') }}" aria-haspopup="true"
+                        aria-expanded="false">{{ __('Usuarios') }} </a>
                 </li>
                 @endcan
                 @endguest
@@ -55,7 +58,7 @@
                     </a>
 
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                       <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
+                        <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
                             <i class="bi bi-box-arrow-in-right"></i>
                             {{ __('Cerrar sesión') }}
