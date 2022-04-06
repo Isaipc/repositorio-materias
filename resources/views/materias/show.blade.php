@@ -5,6 +5,8 @@
 @section('title', $item->nombre)
 
 @section('content')
+
+@hasrole('Administrador')
 <div class="row">
     <div class="col-md-6">
         <table class="table table-borderless">
@@ -29,7 +31,7 @@
         </table>
     </div>
 </div>
-
+@endhasrole
 
 @endsection
 @section('secondary-content')
@@ -37,9 +39,13 @@
     <div class="card-body container shadow-sm">
 
         <h5> Archivos</h5>
+
+        @hasrole('Administrador')
         <a href="{{ route('archivos.index', $item->id) }} " class="btn btn-sm btn-primary">
             <i class="bi bi-plus"></i> Agregar
         </a>
+        @endhasrole
+
         <div class="row">
             <div class="col-md-6">
                 @if ($item->archivos->count() == 0)
@@ -69,7 +75,7 @@
 </div>
 
 
-
+@hasrole('Administrador')
 <div class="card mt-2">
     <div class="card-body container shadow-sm">
         <h5> Alumnos </h5>
@@ -82,7 +88,7 @@
                 @else
                 <ul class="list-group list-group-flush">
                     @foreach ($item->alumnos as $a)
-                    <a href=""
+                    <a href="{{ route('usuarios.show', $a) }}"
                         class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
                         <span>
                             <i class="bi bi-person-fill"></i>
@@ -99,4 +105,5 @@
 
 
 @include('materias.list')
+@endhasrole
 @endsection
