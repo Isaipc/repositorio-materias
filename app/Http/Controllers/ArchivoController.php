@@ -19,8 +19,9 @@ class ArchivoController extends Controller
     public function index(Materia $materia)
     {
         return view('archivos.index', [
-            'rows' => $this->actives($materia),
-            'deleted' => $this->deleted()->count()
+            'materia' => $materia,
+            'rows' => $materia
+                ->archivos()->get(),
         ]);
     }
 
@@ -29,11 +30,11 @@ class ArchivoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Materia $materia)
     {
         return view('archivos.create', [
-            'Materias' => Materia::orderBy('nombre', 'ASC')->where('estatus', 1)->get(),
-            'rows' => archivo::orderBy('nombre', 'ASC')->where('estatus', 1)->get(),
+            'materia' => $materia,
+            'rows' => $materia->archivos()->get(),
         ]);
     }
 
@@ -45,7 +46,7 @@ class ArchivoController extends Controller
     public function trash()
     {
         return view('archivos.trash', [
-            'rows' => archivo::orderBy('nombre', 'ASC')->where('estatus', 0)->get(),
+            'rows' => $this->deleted(),
         ]);
     }
 
@@ -55,7 +56,7 @@ class ArchivoController extends Controller
      * @param  \app\archivo  $archivo
      * @return \illuminate\http\response
      */
-    public function restore(archivo $archivo)
+    public function restore(Archivo $archivo)
     {
         $archivo->estatus = 1;
         $archivo->save();
@@ -65,12 +66,13 @@ class ArchivoController extends Controller
         return redirect()->route('archivos.index');
     }
 
-    protected function save(archivo $item, Request $request)
+    protected function save(Archivo $item, Request $request)
     {
         // dd($request);
         $request->validate([
             'nombre' => 'required',
-            'file' => 'mimes:pdf|max:2048',
+            'estatus' => 'required',
+            'file' => 'max:2048',
         ]);
 
         if ($request->hasFile('file')) {
@@ -78,9 +80,11 @@ class ArchivoController extends Controller
                 abort(500, 'Could not upload image :(');
             $url = archivo::store($request->file);
         }
+        // dd($request);
 
         $item->nombre = mb_strtoupper($request->nombre, 'UTF-8');
         $item->materia_id = $request->materia_id;
+        $item->estatus = $request->estatus;
         $item->url = $url;
         $item->save();
 
@@ -94,12 +98,13 @@ class ArchivoController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Materia $materia, Request $request)
     {
-        $archivo = new archivo;
+        $archivo = new Archivo;
+        $request->materia_id = $materia->id;
         $this->save($archivo, $request);
 
-        return redirect()->route('archivos.index');
+        return redirect()->route('archivos.index', $materia);
     }
 
     /**
@@ -108,7 +113,7 @@ class ArchivoController extends Controller
      * @param  \App\archivo  $archivo
      * @return \Illuminate\Http\Response
      */
-    public function show(archivo $archivo)
+    public function show(Archivo $archivo)
     {
         return view('archivos.show', ['item' => $archivo]);
     }
@@ -119,7 +124,7 @@ class ArchivoController extends Controller
      * @param  \App\archivo  $archivo
      * @return \Illuminate\Http\Response
      */
-    public function edit(archivo $archivo)
+    public function edit(Archivo $archivo)
     {
         return view('archivos.edit', [
             'Materias' => Materia::orderBy('nombre', 'ASC')->where('estatus', 1)->get(),
@@ -148,7 +153,7 @@ class ArchivoController extends Controller
      * @param  \App\archivo  $archivo
      * @return \Illuminate\Http\Response
      */
-    public function destroy(archivo $archivo)
+    public function destroy(Archivo $archivo)
     {
         $archivo->estatus = 0;
         $archivo->save();
@@ -160,13 +165,13 @@ class ArchivoController extends Controller
 
     public function actives($materia_id)
     {
-        return archivo::where('estatus', '!=', 0)
-        ->where('materia_id', $materia_id)
-        ->orderBy('nombre', 'ASC')->get();
+        return Archivo::where('estatus', '!=', 0)
+            ->where('materia_id', $materia_id)
+            ->orderBy('nombre', 'ASC')->get();
     }
 
     public function deleted()
     {
-        return archivo::where('estatus', 0)->orderBy('nombre', 'ASC')->get();
+        return Archivo::where('estatus', 0)->orderBy('nombre', 'ASC')->get();
     }
 }

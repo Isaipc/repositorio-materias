@@ -138,21 +138,13 @@ class MateriaController extends Controller
     {
         $validated = $request->validate([
             'nombre' => 'required',
+            'estatus' => 'required',
             'image' => 'mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
         $materia->nombre = $request->nombre;
         $materia->descripcion = $request->descripcion;
         $materia->estatus = $request->estatus;
         $materia->save();
-
-
-        if ($request->hasFile('image')) {
-            if (!$request->file('image')->isValid())
-                abort(500, 'Could not upload image :(');
-            $img = Image::store($request->image);
-            // MateriaImage::createAndReplace($materia->id, $img->id);
-        }
-
 
         Session::flash('success', "Success!");
         // alert()->success('Completado', 'Guardado correctamente');
