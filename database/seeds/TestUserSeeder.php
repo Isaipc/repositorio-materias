@@ -37,9 +37,34 @@ class TestUserSeeder extends Seeder
 
         $user = new User;
         $user->fill([
+            'name' => 'Hector David Ortiz Mateo',
+            'username' => 'hector_ortiz',
+            'email' => 'hector.ortiz@itssat.edu.mx',
+            'password' => bcrypt('12345678'),
+        ])->save();
+        $user->assignRole('Alumno');
+
+        AlumnoEnMateria::create(['usuario_id' => $user->id, 'materia_id' => 1]);
+
+
+
+        $user = new User;
+        $user->fill([
             'name' => 'Alumno test',
             'username' => 'test',
-            'email' => 'alumno@mail.com',
+            'email' => 'alumno@itssat.edu.mx',
+            'password' => bcrypt('12345678')
+        ])->save();
+        $user->assignRole('Alumno');
+
+        AlumnoEnMateria::create(['usuario_id' => $user->id, 'materia_id' => 1]);
+        AlumnoEnMateria::create(['usuario_id' => $user->id, 'materia_id' => 3]);
+
+        $user = new User;
+        $user->fill([
+            'name' => 'Alumno test 2',
+            'username' => 'test2',
+            'email' => 'alumno2@itssat.edu.mx',
             'password' => bcrypt('12345678')
         ])->save();
         $user->assignRole('Alumno');

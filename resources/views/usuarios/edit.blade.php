@@ -46,7 +46,10 @@
     </div>
 
     <div class="form-group row">
-        <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('Correo electrónico') }}</label>
+        <label for="email" class="col-md-4 col-form-label text-md-right">
+            <i class="bi bi-asterisk text-danger required"></i>
+            {{ __('Correo electrónico') }}
+        </label>
 
         <div class="col-md-6">
             <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email"
@@ -57,25 +60,6 @@
                 <strong>{{ $message }}</strong>
             </span>
             @enderror
-        </div>
-    </div>
-
-    <div class="form-group row">
-        <label for="role" class="col-md-4 col-form-label text-md-right">
-            <i class="bi bi-asterisk text-danger required"></i>
-            {{ __('Rol') }}
-        </label>
-
-        <div class="col-md-6">
-            <select id="role" name="roles[]" class="selectpicker" data-size="10" multiple title="Seleccione un rol">
-                @foreach ($roles as $r)
-                @if (in_array($r->name, $item->getRoleNames()->toArray(), true))
-                <option value="{{ $r->id}}" selected>{{ $r->name }}</option>
-                @else
-                <option value="{{ $r->id}}">{{ $r->name }}</option>
-                @endif
-                @endforeach
-            </select>
         </div>
     </div>
 
