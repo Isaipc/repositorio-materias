@@ -1,5 +1,5 @@
 <div class="card mt-2">
-    <div class="card-body container">
+    <div class="card-body container shadow-sm">
 
         @if ($rows->count() > 0)
         <table id="datatable" class="table table-hover table-responsive-sm mt-2">
@@ -33,20 +33,22 @@
                             Mostrar detalles
                         </a>
                         <a href="{{ route('materias.edit', $r_item->id) }} " class="btn btn-sm btn-primary">
-                            <i class="bi bi-pencil-fill"></i>
+                            <i class="bi bi-pencil-square"></i>
                         </a>
                         <a href="javascript: document.getElementById('delete-{{ $r_item->id }}').submit()"
                             class="btn btn-sm btn-danger">
                             <i class="bi bi-trash-fill"></i>
                         </a>
-                        <a href="{{ route('materias.edit', $r_item->id) }} " class="btn btn-sm btn-info">
-                            <i class="bi bi-upload"></i>
+                        <a href="{{ route('archivos.index', $r_item->id) }} " class="btn btn-sm btn-light">
+                            <i class="bi bi-file-earmark-fill"></i>
                         </a>
-                        <form id="delete-{{ $r_item->id }}" action="{{ route('materias.uploads', $r_item->id) }}"
+
+                        <form id="delete-{{ $r_item->id }}" action="{{ route('materias.destroy', $r_item->id) }}"
                             method="POST">
                             @csrf
                             @method('DELETE')
                         </form>
+
 
 
                         @endif
