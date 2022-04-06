@@ -10,19 +10,19 @@
         <table class="table table-borderless">
             <tbody>
                 <tr>
-                    <th>Nombre</th>
+                    <th class="text-right">Nombre</th>
                     <td> {{ $item->nombre}} </td>
                 </tr>
                 <tr>
-                    <th>Estatus</th>
+                    <th class="text-right">Estatus</th>
                     <td> {{ $item->getEstatusName() }} </td>
                 </tr>
                 <tr>
-                    <th>Creado</th>
+                    <th class="text-right">Creado</th>
                     <td> {{ $item->created_at }} </td>
                 </tr>
                 <tr>
-                    <th>Actualizado</th>
+                    <th class="text-right">Actualizado</th>
                     <td> {{ $item->updated_at }} </td>
                 </tr>
             </tbody>
