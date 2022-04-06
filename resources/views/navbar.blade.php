@@ -53,16 +53,17 @@
                 <li class="nav-item dropdown">
                     <a id="navbarDropdown" class="nav-link dropdown-toggle text-uppercase" href="#" role="button"
                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                        <i class="bi bi-person-fill"></i>
-                        {{ Auth::user()->name }} <span class="caret"></span>
+                        <i class="bi bi-person-circle"></i>
                     </a>
 
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                        <h6 class="dropdown-header">{{ Auth::user()->name }} <span class="caret"></span> </h6>
                         <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
                             <i class="bi bi-box-arrow-in-right"></i>
                             {{ __('Cerrar sesión') }}
                         </a>
+
 
                         <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                             @csrf
