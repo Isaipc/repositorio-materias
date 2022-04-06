@@ -13,8 +13,8 @@ class MateriasSeeder extends Seeder
      */
     public function run()
     {
-        Materia::create(['nombre' => 'Fundamento de Telecomunicaciones']);
-        Materia::create(['nombre' => 'Redes de Computadoras']);
-        Materia::create(['nombre' => 'Administración de Redes']);
+        Materia::create(['nombre' => 'Fundamento de Telecomunicaciones', 'estatus' => 1]);
+        Materia::create(['nombre' => 'Redes de Computadoras', 'estatus' => 1]);
+        Materia::create(['nombre' => 'Administración de Redes', 'estatus' => 1]);
     }
 }
