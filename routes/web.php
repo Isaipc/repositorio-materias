@@ -71,7 +71,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::delete('materias/{materia}', 'MateriaController@destroy')->name('materias.destroy');
 
     Route::get('materias/{materia}/archivos', 'ArchivoController@index')->name('archivos.index');
-    Route::get('materias/{materia}/eliminados', 'ArchivoController@trash')->name('archivos.trash');
+    Route::get('materias/{materia}/archivos/eliminados', 'ArchivoController@trash')->name('archivos.trash');
     Route::put('materias/{archivo}/restaurar', 'ArchivoController@restore')->name('archivos.restore');
     Route::get('materias/{materia}/archivos/nuevo', 'ArchivoController@create')->name('archivos.create');
     Route::post('materias/{materia}/archivos', 'ArchivoController@store')->name('archivos.store');
