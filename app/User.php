@@ -55,4 +55,24 @@ class User extends Authenticatable
     {
         return Carbon::parse($value)->format(config('constants.timestamps_format'));
     }
+
+    /**
+     * Get all of the alumnoEnMateria for the Materia
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function alumnoEnMateria(): HasMany
+    {
+        return $this->hasMany(AlumnoEnMateria::class, 'usuario_id', 'id');
+    }
+
+    /**
+     * The alumnos that belong to the Materia
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function materias(): BelongsToMany
+    {
+        return $this->belongsToMany(Materia::class, 'usuario_materias', 'usuario_id', 'materia_id');
+    }
 }
