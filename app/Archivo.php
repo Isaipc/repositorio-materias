@@ -36,4 +36,9 @@ class Archivo extends Common
         $url = Storage::url($docName);
         return $url;
     }
+
+    public static function destroy($url)
+    {
+        Storage::delete([$url]);
+    }
 }
