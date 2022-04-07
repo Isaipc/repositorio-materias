@@ -31,12 +31,15 @@
 
 
             <!-- Right Side Of Navbar -->
-            <ul class="navbar-nav ml-auto">
+            <ul class="navbar-nav ml-auto ">
                 @auth
                 <li class="nav-item">
-                    <a href="" class="nav-link">
+                    <a href="" class="btn btn-primary btn-md position-relative">
                         <i class="bi bi-bell-fill"></i>
-                        <span class="badge badge-light">+99</span>
+                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                            99+
+                            <span class="visually-hidden"></span>
+                        </span>
                     </a>
                 </li>
                 @endauth
@@ -50,8 +53,8 @@
                 </li>
                 @endif
                 @else
-                <li class="nav-item dropdown">
-                    <a id="navbarDropdown" class="nav-link dropdown-toggle text-uppercase" href="#" role="button"
+                <li class="nav-item dropdown ml-3">
+                    <a id="navbarDropdown" class="btn btn-primary dropdown-toggle text-uppercase" href="#" role="button"
                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                         <i class="bi bi-person-circle"></i>
                     </a>
