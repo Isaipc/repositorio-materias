@@ -47,7 +47,7 @@
         @endhasrole
 
         <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-8">
                 @if ($item->archivos->count() == 0)
                 <p class="text-muted">
                     No hay archivos
@@ -80,7 +80,7 @@
     <div class="card-body container shadow-sm">
         <h5> Alumnos </h5>
         <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-8">
                 @if ($item->alumnos()->count() == 0)
                 <p class="text-muted">
                     No hay alumnos
