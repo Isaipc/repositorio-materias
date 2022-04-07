@@ -1,79 +1,37 @@
 @extends('layouts.dashboard')
 
-@section('breadcrumbs', Breadcrumbs::render('archivos.edit', $item))
+@section('breadcrumbs', Breadcrumbs::render('archivos.edit', $materia, $item))
 
-@section('title', 'Editar producto')
+@section('title', 'Editar archivo')
 
 @section('content')
 
 <form action="{{ route('archivos.update', $item) }} " method="POST" enctype="multipart/form-data">
     @csrf
     @method('PUT')
-    <div class="form-group row">
-        <div class="col-md-6">
-            <label for="nom" class="col-form-label">Nombre</label>
-            <input id="nom" type="text" class="form-control text-uppercase" name="nombre" value="{{ $item->nombre }}"
-                required autofocus>
-        </div>
-    </div>
-    <div class="form-group row">
-        <label for="cat" class="col-form-label col-md-12">Categoria</label>
-        <div class="col-md-6">
-            <select id="cat" name="categoria" class="selectpicker" data-live-search="true" data-size="10"
-                title="Seleccione una categoria" required>
-                @foreach ($categorias as $c)
-                @if ($c == $item->categoria )
-                <option value="{{ $c->id }}" selected>{{ $c->nombre }}</option>
-                @else
-                <option value="{{ $c->id }}">{{ $c->nombre }}</option>
-                @endif
-                @endforeach
-            </select>
-        </div>
-    </div>
-    <div class="form-group row">
-        <div class="col-md-4">
-            <label for="pre_me" class="col-form-label">Precio menudeo</label>
-            <input id="pre_me" type="number" min="0" class="form-control" name="precio_menudeo"
-                value="{{ $item->precio_menudeo }}" required>
-        </div>
-        <div class="col-md-4">
-            <label for="pre_ma" class="col-form-label">Precio mayoreo</label>
-            <input id="pre_ma" type="number" min="0" class="form-control" name="precio_mayoreo"
-                value="{{ $item->precio_mayoreo }}" required>
-        </div>
-    </div>
-    <div class="form-group row">
-        <div class="col-md-4">
-            <label for="stock">Stock</label>
-            <input id="stock" type="number" min="0" class="form-control" name="stock" value="{{ $item->stock }}"
-                required>
-        </div>
-    </div>
-    <div class="form-group row">
-        <label for="com" class="col-md-12 col-form-label">Detalles</label>
-        <div class="col-md-8">
-            <textarea name="detalles" class="form-control" id="com" rows="4" required>{{ $item->detalles }} </textarea>
-        </div>
-    </div>
-    <div class="form-group custom-file">
-        <input type="file" name="image" class="custom-file-input" id="customFile">
-        <label class="custom-file-label col-md-4" for="customFile">Elegir imagenes</label>
-    </div>
 
     <div class="form-group row">
         <div class="col-md-4">
-            @if ($item->images->count() == 0)
-            <img src="{{  asset('img/no-disponible.svg') }}" width="200px" alt="">
-            @else
-            <a href="{{ $item->images->first()->url }}">
-                <img src="{{ $item->images->first()->url }}" width="200px" class="img-thumbnail" alt="">
-            </a>
-            @endif
+            <label for="nom" class="col-form-label">Nombre</label>
+            <input id="nom" type="text" class="form-control" name="nombre" value="{{ $item->nombre }}" required
+                autofocus>
+        </div>
+    </div>
+    <div class="form-group custom-file">
+        <input type="file" name="file" class="custom-file-input" id="customFile">
+        <label class="custom-file-label col-md-4" for="customFile">Elegir archivo</label>
+    </div>
+    <div class="form-group row">
+        <div class="col-md-4">
+            <label for="est" class="col-form-label text-md-right">Estatus</label>
+            <select name="estatus" id="est" class="form-control">
+                <option value="1" @if ($item->estatus == 1) 'selected' @endif>Habilitado</option>
+                <option value="2" @if ($item->estatus == 2) 'selected' @endif>Deshabilitado</option>
+            </select>
         </div>
     </div>
     <button type="submit" class="btn btn-md btn-primary">Guardar</button>
-    <a href="{{ route('archivos.index') }} " class="btn btn-md btn-light">Cancelar</a>
+    <a href="{{ route('archivos.index', $materia) }} " class="btn btn-md btn-light">Cancelar</a>
 </form>
 
 @endsection
