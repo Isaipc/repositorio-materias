@@ -20,8 +20,8 @@ class ArchivoController extends Controller
     {
         return view('archivos.index', [
             'materia' => $materia,
-            'rows' => $materia
-                ->archivos()->get(),
+            'deleted' => $materia->archivos->where('estatus', 0)->count(),
+            'rows' => $materia->archivos->where('estatus', '!=', 0),
         ]);
     }
 
@@ -34,7 +34,7 @@ class ArchivoController extends Controller
     {
         return view('archivos.create', [
             'materia' => $materia,
-            'rows' => $materia->archivos()->get(),
+            'rows' => $materia->archivos->where('estatus', '!=', 0),
         ]);
     }
 
@@ -43,17 +43,18 @@ class ArchivoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function trash()
+    public function trash(Materia $materia)
     {
         return view('archivos.trash', [
-            'rows' => $this->deleted(),
+            'materia' => $materia,
+            'rows' => $materia->archivos->where('estatus', 0),
         ]);
     }
 
     /**
      * update the specified resource in storage.
      *
-     * @param  \app\archivo  $archivo
+     * @param  \app\Archivo  $archivo
      * @return \illuminate\http\response
      */
     public function restore(Archivo $archivo)
@@ -61,35 +62,17 @@ class ArchivoController extends Controller
         $archivo->estatus = 1;
         $archivo->save();
 
-        alert()->success('Completado', 'Elemento restaurado');
 
-        return redirect()->route('archivos.index');
+        return redirect()->route('archivos.index', $archivo->materia);
     }
 
-    protected function save(Archivo $item, Request $request)
+    protected function validator(Request $request)
     {
-        // dd($request);
         $request->validate([
             'nombre' => 'required',
             'estatus' => 'required',
-            'file' => 'max:2048',
+            'file' => 'max:4096',
         ]);
-
-        if ($request->hasFile('file')) {
-            if (!$request->file('file')->isValid())
-                abort(500, 'Could not upload image :(');
-            $url = archivo::store($request->file);
-        }
-        // dd($request);
-
-        $item->nombre = mb_strtoupper($request->nombre, 'UTF-8');
-        $item->materia_id = $request->materia_id;
-        $item->estatus = $request->estatus;
-        $item->url = $url;
-        $item->save();
-
-        // alert()->success('Completado', 'Guardado correctamente');
-        return $item;
     }
 
     /**
@@ -100,22 +83,41 @@ class ArchivoController extends Controller
      */
     public function store(Materia $materia, Request $request)
     {
-        $archivo = new Archivo;
-        $request->materia_id = $materia->id;
-        $this->save($archivo, $request);
+        $this->validator($request);
 
-        return redirect()->route('archivos.index', $materia);
+        $archivo = new Archivo;
+
+        $archivo->nombre = $request->nombre;
+        $archivo->materia_id = $materia->id;
+        $archivo->estatus = $request->estatus;
+
+        if ($request->hasFile('file')) {
+            if (!$request->file('file')->isValid())
+                abort(500, 'Could not upload image :(');
+            $url = Archivo::store($request->file);
+        }
+
+        $archivo->url = $url;
+        $archivo->save();
+
+
+
+        return redirect()->route('archivos.create', $materia);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\archivo  $archivo
+     * @param  \App\Archivo  $archivo
      * @return \Illuminate\Http\Response
      */
-    public function show(Archivo $archivo)
+    public function show(Materia $materia, Archivo $archivo)
     {
-        return view('archivos.show', ['item' => $archivo]);
+        return view('archivos.show', [
+            'materia' => $materia,
+            'item' => $archivo,
+            'rows' => $materia->archivos->where('estatus', '!=', 0),
+        ]);
     }
 
     /**
@@ -124,11 +126,11 @@ class ArchivoController extends Controller
      * @param  \App\archivo  $archivo
      * @return \Illuminate\Http\Response
      */
-    public function edit(Archivo $archivo)
+    public function edit(Materia $materia, Archivo $archivo)
     {
         return view('archivos.edit', [
-            'Materias' => Materia::orderBy('nombre', 'ASC')->where('estatus', 1)->get(),
-            'rows' => archivo::orderBy('nombre', 'ASC')->where('estatus', 1)->get(),
+            'materia' => $materia,
+            'rows' => $materia->archivos->where('estatus', '!=', 0),
             'item' => $archivo
         ]);
     }
@@ -137,41 +139,55 @@ class ArchivoController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\archivo  $archivo
+     * @param  \App\Archivo  $archivo
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, archivo $archivo)
+    public function update(Request $request, Archivo $archivo)
     {
-        $this->save($archivo, $request);
+        $this->validator($request);
 
-        return redirect()->route('archivos.index');
+        $archivo->nombre = $request->nombre;
+        $archivo->estatus = $request->estatus;
+
+        if ($request->hasFile('file')) {
+            if (!$request->file('file')->isValid())
+                abort(500, 'No se ha podido subir el archivo :(');
+            $url = Archivo::store($request->file);
+            Archivo::destroy($archivo->url);
+        }
+
+        $archivo->url = $url;
+        $archivo->save();
+
+
+        return redirect()->route('archivos.index', $archivo->materia);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\archivo  $archivo
+     * @param  \App\Archivo  $archivo
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Archivo $archivo)
+    public function archive(Archivo $archivo)
     {
         $archivo->estatus = 0;
         $archivo->save();
 
-        alert()->success('Completado', 'Eliminado correctamente');
 
-        return redirect()->route('archivos.index');
+        return redirect()->route('archivos.index', $archivo->materia);
     }
-
-    public function actives($materia_id)
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \App\Archivo  $archivo
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(Archivo $archivo)
     {
-        return Archivo::where('estatus', '!=', 0)
-            ->where('materia_id', $materia_id)
-            ->orderBy('nombre', 'ASC')->get();
-    }
+        $archivo->delete();
 
-    public function deleted()
-    {
-        return Archivo::where('estatus', 0)->orderBy('nombre', 'ASC')->get();
+
+        return redirect()->route('archivos.index', $archivo->materia);
     }
 }
