@@ -1,8 +1,8 @@
 @extends('layouts.dashboard')
 
-@section('breadcrumbs', Breadcrumbs::render('archivos.trash'))
+@section('breadcrumbs', Breadcrumbs::render('archivos.trash', $materia))
 
-@section('title', 'archivos eliminados')
+@section('title', 'Archivos eliminados - ' . $materia->nombre)
 
 @section('content')
 
