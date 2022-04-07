@@ -72,11 +72,12 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::get('materias/{materia}/archivos', 'ArchivoController@index')->name('archivos.index');
     Route::get('materias/{materia}/archivos/eliminados', 'ArchivoController@trash')->name('archivos.trash');
-    Route::put('materias/{archivo}/restaurar', 'ArchivoController@restore')->name('archivos.restore');
+    Route::put('materias/archivos/{archivo}/restaurar', 'ArchivoController@restore')->name('archivos.restore');
     Route::get('materias/{materia}/archivos/nuevo', 'ArchivoController@create')->name('archivos.create');
     Route::post('materias/{materia}/archivos', 'ArchivoController@store')->name('archivos.store');
     Route::get('materias/{materia}/archivos/{archivo}', 'ArchivoController@show')->name('archivos.show');
     Route::get('materias/{materia}/archivos/{archivo}/editar', 'ArchivoController@edit')->name('archivos.edit');
     Route::put('materias/archivos/{archivo}', 'ArchivoController@update')->name('archivos.update');
-    Route::delete('materias/archivos/{archivo}', 'ArchivoController@destroy')->name('archivos.destroy');
+    Route::delete('materias/archivos/{archivo}/archive', 'ArchivoController@archive')->name('archivos.archive');
+    Route::delete('materias/archivos/{archivo}/delete', 'ArchivoController@destroy')->name('archivos.destroy');
 });

@@ -56,6 +56,33 @@ Breadcrumbs::for("archivos.create", function ($trail, $model) {
     $trail->push('Subir archivo', route('archivos.create', $model));
 });
 
+Breadcrumbs::for("archivos.trash", function ($trail, $model) {
+    $trail->parent('archivos.index', $model);
+    $trail->push('Eliminados', route('archivos.trash', $model));
+});
+
+Breadcrumbs::for("archivos.show", function ($trail, $parentModel, $model) {
+    $trail->parent('archivos.index', $parentModel, $model);
+    $trail->push($model->nombre, route('archivos.show', [$parentModel, $model]));
+});
+
+Breadcrumbs::for("archivos.edit", function ($trail, $parentModel, $model) {
+    $trail->parent('archivos.show', $parentModel, $model);
+    $trail->push('Editar', route('archivos.edit', [$parentModel, $model]));
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 // Home > Blog > Post 123
