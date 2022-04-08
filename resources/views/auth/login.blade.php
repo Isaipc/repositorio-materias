@@ -25,8 +25,8 @@
             <div class="card-body">
                 <form method="POST" action="{{ route('login') }}" autocomplete="off">
                     @csrf
-                    <div class="row justify-content-center">
-                        <img src="{{ asset('img/isc.jpg') }}" width="200px" alt="" srcset="">
+                    <div class="">
+                        <img src="{{ asset('img/isc-2.svg') }}" width="200px" class="img-fluid mx-auto d-block" alt="" srcset="">
                     </div>
                     <div class="form-group">
                         <label for="username" class="">
