@@ -5,7 +5,7 @@
 @section('title')
 Materias
 @can('materias-nuevo')
-<a href="{{ route('materias.create') }}" class="btn btn-md btn-light float-right">
+<a href="{{ route('materias.create') }}" class="btn btn-md btn-light float-end">
     <i class="bi bi-plus"></i>
 </a>
 @endcan

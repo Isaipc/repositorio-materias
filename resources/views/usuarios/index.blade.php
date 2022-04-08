@@ -6,7 +6,7 @@
 <span>
     Usuarios del sistema
 </span>
-<a href="{{ route('usuarios.create') }}" class="btn btn-md btn-light float-right">
+<a href="{{ route('usuarios.create') }}" class="btn btn-md btn-light float-end">
     <i class="bi bi-plus"></i>
 </a>
 @endsection
