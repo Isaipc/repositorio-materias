@@ -10,23 +10,23 @@
         <table class="table table-borderless table-responsive">
             <tbody>
                 <tr>
-                    <th class="text-right">Nombre</th>
+                    <th class="text-end">Nombre</th>
                     <td> {{ $item->name }} </td>
                 </tr>
                 <tr>
-                    <th class="text-right">Estatus</th>
+                    <th class="text-end">Estatus</th>
                     <td> {{ $item->estatus ? 'Activo' : 'Inactivo'}} </td>
                 </tr>
                 <tr>
-                    <th class="text-right">Creado</th>
+                    <th class="text-end">Creado</th>
                     <td> {{ $item->created_at }} </td>
                 </tr>
                 <tr>
-                    <th class="text-right">Actualizado</th>
+                    <th class="text-end">Actualizado</th>
                     <td> {{ $item->updated_at }} </td>
                 </tr>
                 <tr>
-                    <th class="text-right">Tipo de usuario</th>
+                    <th class="text-end">Tipo de usuario</th>
                     <td>
                         @foreach ($item->roles as $r)
                         {{ $r->name }}
