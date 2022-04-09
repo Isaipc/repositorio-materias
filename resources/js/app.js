@@ -59,18 +59,13 @@ $('.data-row').click((e) => {
 });
 
 
-// Toast test
-var toastTrigger = document.getElementById('liveToastBtn');
+// initialize all toast 
 
-var toastLiveExample = document.getElementById('liveToast');
-if (toastTrigger) {
-    toastTrigger.addEventListener('click', function () {
-        var toast = new bootstrap.Toast(toastLiveExample);
-
-        toast.show();
-    })
-
-}
+const option = [];
+var toastElementList = [].slice.call(document.querySelectorAll('.toast'))
+var toastList = toastElementList.map(function (toastE) {
+    return new bootstrap.Toast(toastE, option);
+});
 
 // initialize all dropdowns 
 var dropdownElementList = [].slice.call(document.querySelectorAll('.dropdown-toggle'))
