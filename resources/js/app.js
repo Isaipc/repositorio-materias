@@ -4,7 +4,6 @@
  * building robust, powerful web applications using Vue and Laravel.
  */
 
-$ = require('jquery');
 require('jquery-validation');
 require('./bootstrap');
 require('bootstrap-select');
@@ -59,3 +58,29 @@ $('.data-row').click((e) => {
     e.currentTarget.classList.toggle('table-active');
 });
 
+
+// Toast test
+var toastTrigger = document.getElementById('liveToastBtn');
+
+var toastLiveExample = document.getElementById('liveToast');
+if (toastTrigger) {
+    toastTrigger.addEventListener('click', function () {
+        var toast = new bootstrap.Toast(toastLiveExample);
+
+        toast.show();
+    })
+
+}
+
+// initialize all dropdowns 
+var dropdownElementList = [].slice.call(document.querySelectorAll('.dropdown-toggle'))
+var dropdownList = dropdownElementList.map(function (dropdownToggleEl) {
+    dropdown = new bootstrap.Dropdown(dropdownToggleEl)
+    return dropdown;
+});
+
+// initialize all tooltips
+var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+    return new bootstrap.Tooltip(tooltipTriggerEl)
+});
