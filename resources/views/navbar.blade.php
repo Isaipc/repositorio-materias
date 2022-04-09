@@ -1,7 +1,7 @@
 <nav class="navbar navbar-expand-md navbar-dark bg-primary shadow-sm ">
     <div class="container">
         <a class="navbar-brand text-uppercase font-weight-bold p-0" href="{{ url('/') }}">
-            <img src="{{ asset('img/isc.svg') }}" width="56px"  alt="">
+            <img src="{{ asset('img/isc.svg') }}" width="56px" alt="">
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
@@ -31,7 +31,7 @@
 
 
             <!-- Right Side Of Navbar -->
-            <ul class="navbar-nav ml-auto ">
+            <ul class="navbar-nav ms-auto">
                 @auth
                 <li class="nav-item">
                     <a href="" class="btn btn-primary btn-md position-relative">
@@ -53,25 +53,27 @@
                 </li>
                 @endif
                 @else
-                <li class="nav-item dropdown ml-3">
+                <li class="nav-item dropdown ms-3">
                     <a id="navbarDropdown" class="btn btn-primary dropdown-toggle text-uppercase" href="#" role="button"
-                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                         <i class="bi bi-person-circle"></i>
                     </a>
-
-                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <h6 class="dropdown-header">{{ Auth::user()->name }} <span class="caret"></span> </h6>
-                        <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
+
+                        <li>
+                            <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
-                            <i class="bi bi-box-arrow-in-right"></i>
-                            {{ __('Cerrar sesión') }}
-                        </a>
+                                <i class="bi bi-box-arrow-in-right"></i>
+                                {{ __('Cerrar sesión') }}
+                            </a>
+                        </li>
 
 
                         <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                             @csrf
                         </form>
-                    </div>
+                    </ul>
                 </li>
                 @endguest
             </ul>
