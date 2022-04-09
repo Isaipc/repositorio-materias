@@ -15,13 +15,13 @@
                 @else
                 @can('catalogos-menu')
                 <li class="nav-item">
-                    <a class="nav-link @if (request()->routeIs('materias.index'))active @endif"
+                    <a class="nav-link @if (request()->routeIs('materias.*'))active @endif"
                         href="{{ route('materias.index') }}" aria-haspopup="true"
                         aria-expanded="false">{{ __('Materias') }} </a>
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link @if (request()->routeIs('usuarios.index'))active @endif"
+                    <a class="nav-link @if (request()->routeIs('usuarios.*'))active @endif"
                         href="{{ route('usuarios.index') }}" aria-haspopup="true"
                         aria-expanded="false">{{ __('Usuarios') }} </a>
                 </li>
