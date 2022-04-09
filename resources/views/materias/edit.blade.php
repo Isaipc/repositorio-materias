@@ -18,7 +18,7 @@
     <div class="form-group row">
         <div class="col-md-4">
             <label for="est" class="col-form-label text-md-right">Estatus</label>
-            <select name="estatus" id="est" class="form-control">
+            <select name="estatus" id="est" class="form-select">
                 <option value="1" @if ($item->estatus == 1) 'selected' @endif>Habilitado</option>
                 <option value="2" @if ($item->estatus == 2) 'selected' @endif>Deshabilitado</option>
             </select>
