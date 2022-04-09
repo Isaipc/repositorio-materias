@@ -22,7 +22,7 @@
     <div class="form-group row">
         <div class="col-md-4">
             <label for="est" class="col-form-label text-md-right">Estatus</label>
-            <select name="estatus" id="est" class="form-control">
+            <select name="estatus" id="est" class="form-select">
                 <option value="1">Habilitado</option>
                 <option value="2">Deshabilitado</option>
             </select>
