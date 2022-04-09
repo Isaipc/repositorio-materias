@@ -28,7 +28,7 @@
                     <div class="">
                         <img src="{{ asset('img/isc-2.svg') }}" width="200px" class="img-fluid mx-auto d-block" alt="" srcset="">
                     </div>
-                    <div class="form-group">
+                    <div class="mb-3">
                         <label for="username" class="">
                             {{ __('Usuario') }}
                         </label>
@@ -41,7 +41,7 @@
                         </span>
                         @enderror
                     </div>
-                    <div class="form-group">
+                    <div class="mb-3">
                         <label for="password" class="">
                             {{ __('Contraseña') }}
                         </label>
@@ -55,7 +55,7 @@
                         @enderror
                     </div>
 
-                    <div class="form-group row mb-0">
+                    <div class="mb-3">
                         <div class="col-xl-9 col-lg-12 d-flex flex-column mx-auto">
                             <button type="submit" class="btn btn-primary">
                                 {{ __('Iniciar sesión') }}

@@ -8,8 +8,8 @@
         <form method="POST" action="{{ route('register') }}">
             @csrf
 
-            <div class="form-group row">
-                <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('Nombre') }}</label>
+            <div class="row mb-3">
+                <label for="name" class="col-md-4 col-form-label text-md-end">{{ __('Nombre') }}</label>
 
                 <div class="col-md-6">
                     <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name"
@@ -23,8 +23,8 @@
                 </div>
             </div>
 
-            <div class="form-group row">
-                <label for="username" class="col-md-4 col-form-label text-md-right">{{ __('Usuario') }}</label>
+            <div class="row mb-3">
+                <label for="username" class="col-md-4 col-form-label text-md-end">{{ __('Usuario') }}</label>
 
                 <div class="col-md-6">
                     <input id="username" type="text" class="form-control @error('username') is-invalid @enderror"
@@ -39,8 +39,8 @@
                 </div>
             </div>
 
-            <div class="form-group row">
-                <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('Correo electrónico') }}</label>
+            <div class="row mb-3">
+                <label for="email" class="col-md-4 col-form-label text-md-end">{{ __('Correo electrónico') }}</label>
 
                 <div class="col-md-6">
                     <input id="email" type="email" class="form-control @error('email') is-invalid @enderror"
@@ -54,8 +54,8 @@
                 </div>
             </div>
 
-            <div class="form-group row">
-                <label for="role" class="col-md-4 col-form-label text-md-right">
+            <div class="row mb-3">
+                <label for="role" class="col-md-4 col-form-label text-md-end">
                     {{ __('Materia') }}
                 </label>
 
@@ -69,8 +69,8 @@
                 </div>
             </div>
 
-            <div class="form-group row">
-                <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Contraseña') }}</label>
+            <div class="row mb-3">
+                <label for="password" class="col-md-4 col-form-label text-md-end">{{ __('Contraseña') }}</label>
 
                 <div class="col-md-6">
                     <input id="password" type="password" class="form-control @error('password') is-invalid @enderror"
@@ -84,9 +84,9 @@
                 </div>
             </div>
 
-            <div class="form-group row">
+            <div class="row mb-3">
                 <label for="password-confirm"
-                    class="col-md-4 col-form-label text-md-right">{{ __('Confirmar contraseña') }}</label>
+                    class="col-md-4 col-form-label text-md-end">{{ __('Confirmar contraseña') }}</label>
 
                 <div class="col-md-6">
                     <input id="password-confirm" type="password" class="form-control" name="password_confirmation"
@@ -94,8 +94,8 @@
                 </div>
             </div>
 
-            <div class="form-group row mb-0">
-                <div class="col-md-6 offset-md-4">
+            <div class="row mb-0">
+                <div class="col-md-6 offset-md-4 justify">
                     <button type="submit" class="btn btn-primary">
                         {{ __('Registrar') }}
                     </button>
