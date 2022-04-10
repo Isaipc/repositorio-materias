@@ -13,6 +13,11 @@ class Common extends Model
         return $this->nombre;
     }
 
+    public function isArchived()
+    {
+        return $this->estatus == 0;
+    }
+
     public function getCreatedAtAttribute($value)
     {
         return Carbon::parse($value)->format(config('constants.timestamps_format'));
