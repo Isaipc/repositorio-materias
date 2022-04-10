@@ -7,20 +7,33 @@
                 <tr>
                     <th>#</th>
                     <th>Nombre</th>
-                    <th>Estatus</th>
+                    <th>Habilitado</th>
                     <th></th>
                 </tr>
             </thead>
             <tbody>
                 @foreach ($rows as $key=> $r_item)
                 <tr class="data-row">
-                    <td scope="row">{{ ++$key}} </td>
-                    <td>{{ $r_item->nombre }} </td>
-                    <td>{{ $r_item->getEstatusName() }} </td>
+                    <td>{{ ++$key}} </td>
                     <td>
-                        @if ($r_item->estatus == 0)
+                        <a href="{{ route('materias.show', $r_item->id) }} " class="btn btn-link"
+                            data-bs-toggle="tooltip" data-bs-placement="top" title="Mostrar detalles">
+                            <i class="bi bi-box-arrow-up-right"></i>
+                        </a>
+                        {{ $r_item->nombre }}
+                    </td>
+                    <td>
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" role="switch" @if ( $r_item->estatus == 1 )
+                            checked @endif @if ( $r_item->estatus == 0 )
+                            disabled @endif>
+                        </div>
+                    </td>
+                    <td>
+                        @if ($r_item->isArchived())
                         <a href="javascript: document.getElementById('restore-{{ $r_item->id }}').submit()"
-                            class="btn btn-sm btn-success">
+                            class="btn btn-sm btn-success"
+                            data-bs-toggle="tooltip" data-bs-placement="top" title="Restaurar">
                             <i class="bi bi-upload"></i>
                         </a>
                         <form id="restore-{{ $r_item->id }}" action="{{ route('materias.restore', $r_item->id) }}"
@@ -29,17 +42,17 @@
                             @method('PUT')
                         </form>
                         @else
-                        <a href="{{ route('materias.show', $r_item->id) }} " class="btn btn-sm btn-link">
-                            Mostrar detalles
-                        </a>
-                        <a href="{{ route('materias.edit', $r_item->id) }} " class="btn btn-sm btn-primary">
+                        <a href="{{ route('materias.edit', $r_item->id) }} " class="btn btn-sm btn-primary"
+                            data-bs-toggle="tooltip" data-bs-placement="top" title="Editar">
                             <i class="bi bi-pencil-square"></i>
                         </a>
                         <a href="javascript: document.getElementById('delete-{{ $r_item->id }}').submit()"
-                            class="btn btn-sm btn-danger">
+                            class="btn btn-sm btn-danger" data-bs-toggle="tooltip" data-bs-placement="top"
+                            title="Eliminar">
                             <i class="bi bi-trash-fill"></i>
                         </a>
-                        <a href="{{ route('archivos.index', $r_item->id) }} " class="btn btn-sm btn-light">
+                        <a href="{{ route('archivos.index', $r_item->id) }} " class="btn btn-sm btn-light"
+                            data-bs-toggle="tooltip" data-bs-placement="top" title="Mostrar archivos">
                             <i class="bi bi-file-earmark-fill"></i>
                         </a>
 
@@ -48,9 +61,6 @@
                             @csrf
                             @method('DELETE')
                         </form>
-
-
-
                         @endif
                     </td>
                 </tr>
