@@ -33,7 +33,7 @@ class HomeController extends Controller
     {
         $user = Auth::user();
         return view('home', [
-            'materias_rep' => Materia::all(),
+            'materias_rep' => Materia::actives()->get(),
             'materias_alumn' => $user->materias
         ]);
     }

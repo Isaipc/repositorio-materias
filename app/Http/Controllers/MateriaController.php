@@ -20,8 +20,8 @@ class MateriaController extends Controller
     public function index()
     {
         return view('materias.index', [
-            'rows' => $this->actives(),
-            'deleted' => $this->deleted()->count()
+            'rows' => Materia::actives()->get(),
+            'deleted' => Materia::archived()->get()->count()
         ]);
     }
 
@@ -33,7 +33,7 @@ class MateriaController extends Controller
     public function trash()
     {
         return view('materias.trash', [
-            'rows' => $this->deleted(),
+            'rows' => Materia::archived()->get(),
         ]);
     }
 
@@ -61,7 +61,7 @@ class MateriaController extends Controller
     public function create()
     {
         return view('materias.create', [
-            'rows' => $this->actives(),
+            'rows' => Materia::actives()->get(),
         ]);
     }
 
@@ -86,7 +86,7 @@ class MateriaController extends Controller
     public function show(Materia $materia)
     {
         return view('materias.show', [
-            'rows' => $this->actives(),
+            'rows' => Materia::actives()->get(),
             'item' => $materia
         ]);
     }
@@ -100,7 +100,7 @@ class MateriaController extends Controller
     public function edit(Materia $materia)
     {
         return view('materias.edit', [
-            'rows' => $this->actives(),
+            'rows' => Materia::actives()->get(),
             'item' => $materia,
         ]);
     }
@@ -149,16 +149,5 @@ class MateriaController extends Controller
         // alert()->success('Completado', 'Guardado correctamente');
         return Redirect::back();
         // return $materia;
-    }
-
-    public function actives()
-    {
-        return Materia::where('estatus', '!=', 0)->orderBy('nombre', 'ASC')->get();
-    }
-
-    public function deleted()
-    {
-
-        return Materia::where('estatus', 0)->orderBy('nombre', 'ASC')->get();
     }
 }

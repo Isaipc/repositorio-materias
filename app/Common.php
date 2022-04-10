@@ -44,11 +44,13 @@ class Common extends Model
 
     public static function actives()
     {
-        // return $this::where('estatus', 1);
+        $rows = self::where('estatus', '!=', 0)->orderBy('updated_at');
+        return $rows;
     }
 
-    public static function inactives()
+    public static function archived()
     {
-        // return $this::where('estatus', 0);
+        $rows = self::where('estatus', 0)->orderBy('updated_at');
+        return $rows;
     }
 }
