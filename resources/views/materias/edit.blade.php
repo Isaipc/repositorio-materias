@@ -8,20 +8,20 @@
 <form action="{{ route('materias.update', $item) }} " method="POST" enctype="multipart/form-data">
     @csrf
     @method('PUT')
-    <div class="form-group row">
+    <div class="row mb-3">
         <div class="col-md-4">
             <label for="nom" class="col-form-label text-md-right">Nombre</label>
             <input id="nom" type="text" class="form-control" name="nombre" maxlength="100" required
                 value="{{ $item->nombre }}">
         </div>
     </div>
-    <div class="form-group row">
+    <div class="row mb-3">
         <div class="col-md-4">
-            <label for="est" class="col-form-label text-md-right">Estatus</label>
-            <select name="estatus" id="est" class="form-select">
-                <option value="1" @if ($item->estatus == 1) 'selected' @endif>Habilitado</option>
-                <option value="2" @if ($item->estatus == 2) 'selected' @endif>Deshabilitado</option>
-            </select>
+            <div class="form-check form-switch">
+                <input class="form-check-input" name="estatus" type="checkbox" role="switch" id="est" @if (
+                    $item->estatus == 1 ) checked @endif>
+                <label class="form-check-label" for="est">Habilitado para los alumnos</label>
+            </div>
         </div>
     </div>
     <button type="submit" class="btn btn-md btn-primary">Guardar</button>

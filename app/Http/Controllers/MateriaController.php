@@ -45,7 +45,7 @@ class MateriaController extends Controller
      */
     public function restore(Materia $materia)
     {
-        $materia->estatus = 1;
+        $materia->estatus = 2;
         $materia->save();
 
         // alert()->success('Completado', 'Elemento restaurado');
@@ -138,12 +138,11 @@ class MateriaController extends Controller
     {
         $validated = $request->validate([
             'nombre' => 'required',
-            'estatus' => 'required',
             'image' => 'mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
         $materia->nombre = $request->nombre;
         $materia->descripcion = $request->descripcion;
-        $materia->estatus = $request->estatus;
+        $materia->estatus =  isset($request->estatus) ? 1 : 2;
         $materia->save();
 
         Session::flash('success', "Success!");

@@ -16,11 +16,10 @@
     </div>
     <div class="form-group row">
         <div class="col-md-4">
-            <label for="est" class="col-form-label text-md-right">Estatus</label>
-            <select name="estatus" id="est" class="form-select">
-                <option value="1">Habilitado</option>
-                <option value="2">Deshabilitado</option>
-            </select>
+            <div class="form-check form-switch">
+                <input class="form-check-input" name="estatus" type="checkbox" role="switch" id="est">
+                <label class="form-check-label" for="est">Habilitado para los alumnos</label>
+            </div>
         </div>
     </div>
     <button type="submit" class="btn btn-md btn-primary">Guardar</button>
