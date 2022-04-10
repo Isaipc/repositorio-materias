@@ -16,7 +16,13 @@
                 @foreach ($rows as $key=> $r_item)
                 <tr class="data-row">
                     <td>{{ $key + 1 }}</td>
-                    <td>{{ $r_item->name }} </td>
+                    <td>
+                        <a href="{{ route('usuarios.show', $r_item->id) }} " class="btn btn-link"
+                            data-bs-toggle="tooltip" data-bs-placement="top" title="Mostrar detalles">
+                            <i class="bi bi-box-arrow-up-right"></i>
+                        </a>
+                        {{ $r_item->name }}
+                    </td>
                     <td class="d-none d-md-table-cell">{{ is_null($r_item->email) ? '-' : $r_item->email }} </td>
                     <td scope="row"> {{ $r_item->username }} </td>
                     <td>
@@ -31,7 +37,8 @@
                     <td>
                         @if ($r_item->estatus == 0)
                         <a href="javascript: document.getElementById('restore-{{ $r_item->id }}').submit()"
-                            class="btn btn-sm btn-success">
+                            class="btn btn-sm btn-success" data-bs-toggle="tooltip" data-bs-placement="top"
+                            title="Restaurar">
                             <i class="bi bi-upload"></i>
                         </a>
                         <form id="restore-{{ $r_item->id }}" action="{{ route('usuarios.restore', $r_item->id) }}"
@@ -40,14 +47,13 @@
                             @method('PUT')
                         </form>
                         @else
-                        <a href="{{ route('usuarios.show', $r_item->id) }} " class="btn btn-sm btn-link">
-                            Mostrar detalles
-                        </a>
-                        <a href="{{ route('usuarios.edit', $r_item->id) }} " class="btn btn-sm btn-primary">
+                        <a href="{{ route('usuarios.edit', $r_item->id) }} " class="btn btn-sm btn-primary"
+                            data-bs-toggle="tooltip" data-bs-placement="top" title="Editar">
                             <i class="bi bi-pencil-square"></i>
                         </a>
                         <a href="javascript: document.getElementById('delete-{{ $r_item->id }}').submit()"
-                            class="btn btn-sm btn-danger">
+                            class="btn btn-sm btn-danger" data-bs-toggle="tooltip" data-bs-placement="top"
+                            title="Eliminar">
                             <i class="bi bi-trash-fill"></i>
                         </a>
                         <form id="delete-{{ $r_item->id }}" action="{{ route('usuarios.destroy', $r_item->id) }}"
