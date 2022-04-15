@@ -5376,6 +5376,9 @@ module.exports = {
  * includes Vue and other libraries. It is a great starting point when
  * building robust, powerful web applications using Vue and Laravel.
  */
+var _require = __webpack_require__(/*! bootstrap */ "./node_modules/bootstrap/dist/js/bootstrap.esm.js"),
+    Toast = _require.Toast;
+
 __webpack_require__(/*! jquery-validation */ "./node_modules/jquery-validation/dist/jquery.validate.js");
 
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
@@ -5410,10 +5413,43 @@ $($('#datatable').DataTable({
     },
     lengthMenu: "Mostrar _MENU_ filas"
   }
-}));
-$('.data-row').click(function (e) {
-  e.currentTarget.classList.toggle('table-active');
-}); // initialize all toast 
+})); // $('.data-row').click((e) => {
+//     e.currentTarget.classList.toggle('table-active');
+// });
+
+$('.select-estatus').on('change', function (e) {
+  estatus = e.currentTarget;
+  changeEstatus(estatus.value);
+});
+
+function changeEstatus(estatus) {
+  $.ajaxSetup({
+    headers: {
+      'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+    }
+  });
+  $.ajax({
+    type: 'PUT',
+    url: '/materias/{materia}',
+    dataType: 'json',
+    data: {
+      materia: {
+        estatus: estatus
+      }
+    },
+    success: function success() {
+      var toastElement = document.getElementById('toastSuccess');
+      var toast = new bootstrap.Toast(toastElement);
+      toast.show();
+    },
+    error: function error(e) {
+      var toastElement = document.getElementById('toastError');
+      var toast = new bootstrap.Toast(toastElement);
+      toast.show();
+    }
+  });
+} // initialize all toast 
+
 
 var option = [];
 var toastElementList = [].slice.call(document.querySelectorAll('.toast'));

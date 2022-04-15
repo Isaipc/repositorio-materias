@@ -4,6 +4,8 @@
  * building robust, powerful web applications using Vue and Laravel.
  */
 
+const { Toast } = require('bootstrap');
+
 require('jquery-validation');
 require('./bootstrap');
 require('bootstrap-select');
@@ -54,10 +56,44 @@ $(
     })
 );
 
-$('.data-row').click((e) => {
-    e.currentTarget.classList.toggle('table-active');
+// $('.data-row').click((e) => {
+//     e.currentTarget.classList.toggle('table-active');
+// });
+
+$('.select-estatus').on('change', (e) => {
+    estatus = e.currentTarget;
+    changeEstatus(estatus.value);
 });
 
+function changeEstatus(estatus) {
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+        }
+    });
+
+    $.ajax({
+        type: 'PUT',
+        url: '/materias/{materia}',
+        dataType: 'json',
+        data: {
+            materia: {
+                estatus: estatus
+            }
+        },
+        success: function () { 
+            var toastElement = document.getElementById('toastSuccess')
+            var toast = new bootstrap.Toast(toastElement);
+            toast.show();
+        },
+        error: function (e) {
+            var toastElement = document.getElementById('toastError')
+            var toast = new bootstrap.Toast(toastElement);
+            toast.show();
+        }
+    });
+
+}
 
 // initialize all toast 
 
