@@ -1,7 +1,7 @@
 <nav class="navbar navbar-expand-md navbar-dark bg-primary shadow-sm ">
     <div class="container">
         <a class="navbar-brand text-uppercase font-weight-bold p-0" href="{{ url('/') }}">
-            <img src="{{ asset('img/isc.svg') }}" width="56px" alt="">
+            <img src="{{ asset('img/isc.svg') }}" height="56px" alt="">
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
