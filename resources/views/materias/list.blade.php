@@ -24,16 +24,16 @@
                     </td>
                     <td>
                         <div class="form-check form-switch">
-                            <input class="form-check-input" type="checkbox" role="switch" @if ( $r_item->estatus == 1 )
-                            checked @endif @if ( $r_item->estatus == 0 )
-                            disabled @endif>
+                            <input class="form-check-input change-status-switch" type="checkbox" role="switch" @if (
+                                $r_item->estatus == 1 ) checked @endif
+                            @if ( $r_item->isArchived()) disabled @endif>
                         </div>
                     </td>
                     <td>
                         @if ($r_item->isArchived())
                         <a href="javascript: document.getElementById('restore-{{ $r_item->id }}').submit()"
-                            class="btn btn-sm btn-success"
-                            data-bs-toggle="tooltip" data-bs-placement="top" title="Restaurar">
+                            class="btn btn-sm btn-success" data-bs-toggle="tooltip" data-bs-placement="top"
+                            title="Restaurar">
                             <i class="bi bi-upload"></i>
                         </a>
                         <form id="restore-{{ $r_item->id }}" action="{{ route('materias.restore', $r_item->id) }}"
