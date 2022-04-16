@@ -3,7 +3,7 @@
         <a class="navbar-brand text-uppercase font-weight-bold p-0" href="{{ url('/') }}">
             <img src="{{ asset('img/isc.svg') }}" height="56px" alt="">
         </a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -44,7 +44,7 @@
             <!-- Right Side Of Navbar -->
             <ul class="navbar-nav ms-auto">
                 @auth
-                <li class="nav-item">
+                <li class="nav-item me-3">
                     <a href="" class="btn btn-primary btn-md position-relative">
                         <i class="bi bi-bell-fill"></i>
                         <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
@@ -64,7 +64,7 @@
                 </li>
                 @endif
                 @else
-                <li class="nav-item dropdown ms-3">
+                <li class="nav-item dropdown">
                     <a id="navbarDropdown" class="btn btn-primary dropdown-toggle text-uppercase" href="#" role="button"
                         data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                         <i class="bi bi-person-circle"></i>
