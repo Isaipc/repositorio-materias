@@ -15,15 +15,26 @@
                 @else
                 @can('catalogos-menu')
                 <li class="nav-item">
-                    <a class="nav-link @if (request()->routeIs('materias.*'))active @endif"
-                        href="{{ route('materias.index') }}" aria-haspopup="true"
-                        aria-expanded="false">{{ __('Materias') }} </a>
+                    @if (request()->routeIs('materias.*'))
+                    <a class="nav-link active" href="{{ route('materias.index') }}" aria-haspopup="true"
+                        aria-expanded="false">
+                        <i class="bi bi-collection-fill"></i>
+                        {{ __('Materias') }} </a>
+                    @else
+                    <a class="nav-link" href="{{ route('materias.index') }}" aria-haspopup="true" aria-expanded="false">
+                        <i class="bi bi-collection"></i>
+                        {{ __('Materias') }} </a>
+                    @endif
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link @if (request()->routeIs('usuarios.*'))active @endif"
-                        href="{{ route('usuarios.index') }}" aria-haspopup="true"
-                        aria-expanded="false">{{ __('Usuarios') }} </a>
+                    @if (request()->routeIs('usuarios.*'))
+                    <a class="nav-link active" href="{{ route('usuarios.index') }}" aria-haspopup="true" aria-expanded="false">
+                        <i class="bi bi-people-fill"></i> {{ __('Usuarios') }} </a>
+                    @else
+                    <a class="nav-link" href="{{ route('usuarios.index') }}" aria-haspopup="true" aria-expanded="false">
+                        <i class="bi bi-people"></i> {{ __('Usuarios') }} </a>
+                    @endif
                 </li>
                 @endcan
                 @endguest
@@ -64,7 +75,7 @@
                         <li>
                             <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
-                                <i class="bi bi-box-arrow-in-right"></i>
+                                <i class="bi bi-door-closed"></i>
                                 {{ __('Cerrar sesión') }}
                             </a>
                         </li>
