@@ -23,9 +23,7 @@
                 <tr>
                     <th class="text-end">URL</th>
                     <td>
-                        <a href="{{ $item->url }}" class="btn btn-link">
-                            {{ $item->url }}
-                        </a>
+                        <a href="{{ $item->url }}" target="_blank" rel="noopener noreferrer">{{ $item->url }}</a>
                     </td>
                 </tr>
                 <tr>
