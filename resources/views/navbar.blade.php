@@ -29,7 +29,8 @@
 
                 <li class="nav-item">
                     @if (request()->routeIs('usuarios.*'))
-                    <a class="nav-link active" href="{{ route('usuarios.index') }}" aria-haspopup="true" aria-expanded="false">
+                    <a class="nav-link active" href="{{ route('usuarios.index') }}" aria-haspopup="true"
+                        aria-expanded="false">
                         <i class="bi bi-people-fill"></i> {{ __('Usuarios') }} </a>
                     @else
                     <a class="nav-link" href="{{ route('usuarios.index') }}" aria-haspopup="true" aria-expanded="false">
@@ -45,7 +46,8 @@
             <ul class="navbar-nav ms-auto">
                 @auth
                 <li class="nav-item me-3">
-                    <a href="" class="btn btn-primary btn-md position-relative">
+                    <a href="" class="btn btn-primary btn-md position-relative" data-bs-toggle="tooltip"
+                        data-bs-placement="bottom" title="Notificaciones">
                         <i class="bi bi-bell-fill"></i>
                         <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
                             99+
