@@ -8,18 +8,20 @@
 
 <form action="{{ route('archivos.store', $materia) }} " method="POST" enctype="multipart/form-data">
     @csrf
-    <div class="form-group row">
+    <div class="row mb-3">
         <div class="col-md-4">
             <label for="nom" class="col-form-label">Nombre</label>
             <input id="nom" type="text" class="form-control" name="nombre" value="{{ old('nombre') }}" required
                 autofocus>
         </div>
     </div>
-    <div class="form-group custom-file">
-        <input type="file" name="file" class="custom-file-input" id="customFile">
-        <label class="custom-file-label col-md-4" for="customFile">Elegir archivo</label>
+    <div class="row mb-3">
+        <div class="col-md-4">
+            <label for="formFileSm" class="form-label">Archivo</label>
+            <input class="form-control" name="file" id="formFileSm" type="file">
+        </div>
     </div>
-    <div class="form-group row">
+    <div class="row mb-3">
         <div class="col-md-4">
             <label for="est" class="col-form-label text-md-right">Estatus</label>
             <select name="estatus" id="est" class="form-select">
