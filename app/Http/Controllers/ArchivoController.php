@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\CarritoDeCompras;
 use App\Materia;
-use App\archivo;
+use App\Archivo;
 use App\Image;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
@@ -20,8 +20,8 @@ class ArchivoController extends Controller
     {
         return view('archivos.index', [
             'materia' => $materia,
-            'deleted' => $materia->archivos->where('estatus', 0)->count(),
-            'rows' => $materia->archivos->where('estatus', '!=', 0),
+            'deleted' => Archivo::archived()->count(),
+            'rows' => Archivo::actives()->get(),
         ]);
     }
 
@@ -34,7 +34,7 @@ class ArchivoController extends Controller
     {
         return view('archivos.create', [
             'materia' => $materia,
-            'rows' => $materia->archivos->where('estatus', '!=', 0),
+            'rows' => Archivo::actives()->get(),
         ]);
     }
 
@@ -47,7 +47,7 @@ class ArchivoController extends Controller
     {
         return view('archivos.trash', [
             'materia' => $materia,
-            'rows' => $materia->archivos->where('estatus', 0),
+            'rows' => Archivo::archived()->get()
         ]);
     }
 
@@ -116,7 +116,7 @@ class ArchivoController extends Controller
         return view('archivos.show', [
             'materia' => $materia,
             'item' => $archivo,
-            'rows' => $materia->archivos->where('estatus', '!=', 0),
+            'rows' => Archivo::actives()->get(),
         ]);
     }
 
@@ -130,7 +130,7 @@ class ArchivoController extends Controller
     {
         return view('archivos.edit', [
             'materia' => $materia,
-            'rows' => $materia->archivos->where('estatus', '!=', 0),
+            'rows' => Archivo::actives()->get(),
             'item' => $archivo
         ]);
     }
@@ -169,24 +169,10 @@ class ArchivoController extends Controller
      * @param  \App\Archivo  $archivo
      * @return \Illuminate\Http\Response
      */
-    public function archive(Archivo $archivo)
+    public function destroy(Archivo $archivo)
     {
         $archivo->estatus = 0;
         $archivo->save();
-
-
-        return redirect()->route('archivos.index', $archivo->materia);
-    }
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Archivo  $archivo
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Archivo $archivo)
-    {
-        $archivo->delete();
-
 
         return redirect()->route('archivos.index', $archivo->materia);
     }
