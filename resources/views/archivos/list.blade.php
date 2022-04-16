@@ -42,16 +42,7 @@
                             @csrf
                             @method('PUT')
                         </form>
-                        <a href="javascript: document.getElementById('delete-{{ $r_item->id }}').submit()"
-                            class="btn btn-sm btn-danger">
-                            <i class="bi bi-x"></i>
-                        </a>
-                        <form id="delete-{{ $r_item->id }}" action="{{ route('archivos.destroy', $r_item->id) }}"
-                            method="POST">
-                            @csrf
-                            @method('DELETE')
-                        </form>
-
+                 
                         @else
                         <a href="{{ route('archivos.edit',[$materia, $r_item]) }} " class="btn btn-sm btn-primary">
                             <i class="bi bi-pencil-fill"></i> </a>
