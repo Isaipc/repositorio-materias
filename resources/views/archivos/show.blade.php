@@ -2,7 +2,10 @@
 
 @section('breadcrumbs', Breadcrumbs::render('archivos.show', $materia, $item))
 
-@section('title', $item->nombre)
+@section('title')
+<i class="bi bi-file-earmark-pdf-fill"></i>
+{{ $item->nombre }}
+@endsection
 
 @section('content')
 <div class="row">
