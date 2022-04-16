@@ -7,7 +7,7 @@
                     <th>#</th>
                     <th>Nombre</th>
                     <th>URL</th>
-                    <th>Estatus</th>
+                    <th>Habilitado</th>
                     <th></th>
                 </tr>
             </thead>
@@ -22,8 +22,15 @@
                         </a>
                         {{ $r_item->nombre }}
                     </td>
-                    <td> <a href="{{ $r_item->url }}">{{ $r_item->url }}</a> </td>
-                    <td>{{ $r_item->getEstatusName() }} </td>
+                    <td> <a href="{{ $r_item->url }}" target="_blank" rel="noopener noreferrer">{{ $r_item->url }}</a>
+                    </td>
+                    <td>
+                        <div class="form-check form-switch">
+                            <input class="form-check-input change-status-switch" type="checkbox" role="switch" @if (
+                                $r_item->estatus == 1 ) checked @endif
+                            @if ( $r_item->isArchived()) disabled @endif>
+                        </div>
+                    </td>
                     <td>
                         @if ($r_item->estatus == 0)
                         <a href="javascript: document.getElementById('restore-{{ $r_item->id }}').submit()"
