@@ -41,9 +41,11 @@
         <h5> Archivos</h5>
 
         @hasrole('Administrador')
+        @if ($item->isArchived())
         <a href="{{ route('archivos.index', $item->id) }} " class="btn btn-sm btn-primary">
             <i class="bi bi-plus"></i> Agregar
         </a>
+        @endif
         @endhasrole
 
         <div class="row">
@@ -56,16 +58,21 @@
 
                 <ul class="list-group list-group-flush">
                     @foreach ($item->archivos as $file)
+                    @if ($file->estatus == 1)
                     <a href="{{ $file->url }}"
+                        target="_blank" rel="noopener noreferrer"
                         class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
                         <span>
                             <i class="bi bi-file-earmark-fill"></i>
                             {{ $file->nombre }}
                         </span>
+                        @hasrole('Administrador')
                         <span>
                             {{ $file->url }}
                         </span>
+                        @endhasrole
                     </a>
+                    @endif
                     @endforeach
                 </ul>
                 @endif
