@@ -2,10 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\CarritoDeCompras;
 use App\Materia;
 use App\Archivo;
-use App\Image;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 

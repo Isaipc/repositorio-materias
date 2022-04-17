@@ -3,12 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Materia;
-use App\MateriaImage;
-use App\Image;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
-use Illuminate\Support\Facades\Storage;
 
 class MateriaController extends Controller
 {
@@ -149,5 +146,23 @@ class MateriaController extends Controller
         // alert()->success('Completado', 'Guardado correctamente');
         return Redirect::back();
         // return $materia;
+    }
+
+    /**
+     * Change the status.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Materia  $materia
+     * @return \Illuminate\Http\Response
+     */
+    public function changeStatus(Request $request, Materia $materia)
+    {
+        $validated = $request->validate([
+            'estatus' => 'required',
+        ]);
+
+        $materia->estatus =  isset($request->estatus) ? 1 : 2;
+        $materia->save();
+        return redirect()->route('materias.index');
     }
 }
