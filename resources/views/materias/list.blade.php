@@ -13,7 +13,7 @@
             </thead>
             <tbody>
                 @foreach ($rows as $key=> $r_item)
-                <tr class="data-row">
+                <tr class="data-row" id="rowItem{{ $r_item->id }}">
                     <td>{{ ++$key}} </td>
                     <td>
                         <a href="{{ route('materias.show', $r_item->id) }} " class="btn btn-link"
@@ -24,9 +24,10 @@
                     </td>
                     <td>
                         <div class="form-check form-switch">
-                            <input class="form-check-input change-status-switch" type="checkbox" role="switch" @if (
+                            <input class="form-check-input change-status-materia" type="checkbox" role="switch" @if (
                                 $r_item->estatus == 1 ) checked @endif
-                            @if ( $r_item->isArchived()) disabled @endif>
+                            @if ( $r_item->isArchived()) disabled @endif
+                            data-item="{{ $r_item }}">
                         </div>
                     </td>
                     <td>
@@ -46,21 +47,16 @@
                             data-bs-toggle="tooltip" data-bs-placement="top" title="Editar">
                             <i class="bi bi-pencil-square"></i>
                         </a>
-                        <a href="javascript: document.getElementById('delete-{{ $r_item->id }}').submit()"
-                            class="btn btn-sm btn-danger" data-bs-toggle="tooltip" data-bs-placement="top"
+                        <a href="javascript:void(0)" class="btn btn-sm btn-danger delete-materia" data-id="{{ $r_item->id }}"
+                            data-bs-toggle="tooltip" data-bs-placement="top" data-item="{{ $r_item }}"
                             title="Eliminar">
                             <i class="bi bi-trash-fill"></i>
                         </a>
+
                         <a href="{{ route('archivos.index', $r_item->id) }} " class="btn btn-sm btn-light"
                             data-bs-toggle="tooltip" data-bs-placement="top" title="Mostrar archivos">
                             <i class="bi bi-file-earmark-fill"></i>
                         </a>
-
-                        <form id="delete-{{ $r_item->id }}" action="{{ route('materias.destroy', $r_item->id) }}"
-                            method="POST">
-                            @csrf
-                            @method('DELETE')
-                        </form>
                         @endif
                     </td>
                 </tr>

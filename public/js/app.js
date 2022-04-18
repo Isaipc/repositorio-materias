@@ -5376,8 +5376,8 @@ module.exports = {
  * includes Vue and other libraries. It is a great starting point when
  * building robust, powerful web applications using Vue and Laravel.
  */
-var _require = __webpack_require__(/*! bootstrap */ "./node_modules/bootstrap/dist/js/bootstrap.esm.js"),
-    Toast = _require.Toast;
+var _require = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js"),
+    random = _require.random;
 
 __webpack_require__(/*! jquery-validation */ "./node_modules/jquery-validation/dist/jquery.validate.js");
 
@@ -5385,70 +5385,113 @@ __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
 __webpack_require__(/*! bootstrap-select */ "./node_modules/bootstrap-select/dist/js/bootstrap-select.js");
 
-__webpack_require__(/*! bootstrap-icons/font/bootstrap-icons */ "./node_modules/bootstrap-icons/font/bootstrap-icons.json"); // require('datatables.net-responsive-bs4');
+__webpack_require__(/*! bootstrap-icons/font/bootstrap-icons */ "./node_modules/bootstrap-icons/font/bootstrap-icons.json");
 
+__webpack_require__(/*! datatables.net-bs5 */ "./node_modules/datatables.net-bs5/js/dataTables.bootstrap5.js");
 
-__webpack_require__(/*! datatables.net-bs4 */ "./node_modules/datatables.net-bs4/js/dataTables.bootstrap4.js");
-
-var qntYears = 10;
-var dayNames = ['Domingo', 'Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado'];
-var daysOfWeek = ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sa'];
-var monthNames = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Setiembre', 'Octubre', 'Noviembre', 'Diciembre'];
 var dateFormat = 'DD/MM/YYYY';
 var today = new Date();
-$($('#datatable').DataTable({
-  paginate: true,
-  language: {
-    emptyTable: "No hay datos disponibles",
-    zeroRecords: "No se encontraron resultados",
-    infoFiltered: "(filtrado de _MAX_ registros totales)",
-    infoEmpty: "Mostrando 0 registros",
-    search: 'Buscar',
-    info: "Mostrando pagina _PAGE_ de _PAGES_",
-    paginate: {
-      first: "Primero",
-      last: "Ultimo",
-      next: "Siguiente",
-      previous: "Anterior"
-    },
-    lengthMenu: "Mostrar _MENU_ filas"
-  }
-})); // $('.data-row').click((e) => {
-//     e.currentTarget.classList.toggle('table-active');
-// });
+$(function ($) {
+  // DataTables SETUP
+  $('#datatable').DataTable({
+    paginate: true,
+    language: {
+      emptyTable: "No hay datos disponibles",
+      zeroRecords: "No se encontraron resultados",
+      infoFiltered: "(filtrado de _MAX_ registros totales)",
+      infoEmpty: "Mostrando 0 registros",
+      search: 'Buscar',
+      info: "Mostrando pagina _PAGE_ de _PAGES_",
+      paginate: {
+        first: "Primero",
+        last: "Ultimo",
+        next: "Siguiente",
+        previous: "Anterior"
+      },
+      lengthMenu: "Mostrar _MENU_ filas"
+    }
+  }); // AJAX SETUP
 
-$('.select-estatus').on('change', function (e) {
-  estatus = e.currentTarget;
-  changeEstatus(estatus.value);
-});
-
-function changeEstatus(estatus) {
   $.ajaxSetup({
     headers: {
-      'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+      'X-CSRF-TOKEN': $('meta[name="csrf_token"]').attr('content')
     }
   });
-  $.ajax({
-    type: 'PUT',
-    url: '/materias/{materia}',
-    dataType: 'json',
-    data: {
-      materia: {
-        estatus: estatus
+  $('.change-status-materia').on('change', function (e) {
+    item = $(e.currentTarget).data('item'); // console.log(item);
+
+    pushToast('hola : ' + random(.5 * 10)); // $.ajax({
+    //     type: 'PUT',
+    //     url: '/materias/' + materia + ' /change-status',
+    //     dataType: 'json',
+    //     data: {
+    //         materia: {
+    //             estatus: 0
+    //         }
+    //     },
+    //     success: function () {
+    //         var toastElement = document.getElementById('toastSuccess')
+    //         var toast = new bootstrap.Toast(toastElement);
+    //         toast.show();
+    //     },
+    //     error: function (data) {
+    //         pushToast(data);
+    //         var toastElement = document.getElementById('toastError')
+    //         var toast = new bootstrap.Toast(toastElement);
+    //         toast.show();
+    //     }
+    // });
+  });
+  $('#confirmBtn').on('click', function (e) {
+    confirmDialog = document.getElementById('confirmDialog');
+    modal = bootstrap.Modal.getOrCreateInstance(confirmDialog);
+    modal.hide();
+    var materia_id = confirmBtn.getAttribute('data-id');
+    $.ajax({
+      type: 'DELETE',
+      url: '/materias/' + materia_id,
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      },
+      success: function success(data) {
+        showToastSuccess(data.success);
+        $('#rowItem' + materia_id).remove();
+      },
+      error: function error(jqXHR, textStatus, errorThrown) {
+        showToastError(jqXHR.responseJSON.error);
       }
-    },
-    success: function success() {
-      var toastElement = document.getElementById('toastSuccess');
-      var toast = new bootstrap.Toast(toastElement);
-      toast.show();
-    },
-    error: function error(e) {
-      var toastElement = document.getElementById('toastError');
-      var toast = new bootstrap.Toast(toastElement);
-      toast.show();
-    }
+    });
   });
-} // initialize all toast 
+  $('.delete-materia').on('click', function (e) {
+    var dataItem = $(e.currentTarget).data('item');
+    confirmDialog = document.getElementById('confirmDialog');
+    modal = bootstrap.Modal.getOrCreateInstance(confirmDialog);
+    modal.show();
+    var title = confirmDialog.querySelector('.modal-title');
+    var msg = confirmDialog.querySelector('.modal-msg');
+    title.textContent = 'Eliminar';
+    msg.textContent = '¿Estas seguro que desea eliminar "' + dataItem.nombre + '"?';
+    confirmBtn = document.getElementById('confirmBtn');
+    confirmBtn.setAttribute('data-id', dataItem.id);
+  });
+});
+
+function showToastSuccess(msg) {
+  var toastElement = $('#toastSuccess');
+  var toastElementBody = $('#toastSuccessBody');
+  toastElementBody.html(msg);
+  var toast = new bootstrap.Toast(toastElement);
+  toast.show();
+}
+
+function showToastError(msg) {
+  var toastElement = $('#toastError');
+  var toastElementBody = $('#toastErrorBody');
+  toastElementBody.html(msg);
+  var toast = new bootstrap.Toast(toastElement);
+  toast.show();
+} // INIT BOOTSTRAP COMPONENTS
+// initialize all toast 
 
 
 var option = [];
@@ -14126,18 +14169,18 @@ defineJQueryPlugin(Toast);
 
 /***/ }),
 
-/***/ "./node_modules/datatables.net-bs4/js/dataTables.bootstrap4.js":
+/***/ "./node_modules/datatables.net-bs5/js/dataTables.bootstrap5.js":
 /*!*********************************************************************!*\
-  !*** ./node_modules/datatables.net-bs4/js/dataTables.bootstrap4.js ***!
+  !*** ./node_modules/datatables.net-bs5/js/dataTables.bootstrap5.js ***!
   \*********************************************************************/
 /***/ ((module, exports, __webpack_require__) => {
 
-var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*! DataTables Bootstrap 4 integration
- * ©2011-2017 SpryMedia Ltd - datatables.net/license
+var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*! DataTables Bootstrap 5 integration
+ * 2020 SpryMedia Ltd - datatables.net/license
  */
 
 /**
- * DataTables integration for Bootstrap 4. This requires Bootstrap 4 and
+ * DataTables integration for Bootstrap 4. This requires Bootstrap 5 and
  * DataTables 1.10 or newer.
  *
  * This file sets the defaults and adds options to DataTables to style its
@@ -14170,9 +14213,9 @@ $.extend( true, DataTable.defaults, {
 
 /* Default class modification */
 $.extend( DataTable.ext.classes, {
-	sWrapper:      "dataTables_wrapper dt-bootstrap4",
+	sWrapper:      "dataTables_wrapper dt-bootstrap5",
 	sFilterInput:  "form-control form-control-sm",
-	sLengthSelect: "custom-select custom-select-sm form-control form-control-sm",
+	sLengthSelect: "form-select form-select-sm",
 	sProcessing:   "dataTables_processing card",
 	sPageButton:   "paginate_button page-item"
 } );

@@ -4,14 +4,12 @@
  * building robust, powerful web applications using Vue and Laravel.
  */
 
-const { Toast } = require('bootstrap');
+const { random } = require('lodash');
 
 require('jquery-validation');
 require('./bootstrap');
 require('bootstrap-select');
 require('bootstrap-icons/font/bootstrap-icons');
-// require('datatables.net-responsive-bs4');
-require('datatables.net-bs4');
 
 require('datatables.net-bs5')
 
@@ -19,7 +17,9 @@ const dateFormat = 'DD/MM/YYYY';
 
 var today = new Date();
 
-$(
+$(function ($) {
+
+    // DataTables SETUP
     $('#datatable').DataTable({
         paginate: true,
         language: {
@@ -37,50 +37,106 @@ $(
             },
             lengthMenu: "Mostrar _MENU_ filas",
         }
-    })
-);
+    });
 
-// $('.data-row').click((e) => {
-//     e.currentTarget.classList.toggle('table-active');
-// });
-
-$('.select-estatus').on('change', (e) => {
-    estatus = e.currentTarget;
-    changeEstatus(estatus.value);
-});
-
-function changeEstatus(estatus) {
+    // AJAX SETUP
     $.ajaxSetup({
         headers: {
-            'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+            'X-CSRF-TOKEN': $('meta[name="csrf_token"]').attr('content')
         }
     });
 
-    $.ajax({
-        type: 'PUT',
-        url: '/materias/{materia}',
-        dataType: 'json',
-        data: {
-            materia: {
-                estatus: estatus
+    $('.change-status-materia').on('change', (e) => {
+
+        item = $(e.currentTarget).data('item');
+        // console.log(item);
+        pushToast('hola : ' + random(.5 * 10));
+
+        // $.ajax({
+        //     type: 'PUT',
+        //     url: '/materias/' + materia + ' /change-status',
+        //     dataType: 'json',
+        //     data: {
+        //         materia: {
+        //             estatus: 0
+        //         }
+        //     },
+        //     success: function () {
+        //         var toastElement = document.getElementById('toastSuccess')
+        //         var toast = new bootstrap.Toast(toastElement);
+        //         toast.show();
+        //     },
+        //     error: function (data) {
+        //         pushToast(data);
+        //         var toastElement = document.getElementById('toastError')
+        //         var toast = new bootstrap.Toast(toastElement);
+        //         toast.show();
+        //     }
+        // });
+
+    });
+
+    $('#confirmBtn').on('click', (e) => {
+        confirmDialog = document.getElementById('confirmDialog');
+        modal = bootstrap.Modal.getOrCreateInstance(confirmDialog);
+        modal.hide();
+
+        var materia_id = confirmBtn.getAttribute('data-id');
+
+        $.ajax({
+            type: 'DELETE',
+            url: '/materias/' + materia_id,
+            headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+            success: (data) => {
+                showToastSuccess(data.success);
+                $('#rowItem' + materia_id).remove();
+            },
+            error: (jqXHR, textStatus, errorThrown) => {
+                showToastError(jqXHR.responseJSON.error);
             }
-        },
-        success: function () { 
-            var toastElement = document.getElementById('toastSuccess')
-            var toast = new bootstrap.Toast(toastElement);
-            toast.show();
-        },
-        error: function (e) {
-            var toastElement = document.getElementById('toastError')
-            var toast = new bootstrap.Toast(toastElement);
-            toast.show();
-        }
+        });
     });
 
+    $('.delete-materia').on('click', (e) => {
+        var dataItem = $(e.currentTarget).data('item');
+
+        confirmDialog = document.getElementById('confirmDialog');
+        modal = bootstrap.Modal.getOrCreateInstance(confirmDialog);
+        modal.show();
+
+        var title = confirmDialog.querySelector('.modal-title');
+        var msg = confirmDialog.querySelector('.modal-msg');
+        title.textContent = 'Eliminar';
+        msg.textContent = '¿Estas seguro que desea eliminar "' + dataItem.nombre + '"?'
+
+        confirmBtn = document.getElementById('confirmBtn');
+        confirmBtn.setAttribute('data-id', dataItem.id);
+    });
+});
+
+
+
+function showToastSuccess(msg) {
+    var toastElement = $('#toastSuccess');
+    var toastElementBody = $('#toastSuccessBody');
+    toastElementBody.html(msg);
+    var toast = new bootstrap.Toast(toastElement);
+    toast.show();
 }
 
-// initialize all toast 
+function showToastError(msg) {
+    var toastElement = $('#toastError');
+    var toastElementBody = $('#toastErrorBody');
+    toastElementBody.html(msg);
+    var toast = new bootstrap.Toast(toastElement);
+    toast.show();
+}
 
+
+
+// INIT BOOTSTRAP COMPONENTS
+
+// initialize all toast 
 const option = [];
 var toastElementList = [].slice.call(document.querySelectorAll('.toast'))
 var toastList = toastElementList.map(function (toastE) {
