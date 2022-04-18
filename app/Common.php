@@ -49,13 +49,13 @@ class Common extends Model
 
     public static function actives()
     {
-        $rows = self::where('estatus', '!=', 0)->orderBy('updated_at');
+        $rows = self::where('estatus', '!=', 0)->orderBy('nombre', 'ASC');
         return $rows;
     }
 
     public static function archived()
     {
-        $rows = self::where('estatus', 0)->orderBy('updated_at');
+        $rows = self::where('estatus', 0)->orderBy('nombre', 'ASC');
         return $rows;
     }
 }
