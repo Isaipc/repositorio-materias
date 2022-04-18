@@ -13,23 +13,7 @@ require('bootstrap-icons/font/bootstrap-icons');
 // require('datatables.net-responsive-bs4');
 require('datatables.net-bs4');
 
-const qntYears = 10;
-const dayNames = ['Domingo', 'Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado'];
-const daysOfWeek = ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sa'];
-const monthNames = [
-    'Enero',
-    'Febrero',
-    'Marzo',
-    'Abril',
-    'Mayo',
-    'Junio',
-    'Julio',
-    'Agosto',
-    'Setiembre',
-    'Octubre',
-    'Noviembre',
-    'Diciembre'
-];
+require('datatables.net-bs5')
 
 const dateFormat = 'DD/MM/YYYY';
 
