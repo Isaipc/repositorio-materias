@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Materia;
+use ErrorException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
@@ -10,9 +11,9 @@ use Illuminate\Support\Facades\Session;
 class MateriaController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \illuminate\http\response
      */
     public function index()
     {
@@ -20,6 +21,16 @@ class MateriaController extends Controller
             'rows' => Materia::actives()->get(),
             'deleted' => Materia::archived()->get()->count()
         ]);
+    }
+
+    /**
+     * display a listing of the resource.
+     *
+     * @return \illuminate\http\response
+     */
+    public function list()
+    {
+        return response()->json(['data' => Materia::actives()->get()]);
     }
 
     /**
@@ -121,14 +132,21 @@ class MateriaController extends Controller
      * @param  \App\Materia  $materia
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Materia $materia)
+    public function destroy(Request $request)
     {
-        $materia->estatus = 0;
-        $materia->save();
+        try {
+            $materia = Materia::find($request->id);
+            $materia->estatus = 0;
+            $r = $materia->save();
 
-        // alert()->success('Completado', 'Eliminado correctamente');
-
-        return redirect()->route('materias.index');
+            if ($r)
+                $response = response()->json(['success' => 'Eliminado correctamente']);
+            else
+                $response = response()->json(['error' => 'No se ha podido completar la operación']);
+        } catch (ErrorException $e) {
+            $response = response()->json(['error' => 'No se ha podido completar la operacion: ' . $e->getMessage()], 404);
+        }
+        return $response;
     }
 
     protected function save(Materia $materia, Request $request)
