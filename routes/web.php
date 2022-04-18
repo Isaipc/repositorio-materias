@@ -69,7 +69,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('materias/{materia}', 'MateriaController@show')->name('materias.show');
     Route::get('materias/{materia}/editar', 'MateriaController@edit')->name('materias.edit');
     Route::put('materias/{materia}', 'MateriaController@update')->name('materias.update');
-    Route::put('materias/{materia}/change-status', 'MateriaController@changeStatus');
+    Route::put('materias/{id}/change-status', 'MateriaController@changeStatus');
     Route::delete('materias/{id}', 'MateriaController@destroy')->name('materias.destroy');
 
     Route::get('materias/{materia}/archivos', 'ArchivoController@index')->name('archivos.index');

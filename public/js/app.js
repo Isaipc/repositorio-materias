@@ -5376,9 +5376,6 @@ module.exports = {
  * includes Vue and other libraries. It is a great starting point when
  * building robust, powerful web applications using Vue and Laravel.
  */
-var _require = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js"),
-    random = _require.random;
-
 __webpack_require__(/*! jquery-validation */ "./node_modules/jquery-validation/dist/jquery.validate.js");
 
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
@@ -5418,29 +5415,25 @@ $(function ($) {
     }
   });
   $('.change-status-materia').on('change', function (e) {
-    item = $(e.currentTarget).data('item'); // console.log(item);
-
-    pushToast('hola : ' + random(.5 * 10)); // $.ajax({
-    //     type: 'PUT',
-    //     url: '/materias/' + materia + ' /change-status',
-    //     dataType: 'json',
-    //     data: {
-    //         materia: {
-    //             estatus: 0
-    //         }
-    //     },
-    //     success: function () {
-    //         var toastElement = document.getElementById('toastSuccess')
-    //         var toast = new bootstrap.Toast(toastElement);
-    //         toast.show();
-    //     },
-    //     error: function (data) {
-    //         pushToast(data);
-    //         var toastElement = document.getElementById('toastError')
-    //         var toast = new bootstrap.Toast(toastElement);
-    //         toast.show();
-    //     }
-    // });
+    var materia_id = e.currentTarget.getAttribute('data-id');
+    $.ajax({
+      type: 'PUT',
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      },
+      url: '/materias/' + materia_id + ' /change-status',
+      dataType: 'json',
+      data: {
+        id: materia_id,
+        estatus: e.currentTarget.checked
+      },
+      success: function success(data) {
+        showToastSuccess(data.success);
+      },
+      error: function error(jqXHR, textStatus, errorThrown) {
+        showToastError(jqXHR.responseJSON.error);
+      }
+    });
   });
   $('#confirmBtn').on('click', function (e) {
     confirmDialog = document.getElementById('confirmDialog');

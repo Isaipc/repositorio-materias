@@ -173,14 +173,25 @@ class MateriaController extends Controller
      * @param  \App\Materia  $materia
      * @return \Illuminate\Http\Response
      */
-    public function changeStatus(Request $request, Materia $materia)
+    public function changeStatus(Request $request)
     {
         $validated = $request->validate([
+            'id' => 'required',
             'estatus' => 'required',
         ]);
 
-        $materia->estatus =  isset($request->estatus) ? 1 : 2;
-        $materia->save();
-        return redirect()->route('materias.index');
+        try {
+            $materia = Materia::find($request->id);
+            $materia->estatus =  $request->estatus == "false" ? 2 : 1;
+            $r = $materia->save();
+            if ($r)
+                $response = response()->json(['success' => 'Se cambió el estatus de ' . $materia->nombre . ' a: ' . $materia->getEstatusName()]);
+            else
+                $response = response()->json(['error' => 'No se ha podido completar la operación']);
+        } catch (ErrorException $e) {
+            $response = response()->json(['error' => 'No se ha podido completar la operacion: ' . $e->getMessage()], 404);
+        }
+
+        return $response;
     }
 }

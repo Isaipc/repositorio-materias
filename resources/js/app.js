@@ -4,8 +4,6 @@
  * building robust, powerful web applications using Vue and Laravel.
  */
 
-const { random } = require('lodash');
-
 require('jquery-validation');
 require('./bootstrap');
 require('bootstrap-select');
@@ -47,32 +45,24 @@ $(function ($) {
     });
 
     $('.change-status-materia').on('change', (e) => {
+        var materia_id = e.currentTarget.getAttribute('data-id');
 
-        item = $(e.currentTarget).data('item');
-        // console.log(item);
-        pushToast('hola : ' + random(.5 * 10));
-
-        // $.ajax({
-        //     type: 'PUT',
-        //     url: '/materias/' + materia + ' /change-status',
-        //     dataType: 'json',
-        //     data: {
-        //         materia: {
-        //             estatus: 0
-        //         }
-        //     },
-        //     success: function () {
-        //         var toastElement = document.getElementById('toastSuccess')
-        //         var toast = new bootstrap.Toast(toastElement);
-        //         toast.show();
-        //     },
-        //     error: function (data) {
-        //         pushToast(data);
-        //         var toastElement = document.getElementById('toastError')
-        //         var toast = new bootstrap.Toast(toastElement);
-        //         toast.show();
-        //     }
-        // });
+        $.ajax({
+            type: 'PUT',
+            headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+            url: '/materias/' + materia_id + ' /change-status',
+            dataType: 'json',
+            data: {
+                id: materia_id,
+                estatus: e.currentTarget.checked
+            },
+            success: (data) => {
+                showToastSuccess(data.success);
+            },
+            error: (jqXHR, textStatus, errorThrown) => {
+                showToastError(jqXHR.responseJSON.error);
+            }
+        });
 
     });
 

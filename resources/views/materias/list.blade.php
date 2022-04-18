@@ -27,7 +27,7 @@
                             <input class="form-check-input change-status-materia" type="checkbox" role="switch" @if (
                                 $r_item->estatus == 1 ) checked @endif
                             @if ( $r_item->isArchived()) disabled @endif
-                            data-item="{{ $r_item }}">
+                            data-id="{{ $r_item->id }}">
                         </div>
                     </td>
                     <td>
