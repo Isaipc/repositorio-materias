@@ -2,7 +2,7 @@
 
 @section('breadcrumbs', Breadcrumbs::render('usuarios.show', $item))
 
-@section('title', $item->name)
+@section('title', $item->nombre)
 
 @section('content')
 <div class="row">
@@ -11,7 +11,7 @@
             <tbody>
                 <tr>
                     <th class="text-end">Nombre</th>
-                    <td> {{ $item->name }} </td>
+                    <td> {{ $item->nombre }} </td>
                 </tr>
                 <tr>
                     <th class="text-end">Estatus</th>

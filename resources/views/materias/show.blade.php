@@ -59,8 +59,7 @@
                 <ul class="list-group list-group-flush">
                     @foreach ($item->archivos as $file)
                     @if ($file->estatus == 1)
-                    <a href="{{ $file->url }}"
-                        target="_blank" rel="noopener noreferrer"
+                    <a href="{{ $file->url }}" target="_blank" rel="noopener noreferrer"
                         class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
                         <span>
                             <i class="bi bi-file-earmark-fill"></i>
@@ -99,7 +98,7 @@
                         class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
                         <span>
                             <i class="bi bi-person-fill"></i>
-                            {{ $a->name }}
+                            {{ $a->nombre }}
                         </span>
                     </a>
                     @endforeach
