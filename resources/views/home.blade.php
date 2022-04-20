@@ -35,13 +35,19 @@ Mis materias
 
     @foreach ($materias_alumn as $m)
     <div class="card card-primary col-md-4 ms-2 mt-2">
-        <div class="card-body text-center" >
+        <div class="card-body text-center">
             <h5 class="card-title"> {{ $m->nombre }} </h5>
 
+            @if ($m->estatus == 1 )
             <a href="{{ route('materias.show', $m)}}" class="btn btn-md btn-light">
                 <i class="bi bi-files"></i>
                 Archivos ({{ $m->archivos->count() }})
             </a>
+            @else
+            <p class="text-muted mt-3">
+                Esta materia no se encuentra disponible. 
+            </p>
+            @endif
         </div>
     </div>
 
