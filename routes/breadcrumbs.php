@@ -31,7 +31,7 @@ Breadcrumbs::macro('resource', function ($parent, $name, $title) {
     // Home > Blog > Post 123
     Breadcrumbs::for("$name.show", function ($trail, $model) use ($name) {
         $trail->parent("$name.index");
-        $trail->push($model->alias(), route("$name.show", $model));
+        $trail->push($model->nombre, route("$name.show", $model));
     });
 
     // Home > Blog > Post 123 > Edit

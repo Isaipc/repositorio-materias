@@ -21,7 +21,7 @@
                             data-bs-toggle="tooltip" data-bs-placement="top" title="Mostrar detalles">
                             <i class="bi bi-box-arrow-up-right"></i>
                         </a>
-                        {{ $r_item->name }}
+                        {{ $r_item->nombre }}
                     </td>
                     <td class="d-none d-md-table-cell">{{ is_null($r_item->email) ? '-' : $r_item->email }} </td>
                     <td scope="row"> {{ $r_item->username }} </td>

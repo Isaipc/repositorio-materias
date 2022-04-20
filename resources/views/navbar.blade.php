@@ -67,12 +67,14 @@
                 @endif
                 @else
                 <li class="nav-item dropdown">
-                    <a id="navbarDropdown" class="btn btn-primary dropdown-toggle text-uppercase" href="#" role="button"
+                    <a id="navbarDropdown" class="btn btn-primary dropdown-toggle" href="#" role="button"
                         data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+
+                        {{ Auth::user()->nombre }}
+                        <span class="caret"></span>
                         <i class="bi bi-person-circle"></i>
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <h6 class="dropdown-header">{{ Auth::user()->name }} <span class="caret"></span> </h6>
 
                         <li>
                             <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
