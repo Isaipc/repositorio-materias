@@ -24,10 +24,10 @@
                     </td>
                     <td>
                         <div class="form-check form-switch">
-                            <input class="form-check-input change-status-materia" type="checkbox" role="switch" @if (
+                            <input class="form-check-input change-status" type="checkbox" role="switch" @if (
                                 $r_item->estatus == 1 ) checked @endif
                             @if ( $r_item->isArchived()) disabled @endif
-                            data-id="{{ $r_item->id }}">
+                            data-id="{{ $r_item->id }}" data-url="/materias">
                         </div>
                     </td>
                     <td>
@@ -47,9 +47,9 @@
                             data-bs-toggle="tooltip" data-bs-placement="top" title="Editar">
                             <i class="bi bi-pencil-square"></i>
                         </a>
-                        <a href="javascript:void(0)" class="btn btn-sm btn-danger delete-materia" data-id="{{ $r_item->id }}"
-                            data-bs-toggle="tooltip" data-bs-placement="top" data-item="{{ $r_item }}"
-                            title="Eliminar">
+                        <a href="javascript:void(0)" class="btn btn-sm btn-danger delete-materia"
+                            data-bs-toggle="tooltip" data-bs-placement="top" data-id="{{ $r_item->id }}"
+                            data-name="{{ $r_item->nombre }}" data-url="/materias" title="Eliminar">
                             <i class="bi bi-trash-fill"></i>
                         </a>
 

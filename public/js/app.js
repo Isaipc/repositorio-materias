@@ -5387,6 +5387,8 @@ __webpack_require__(/*! bootstrap-icons/font/bootstrap-icons */ "./node_modules/
 __webpack_require__(/*! datatables.net-bs5 */ "./node_modules/datatables.net-bs5/js/dataTables.bootstrap5.js");
 
 var dateFormat = 'DD/MM/YYYY';
+var TOAST_ERROR_TYPE = 1;
+var TOAST_SUCCESS_TYPE = 0;
 var today = new Date();
 $(function ($) {
   // DataTables SETUP
@@ -5414,73 +5416,88 @@ $(function ($) {
       'X-CSRF-TOKEN': $('meta[name="csrf_token"]').attr('content')
     }
   });
-  $('.change-status-materia').on('change', function (e) {
-    var materia_id = e.currentTarget.getAttribute('data-id');
+  $('.change-status').on('change', function (e) {
+    var ITEM_ID = e.currentTarget.getAttribute('data-id');
+    var ITEM_URL = e.currentTarget.getAttribute('data-url');
+    var ITEM_STATUS = e.currentTarget.checked;
     $.ajax({
       type: 'PUT',
       headers: {
         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
       },
-      url: '/materias/' + materia_id + ' /change-status',
+      url: ITEM_URL + '/' + ITEM_ID + ' /change-status',
       dataType: 'json',
       data: {
-        id: materia_id,
-        estatus: e.currentTarget.checked
+        id: ITEM_ID,
+        estatus: ITEM_STATUS
       },
       success: function success(data) {
-        showToastSuccess(data.success);
+        showToast(data.success, TOAST_SUCCESS_TYPE);
       },
       error: function error(jqXHR, textStatus, errorThrown) {
-        showToastError(jqXHR.responseJSON.error);
+        showToast(jqXHR.responseJSON.error, TOAST_ERROR_TYPE);
       }
     });
   });
-  $('#confirmBtn').on('click', function (e) {
-    confirmDialog = document.getElementById('confirmDialog');
-    modal = bootstrap.Modal.getOrCreateInstance(confirmDialog);
-    modal.hide();
-    var materia_id = confirmBtn.getAttribute('data-id');
-    $.ajax({
-      type: 'DELETE',
-      url: '/materias/' + materia_id,
-      headers: {
-        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-      },
-      success: function success(data) {
-        showToastSuccess(data.success);
-        $('#rowItem' + materia_id).remove();
-      },
-      error: function error(jqXHR, textStatus, errorThrown) {
-        showToastError(jqXHR.responseJSON.error);
-      }
-    });
-  });
-  $('.delete-materia').on('click', function (e) {
-    var dataItem = $(e.currentTarget).data('item');
+  $('.delete-usuario, .delete-materia, .delete-archivo').on('click', function (e) {
+    var ITEM_ID = e.currentTarget.getAttribute('data-id');
+    var ITEM_URL = e.currentTarget.getAttribute('data-url');
+    var ITEM_NAME = e.currentTarget.getAttribute('data-name');
     confirmDialog = document.getElementById('confirmDialog');
     modal = bootstrap.Modal.getOrCreateInstance(confirmDialog);
     modal.show();
     var title = confirmDialog.querySelector('.modal-title');
     var msg = confirmDialog.querySelector('.modal-msg');
     title.textContent = 'Eliminar';
-    msg.textContent = '¿Estas seguro que desea eliminar "' + dataItem.nombre + '"?';
+    msg.textContent = '¿Estas seguro que desea eliminar "' + ITEM_NAME + '"?';
     confirmBtn = document.getElementById('confirmBtn');
-    confirmBtn.setAttribute('data-id', dataItem.id);
+    confirmBtn.setAttribute('data-id', ITEM_ID);
+    confirmBtn.setAttribute('data-url', ITEM_URL);
+  });
+  $('#confirmBtn').on('click', function (e) {
+    confirmDialog = document.getElementById('confirmDialog');
+    modal = bootstrap.Modal.getOrCreateInstance(confirmDialog);
+    modal.hide();
+    var ITEM_ID = e.currentTarget.getAttribute('data-id');
+    var ITEM_URL = e.currentTarget.getAttribute('data-url');
+    $.ajax({
+      type: 'DELETE',
+      url: ITEM_URL + '/' + ITEM_ID,
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      },
+      success: function success(data) {
+        showToast(data.success, TOAST_SUCCESS_TYPE);
+        $('#rowItem' + ITEM_ID).remove();
+      },
+      error: function error(jqXHR, textStatus, errorThrown) {
+        showToast(jqXHR.responseJSON.error, TOAST_ERROR_TYPE);
+      }
+    });
   });
 });
 
-function showToastSuccess(msg) {
-  var toastElement = $('#toastSuccess');
-  var toastElementBody = $('#toastSuccessBody');
-  toastElementBody.html(msg);
-  var toast = new bootstrap.Toast(toastElement);
-  toast.show();
-}
+function showToast(msg, type) {
+  var toastElement = document.getElementById('toast');
+  var toastElementHeader = toastElement.querySelector('.toast-header');
+  var toastElementTitle = toastElement.querySelector('.toast-title');
+  var toastElementBody = toastElement.querySelector('.toast-body');
 
-function showToastError(msg) {
-  var toastElement = $('#toastError');
-  var toastElementBody = $('#toastErrorBody');
-  toastElementBody.html(msg);
+  switch (type) {
+    case 0:
+      toastElementHeader.classList.remove('bg-error');
+      toastElementHeader.classList.add('bg-success');
+      toastElementTitle.textContent = 'Completado';
+      break;
+
+    case 1:
+      toastElementHeader.classList.remove('bg-success');
+      toastElementHeader.classList.add('bg-error');
+      toastElementTitle.textContent = 'Error';
+      break;
+  }
+
+  toastElementBody.textContent = msg;
   var toast = new bootstrap.Toast(toastElement);
   toast.show();
 } // INIT BOOTSTRAP COMPONENTS

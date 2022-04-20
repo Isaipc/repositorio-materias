@@ -12,6 +12,8 @@ require('bootstrap-icons/font/bootstrap-icons');
 require('datatables.net-bs5')
 
 const dateFormat = 'DD/MM/YYYY';
+const TOAST_ERROR_TYPE = 1;
+const TOAST_SUCCESS_TYPE = 0;
 
 var today = new Date();
 
@@ -44,51 +46,35 @@ $(function ($) {
         }
     });
 
-    $('.change-status-materia').on('change', (e) => {
-        var materia_id = e.currentTarget.getAttribute('data-id');
+    $('.change-status').on('change', (e) => {
+        const ITEM_ID = e.currentTarget.getAttribute('data-id');
+        const ITEM_URL = e.currentTarget.getAttribute('data-url');
+        const ITEM_STATUS = e.currentTarget.checked;
 
         $.ajax({
             type: 'PUT',
             headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
-            url: '/materias/' + materia_id + ' /change-status',
+            url: ITEM_URL + '/' + ITEM_ID + ' /change-status',
             dataType: 'json',
             data: {
-                id: materia_id,
-                estatus: e.currentTarget.checked
+                id: ITEM_ID,
+                estatus: ITEM_STATUS
             },
             success: (data) => {
-                showToastSuccess(data.success);
+                showToast(data.success, TOAST_SUCCESS_TYPE);
             },
             error: (jqXHR, textStatus, errorThrown) => {
-                showToastError(jqXHR.responseJSON.error);
+                showToast(jqXHR.responseJSON.error, TOAST_ERROR_TYPE);
             }
         });
 
     });
 
-    $('#confirmBtn').on('click', (e) => {
-        confirmDialog = document.getElementById('confirmDialog');
-        modal = bootstrap.Modal.getOrCreateInstance(confirmDialog);
-        modal.hide();
+    $('.delete-usuario, .delete-materia, .delete-archivo').on('click', (e) => {
 
-        var materia_id = confirmBtn.getAttribute('data-id');
-
-        $.ajax({
-            type: 'DELETE',
-            url: '/materias/' + materia_id,
-            headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
-            success: (data) => {
-                showToastSuccess(data.success);
-                $('#rowItem' + materia_id).remove();
-            },
-            error: (jqXHR, textStatus, errorThrown) => {
-                showToastError(jqXHR.responseJSON.error);
-            }
-        });
-    });
-
-    $('.delete-materia').on('click', (e) => {
-        var dataItem = $(e.currentTarget).data('item');
+        const ITEM_ID = e.currentTarget.getAttribute('data-id');
+        const ITEM_URL = e.currentTarget.getAttribute('data-url');
+        const ITEM_NAME = e.currentTarget.getAttribute('data-name');
 
         confirmDialog = document.getElementById('confirmDialog');
         modal = bootstrap.Modal.getOrCreateInstance(confirmDialog);
@@ -97,32 +83,65 @@ $(function ($) {
         var title = confirmDialog.querySelector('.modal-title');
         var msg = confirmDialog.querySelector('.modal-msg');
         title.textContent = 'Eliminar';
-        msg.textContent = '¿Estas seguro que desea eliminar "' + dataItem.nombre + '"?'
+        msg.textContent = '¿Estas seguro que desea eliminar "' + ITEM_NAME + '"?'
 
         confirmBtn = document.getElementById('confirmBtn');
-        confirmBtn.setAttribute('data-id', dataItem.id);
+        confirmBtn.setAttribute('data-id', ITEM_ID);
+        confirmBtn.setAttribute('data-url', ITEM_URL);
     });
+
+
+    $('#confirmBtn').on('click', (e) => {
+        confirmDialog = document.getElementById('confirmDialog');
+        modal = bootstrap.Modal.getOrCreateInstance(confirmDialog);
+        modal.hide();
+
+        const ITEM_ID = e.currentTarget.getAttribute('data-id');
+        const ITEM_URL = e.currentTarget.getAttribute('data-url');
+
+        $.ajax({
+            type: 'DELETE',
+            url: ITEM_URL + '/' + ITEM_ID,
+            headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+            success: (data) => {
+                showToast(data.success, TOAST_SUCCESS_TYPE);
+                $('#rowItem' + ITEM_ID).remove();
+            },
+            error: (jqXHR, textStatus, errorThrown) => {
+                showToast(jqXHR.responseJSON.error, TOAST_ERROR_TYPE);
+            }
+        });
+    });
+
+
+
 });
 
 
 
-function showToastSuccess(msg) {
-    var toastElement = $('#toastSuccess');
-    var toastElementBody = $('#toastSuccessBody');
-    toastElementBody.html(msg);
+function showToast(msg, type) {
+
+    var toastElement = document.getElementById('toast');
+    var toastElementHeader = toastElement.querySelector('.toast-header');
+    var toastElementTitle = toastElement.querySelector('.toast-title');
+    var toastElementBody = toastElement.querySelector('.toast-body');
+    switch (type) {
+        case 0:
+            toastElementHeader.classList.remove('bg-error');
+            toastElementHeader.classList.add('bg-success');
+            toastElementTitle.textContent = 'Completado';
+            break;
+        case 1:
+            toastElementHeader.classList.remove('bg-success');
+            toastElementHeader.classList.add('bg-error');
+            toastElementTitle.textContent = 'Error';
+            break;
+    }
+    toastElementBody.textContent = msg;
+
     var toast = new bootstrap.Toast(toastElement);
     toast.show();
 }
-
-function showToastError(msg) {
-    var toastElement = $('#toastError');
-    var toastElementBody = $('#toastErrorBody');
-    toastElementBody.html(msg);
-    var toast = new bootstrap.Toast(toastElement);
-    toast.show();
-}
-
-
 
 // INIT BOOTSTRAP COMPONENTS
 

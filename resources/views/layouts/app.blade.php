@@ -34,6 +34,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body d-flex flex-columns align-items-center">
+                    {{-- <input type="hidden" name=""> --}}
                     <i class="bi bi-exclamation-diamond-fill" style="font-size: 3rem; color: orange;"></i>
                     <span class="modal-msg"> </span>
                 </div>
@@ -47,24 +48,15 @@
 
     {{-- toast elements --}}
     <div id="toast-msg-container" class="toast-container position-fixed bottom-0 end-0 p-3" style="z-index: 11">
-        <div id="toastSuccess" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
-            <div class="toast-header bg-success text-white">
-                <strong class="me-auto">
-                    <i class="bi bi-check-circle-fill"></i>
-                    Completado
+        <div id="toast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header text-white">
+                <strong class="me-auto toast-title">
+                    Titulo
                 </strong>
                 <small>Ahora</small>
                 <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
             </div>
-            <div id="toastSuccessBody" class="toast-body"> </div>
-        </div>
-        <div id="toastError" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
-            <div class="toast-header bg-danger text-white">
-                <strong class="me-auto">Error</strong>
-                <small>11 mins ago</small>
-                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
-            </div>
-            <div id="toastErrorBody" class="toast-body"></div>
+            <div class="toast-body"> </div>
         </div>
     </div>
 

@@ -14,7 +14,7 @@
             </thead>
             <tbody>
                 @foreach ($rows as $key=> $r_item)
-                <tr class="data-row">
+                <tr class="data-row" id="rowItem{{ $r_item->id }}">
                     <td>{{ $key + 1 }}</td>
                     <td>
                         <a href="{{ route('usuarios.show', $r_item->id) }} " class="btn btn-link"
@@ -51,16 +51,11 @@
                             data-bs-toggle="tooltip" data-bs-placement="top" title="Editar">
                             <i class="bi bi-pencil-square"></i>
                         </a>
-                        <a href="javascript: document.getElementById('delete-{{ $r_item->id }}').submit()"
-                            class="btn btn-sm btn-danger" data-bs-toggle="tooltip" data-bs-placement="top"
-                            title="Eliminar">
+                        <a href="javascript:void(0)" class="btn btn-sm btn-danger delete-materia"
+                            data-bs-toggle="tooltip" data-bs-placement="top" data-id="{{ $r_item->id }}"
+                            data-name="{{ $r_item->nombre }}" data-url="/usuarios" title="Eliminar">
                             <i class="bi bi-trash-fill"></i>
                         </a>
-                        <form id="delete-{{ $r_item->id }}" action="{{ route('usuarios.destroy', $r_item->id) }}"
-                            method="POST">
-                            @csrf
-                            @method('DELETE')
-                        </form>
                         @endif
                     </td>
                 </tr>
