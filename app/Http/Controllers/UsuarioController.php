@@ -153,7 +153,7 @@ class UsuarioController extends Controller
             $r = $user->save();
 
             if ($r)
-                $response = response()->json(['success' => 'Eliminado correctamente']);
+                $response = response()->json(['success' => 'Se ha eliminado ' . $user->nombre]);
             else
                 $response = response()->json(['error' => 'No se ha podido completar la operación']);
         } catch (ErrorException $e) {

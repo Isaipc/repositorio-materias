@@ -140,7 +140,7 @@ class MateriaController extends Controller
             $r = $materia->save();
 
             if ($r)
-                $response = response()->json(['success' => 'Eliminado correctamente']);
+                $response = response()->json(['success' => 'Se ha eliminado ' . $materia->nombre]);
             else
                 $response = response()->json(['error' => 'No se ha podido completar la operación']);
         } catch (ErrorException $e) {
@@ -185,7 +185,7 @@ class MateriaController extends Controller
             $materia->estatus =  $request->estatus == "false" ? 2 : 1;
             $r = $materia->save();
             if ($r)
-                $response = response()->json(['success' => 'Se cambió el estatus de ' . $materia->nombre . ' a: ' . $materia->getEstatusName()]);
+                $response = response()->json(['success' => 'Se ha ' . $materia->getEstatusName() . ' ' . $materia->nombre]);
             else
                 $response = response()->json(['error' => 'No se ha podido completar la operación']);
         } catch (ErrorException $e) {
