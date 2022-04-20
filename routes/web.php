@@ -58,7 +58,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('usuarios/{user}', 'UsuarioController@show')->name('usuarios.show');
     Route::get('usuarios/{user}/editar', 'UsuarioController@edit')->name('usuarios.edit');
     Route::put('usuarios/{user}', 'UsuarioController@update')->name('usuarios.update');
-    Route::delete('usuarios/{user}', 'UsuarioController@destroy')->name('usuarios.destroy');
+    Route::delete('usuarios/{id}', 'UsuarioController@destroy')->name('usuarios.destroy');
 
     Route::get('materias', 'MateriaController@index')->name('materias.index');
     Route::get('materias/list', 'MateriaController@list')->name('materias.list');

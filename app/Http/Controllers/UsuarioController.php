@@ -6,6 +6,7 @@ use App\User;
 use Carbon\Carbon;
 use Spatie\Permission\Models\Role;
 use App\Http\Controllers\Controller;
+use ErrorException;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -49,7 +50,6 @@ class UsuarioController extends Controller
         $user->estatus = 1;
         $user->save();
 
-        alert()->success('Completado', 'Elemento restaurado');
 
         return redirect()->route('usuarios.index');
     }
@@ -79,16 +79,13 @@ class UsuarioController extends Controller
 
         $item = new User;
         $item->fill([
-            'name' => $request['name'],
+            'nombre' => $request['name'],
             'username' => $request['username'],
             'email' => $request['email'],
             'password' => Hash::make($request['password']),
         ])->save();
 
-        $item->syncRoles($request->roles);
-
-        alert()->success('Completado', 'Guardado correctamente');
-
+        $item->assignRole('Alumno');
         return redirect()->route('usuarios.index');
     }
 
@@ -132,16 +129,13 @@ class UsuarioController extends Controller
     {
         $item = $user;
         $item->fill([
-            'name' => $request['name'],
+            'nombre' => $request['name'],
             'username' => $request['username'],
             'email' => $request['email'],
         ])->save();
 
 
-        $item->syncRoles($request->roles);
-
-        alert()->success('Completado', 'Guardado correctamente');
-
+        $item->assignRole('Alumno');
         return redirect()->route('usuarios.index');
     }
 
@@ -151,14 +145,21 @@ class UsuarioController extends Controller
      * @param  \App\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function destroy(User $user)
+    public function destroy(Request $request)
     {
-        $user->estatus = 0;
-        $user->save();
+        try {
+            $user = User::find($request->id);
+            $user->estatus = 0;
+            $r = $user->save();
 
-        alert()->success('Completado', 'Eliminado correctamente');
-
-        return redirect()->route('usuarios.index');
+            if ($r)
+                $response = response()->json(['success' => 'Eliminado correctamente']);
+            else
+                $response = response()->json(['error' => 'No se ha podido completar la operación']);
+        } catch (ErrorException $e) {
+            $response = response()->json(['error' => 'No se ha podido completar la operacion: ' . $e->getMessage()], 404);
+        }
+        return $response;
     }
 
     public function editPassword(User $user)
@@ -176,7 +177,6 @@ class UsuarioController extends Controller
         $user->password = Hash::make($request['password']);
         $user->save();
 
-        alert()->success('Completado', 'Contraseña restablecida');
 
         return redirect()->route('usuarios.index');
     }
@@ -194,18 +194,17 @@ class UsuarioController extends Controller
             'username' => ['required', 'string', 'max:50'],
             // 'email' => ['string', 'email', 'max:50', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
-            'roles' => ['required'],
         ]);
     }
 
     public function actives()
     {
-        return User::where('estatus', '!=', 0)->orderBy('name', 'ASC')->get();
+        return User::where('estatus', '!=', 0)->orderBy('nombre', 'ASC')->get();
     }
 
     public function deleted()
     {
 
-        return User::where('estatus', 0)->orderBy('name', 'ASC')->get();
+        return User::where('estatus', 0)->orderBy('nombre', 'ASC')->get();
     }
 }
