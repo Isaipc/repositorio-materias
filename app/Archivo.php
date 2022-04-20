@@ -16,6 +16,13 @@ class Archivo extends Common
         'materia_id',
     ];
 
+     /**
+     * All of the relationships to be touched.
+     *
+     * @var array
+     */
+    protected $touches = ['materia'];
+
     /**
      * Get the user that owns the archivo
      *
