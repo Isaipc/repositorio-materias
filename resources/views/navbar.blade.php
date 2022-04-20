@@ -69,10 +69,9 @@
                 <li class="nav-item dropdown">
                     <a id="navbarDropdown" class="btn btn-primary dropdown-toggle" href="#" role="button"
                         data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-
+                        <i class="bi bi-person-circle"></i>
                         {{ Auth::user()->nombre }}
                         <span class="caret"></span>
-                        <i class="bi bi-person-circle"></i>
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
 
