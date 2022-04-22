@@ -16,7 +16,6 @@
 </span>
 @endsection
 
-@if ($rows->count() > 0)
 <table class="table table-hover table-responsive-sm datatable mt-2">
     <thead>
         <tr>
@@ -77,4 +76,3 @@
         @endforeach
     </tbody>
 </table>
-@endif
