@@ -2,10 +2,9 @@
 
 @section('breadcrumbs', Breadcrumbs::render('materias.create'))
 
-@section('title', 'Nueva materia')
-
-@section('content')
-<form action="{{ route('materias.store') }} " method="POST" enctype="multipart/form-data">
+@section('primary-title',__('Nueva materia'))
+@section('primary-content')
+<form action="{{ route('materias.store') }} " method="POST">
     @csrf
     <div class="form-group row">
         <div class="col-md-4">
@@ -25,6 +24,7 @@
     <button type="submit" class="btn btn-md btn-primary">Guardar</button>
     <a href="{{ route('materias.index') }} " class="btn btn-md btn-light">Cancelar</a>
 </form>
+
 @endsection
 
 @section('secondary-content')
