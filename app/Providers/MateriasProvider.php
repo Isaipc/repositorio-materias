@@ -25,7 +25,7 @@ class MateriasProvider extends ServiceProvider
     public function boot()
     {
 
-        view()->composer('*', function ($view) {
+        view()->composer('materias.*', function ($view) {
             $view->with('archived', Materia::archived()->get())
                 ->with('rows', Materia::actives()->get());
         });
