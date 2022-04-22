@@ -53,7 +53,7 @@ class MateriaController extends Controller
 
         // alert()->success('Completado', 'Elemento restaurado');
 
-        return redirect()->route('materias.index');
+        return redirect()->route('materias.trash');
     }
 
     /**
