@@ -47,8 +47,8 @@ $(function ($) {
     });
 
     $('.change-status').on('change', (e) => {
-        const ITEM_ID = e.currentTarget.getAttribute('data-id');
-        const ITEM_URL = e.currentTarget.getAttribute('data-url');
+        const ITEM_ID = e.currentTarget.dataset.id;
+        const ITEM_URL = e.currentTarget.dataset.url;
         const ITEM_STATUS = e.currentTarget.checked;
 
         $.ajax({
@@ -72,12 +72,10 @@ $(function ($) {
 
     $('.delete-usuario, .delete-materia, .delete-archivo').on('click', (e) => {
 
-        const ITEM_ID = e.currentTarget.getAttribute('data-id');
-        const ITEM_URL = e.currentTarget.getAttribute('data-url');
-        const ITEM_NAME = e.currentTarget.getAttribute('data-name');
+        const ITEM_ID = e.currentTarget.dataset.id;
+        const ITEM_URL = e.currentTarget.dataset.url;
+        const ITEM_NAME = e.currentTarget.dataset.name;
 
-        confirmDialog = document.getElementById('confirmDialog');
-        modal = bootstrap.Modal.getOrCreateInstance(confirmDialog);
         modal.show();
 
         var title = confirmDialog.querySelector('.modal-title');
@@ -86,18 +84,16 @@ $(function ($) {
         msg.textContent = '¿Estas seguro que desea eliminar "' + ITEM_NAME + '"?'
 
         confirmBtn = document.getElementById('confirmBtn');
-        confirmBtn.setAttribute('data-id', ITEM_ID);
-        confirmBtn.setAttribute('data-url', ITEM_URL);
+        confirmBtn.dataset.id = ITEM_ID;
+        confirmBtn.dataset.url = ITEM_URL;
     });
 
 
     $('#confirmBtn').on('click', (e) => {
-        confirmDialog = document.getElementById('confirmDialog');
-        modal = bootstrap.Modal.getOrCreateInstance(confirmDialog);
         modal.hide();
 
-        const ITEM_ID = e.currentTarget.getAttribute('data-id');
-        const ITEM_URL = e.currentTarget.getAttribute('data-url');
+        const ITEM_ID = e.currentTarget.dataset.id;
+        const ITEM_URL = e.currentTarget.dataset.url;
 
         $.ajax({
             type: 'DELETE',

@@ -5417,8 +5417,8 @@ $(function ($) {
     }
   });
   $('.change-status').on('change', function (e) {
-    var ITEM_ID = e.currentTarget.getAttribute('data-id');
-    var ITEM_URL = e.currentTarget.getAttribute('data-url');
+    var ITEM_ID = e.currentTarget.dataset.id;
+    var ITEM_URL = e.currentTarget.dataset.url;
     var ITEM_STATUS = e.currentTarget.checked;
     $.ajax({
       type: 'PUT',
@@ -5440,26 +5440,22 @@ $(function ($) {
     });
   });
   $('.delete-usuario, .delete-materia, .delete-archivo').on('click', function (e) {
-    var ITEM_ID = e.currentTarget.getAttribute('data-id');
-    var ITEM_URL = e.currentTarget.getAttribute('data-url');
-    var ITEM_NAME = e.currentTarget.getAttribute('data-name');
-    confirmDialog = document.getElementById('confirmDialog');
-    modal = bootstrap.Modal.getOrCreateInstance(confirmDialog);
+    var ITEM_ID = e.currentTarget.dataset.id;
+    var ITEM_URL = e.currentTarget.dataset.url;
+    var ITEM_NAME = e.currentTarget.dataset.name;
     modal.show();
     var title = confirmDialog.querySelector('.modal-title');
     var msg = confirmDialog.querySelector('.modal-msg');
     title.textContent = 'Eliminar';
     msg.textContent = '¿Estas seguro que desea eliminar "' + ITEM_NAME + '"?';
     confirmBtn = document.getElementById('confirmBtn');
-    confirmBtn.setAttribute('data-id', ITEM_ID);
-    confirmBtn.setAttribute('data-url', ITEM_URL);
+    confirmBtn.dataset.id = ITEM_ID;
+    confirmBtn.dataset.url = ITEM_URL;
   });
   $('#confirmBtn').on('click', function (e) {
-    confirmDialog = document.getElementById('confirmDialog');
-    modal = bootstrap.Modal.getOrCreateInstance(confirmDialog);
     modal.hide();
-    var ITEM_ID = e.currentTarget.getAttribute('data-id');
-    var ITEM_URL = e.currentTarget.getAttribute('data-url');
+    var ITEM_ID = e.currentTarget.dataset.id;
+    var ITEM_URL = e.currentTarget.dataset.url;
     $.ajax({
       type: 'DELETE',
       url: ITEM_URL + '/' + ITEM_ID,
@@ -5501,8 +5497,12 @@ function showToast(msg, type) {
   var toast = new bootstrap.Toast(toastElement);
   toast.show();
 } // INIT BOOTSTRAP COMPONENTS
-// initialize all toast 
 
+
+var confirmDialog = document.getElementById('confirmDialog');
+var modal = new bootstrap.Modal(confirmDialog, {
+  keyboard: true
+}); // initialize all toast 
 
 var option = [];
 var toastElementList = [].slice.call(document.querySelectorAll('.toast'));
