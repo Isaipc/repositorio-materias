@@ -21,10 +21,7 @@ class UsuarioController extends Controller
      */
     public function index()
     {
-        return view('usuarios.index', [
-            'rows' => $this->actives(),
-            'deleted' => $this->deleted()->count()
-        ]);
+        return view('usuarios.index');
     }
 
     /**
@@ -34,9 +31,7 @@ class UsuarioController extends Controller
      */
     public function trash()
     {
-        return view('usuarios.trash', [
-            'rows' => $this->deleted(),
-        ]);
+        return view('usuarios.trash');
     }
 
     /**
@@ -51,7 +46,7 @@ class UsuarioController extends Controller
         $user->save();
 
 
-        return redirect()->route('usuarios.index');
+        return redirect()->route('usuarios.trash');
     }
 
     /**
@@ -62,7 +57,6 @@ class UsuarioController extends Controller
     public function new()
     {
         return view('usuarios.create', [
-            'rows' => $this->actives(),
             'roles' => Role::all(),
         ]);
     }
@@ -98,7 +92,6 @@ class UsuarioController extends Controller
     public function show(User $user)
     {
         return view('usuarios.show', [
-            'rows' => $this->actives(),
             'item' => $user
         ]);
     }
@@ -112,7 +105,6 @@ class UsuarioController extends Controller
     public function edit(User $user)
     {
         return view('usuarios.edit', [
-            'rows' => $this->actives(),
             'item' => $user,
             'roles' => Role::all(),
         ]);
