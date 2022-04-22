@@ -2,12 +2,15 @@
 
 namespace App;
 
+use Facade\FlareClient\Stacktrace\File;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Facades\Storage;
 
-class Archivo extends Common
+class Archivo extends Model
 {
+    use Common;
+    
     protected $table = 'archivos';
     protected $fillable = [
         'nombre',
@@ -16,7 +19,7 @@ class Archivo extends Common
         'materia_id',
     ];
 
-     /**
+    /**
      * All of the relationships to be touched.
      *
      * @var array
@@ -33,19 +36,8 @@ class Archivo extends Common
         return $this->belongsTo(Materia::class);
     }
 
-
-    public static function store($doc)
+    public function getUrlAttribute($value)
     {
-        $ext = $doc->extension();
-        $docName = time() . '.' . $ext;
-
-        $path = $doc->storeAs('/public', $docName);
-        $url = Storage::url($docName);
-        return $url;
-    }
-
-    public static function destroy($url)
-    {
-        Storage::delete([$url]);
+        return Storage::url($value);
     }
 }

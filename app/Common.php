@@ -5,14 +5,8 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
 
-class Common extends Model
+trait Common 
 {
-
-    public function alias()
-    {
-        return $this->nombre;
-    }
-
     public function isArchived()
     {
         return $this->estatus == 0;

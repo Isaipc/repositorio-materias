@@ -6,8 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Materia extends Common
+class Materia extends Model 
 {
+    use Common; 
+
     protected $table = 'materias';
     protected $fillable = [
         'nombre',
