@@ -17,10 +17,7 @@ class MateriaController extends Controller
      */
     public function index()
     {
-        return view('materias.index', [
-            'rows' => Materia::actives()->get(),
-            'deleted' => Materia::archived()->get()->count()
-        ]);
+        return view('materias.index', [ ]);
     }
 
     /**
@@ -40,9 +37,7 @@ class MateriaController extends Controller
      */
     public function trash()
     {
-        return view('materias.trash', [
-            'rows' => Materia::archived()->get(),
-        ]);
+        return view('materias.trash', [ ]);
     }
 
     /**
@@ -68,9 +63,7 @@ class MateriaController extends Controller
      */
     public function create()
     {
-        return view('materias.create', [
-            'rows' => Materia::actives()->get(),
-        ]);
+        return view('materias.create', [ ]);
     }
 
     /**
@@ -94,7 +87,6 @@ class MateriaController extends Controller
     public function show(Materia $materia)
     {
         return view('materias.show', [
-            'rows' => Materia::actives()->get(),
             'item' => $materia
         ]);
     }
@@ -108,7 +100,6 @@ class MateriaController extends Controller
     public function edit(Materia $materia)
     {
         return view('materias.edit', [
-            'rows' => Materia::actives()->get(),
             'item' => $materia,
         ]);
     }
