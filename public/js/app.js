@@ -5392,7 +5392,7 @@ var TOAST_SUCCESS_TYPE = 0;
 var today = new Date();
 $(function ($) {
   // DataTables SETUP
-  $('#datatable').DataTable({
+  $('.datatable').DataTable({
     paginate: true,
     language: {
       emptyTable: "No hay datos disponibles",
