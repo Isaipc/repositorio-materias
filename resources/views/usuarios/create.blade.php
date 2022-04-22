@@ -2,9 +2,9 @@
 
 @section('breadcrumbs', Breadcrumbs::render('usuarios.create'))
 
-@section('title', 'Nuevo usuario')
+@section('primary-title', 'Nuevo usuario')
 
-@section('content')
+@section('primary-content')
 <form method="POST" action="{{ route('usuarios.store') }}">
     @csrf
 

@@ -2,9 +2,9 @@
 
 @section('breadcrumbs', Breadcrumbs::render('usuarios.show', $item))
 
-@section('title', $item->nombre)
+@section('primary-title', $item->nombre)
 
-@section('content')
+@section('primary-content')
 <div class="row">
     <div class="col-md-8">
         <table class="table table-borderless table-responsive">
@@ -15,7 +15,7 @@
                 </tr>
                 <tr>
                     <th class="text-end">Estatus</th>
-                    <td> {{ $item->estatus ? 'Activo' : 'Inactivo'}} </td>
+                    <td> {{ $item->getEstatusName() }} </td>
                 </tr>
                 <tr>
                     <th class="text-end">Creado</th>
