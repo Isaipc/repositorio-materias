@@ -144,6 +144,10 @@ function showToast(msg, type) {
 }
 
 // INIT BOOTSTRAP COMPONENTS
+var confirmDialog = document.getElementById('confirmDialog');
+var modal = new bootstrap.Modal(confirmDialog, {
+    keyboard: true
+});
 
 // initialize all toast 
 const option = [];
