@@ -2,7 +2,10 @@
 
 @section('breadcrumbs', Breadcrumbs::render('materias.edit', $item))
 
-@section('primary-title',__('Editar materia'))
+@section('primary-title')
+<i class="bi bi-pencil-square"></i>
+{{ __('Editar materia') }}
+@endsection
 
 @section('primary-content')
 <form action="{{ route('materias.update', $item) }} " method="POST" enctype="multipart/form-data">

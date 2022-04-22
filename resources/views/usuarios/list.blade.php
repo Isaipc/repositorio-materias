@@ -1,4 +1,5 @@
 @section('secondary-title')
+<i class="bi bi-people-fill"></i>
 {{ __('Usuarios del sistema') }}
 <span class="float-end">
     <a href="{{ route('usuarios.create') }}" class="btn btn-md btn-primary" data-bs-toggle="tooltip"

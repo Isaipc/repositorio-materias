@@ -2,7 +2,12 @@
 
 @section('breadcrumbs', Breadcrumbs::render('materias.trash'))
 
-@section('primary-title',__('Materias eliminadas'))
+@section('primary-title')
+<i class="bi bi-trash-fill"></i>
+{{ __('Materias eliminadas') }}
+@endsection
+
+
 
 @section('primary-content')
 <table class="table table-hover datatable table-responsive-sm mt-2">

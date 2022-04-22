@@ -2,7 +2,10 @@
 
 @section('breadcrumbs', Breadcrumbs::render('usuarios.create'))
 
-@section('primary-title', 'Nuevo usuario')
+@section('primary-title')
+<i class="bi bi-person-plus-fill"></i>
+{{__('Nuevo usuario')}}
+@endsection
 
 @section('primary-content')
 <form method="POST" action="{{ route('usuarios.store') }}">
@@ -90,7 +93,7 @@
                 autocomplete="new-password">
         </div>
     </div>
-    
+
     <div class="form-group row mb-0">
         <div class="col-md-6 offset-md-4">
             <button type="submit" class="btn btn-primary">

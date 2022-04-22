@@ -2,7 +2,10 @@
 
 @section('breadcrumbs', Breadcrumbs::render('usuarios.edit', $item))
 
-@section('primary-title', 'Editar usuario')
+@section('primary-title')
+<i class="bi bi-person-check-fill"></i>
+{{__('Editar usuario')}}
+@endsection
 
 @section('primary-content')
 <form action="{{ route('usuarios.update', $item) }} " method="POST">

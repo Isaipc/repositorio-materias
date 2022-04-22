@@ -2,9 +2,14 @@
 
 @section('breadcrumbs', Breadcrumbs::render('usuarios.index'))
 
-@section('primary-title', __('Usuarios'))
+@section('primary-title')
+<i class="bi bi-people-fill"></i>
+{{__('Usuarios')}}
+@endsection
+
+
 @section('primary-content')
-    
+
 @endsection
 
 @section('secondary-content')

@@ -2,7 +2,11 @@
 
 @section('breadcrumbs', Breadcrumbs::render('materias.create'))
 
-@section('primary-title',__('Nueva materia'))
+@section('primary-title')
+<i class="bi bi-plus-square-fill"></i>
+{{ __('Nueva materia') }}
+@endsection
+
 @section('primary-content')
 <form action="{{ route('materias.store') }} " method="POST">
     @csrf

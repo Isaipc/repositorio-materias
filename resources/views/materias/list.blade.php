@@ -1,4 +1,5 @@
 @section('secondary-title')
+<i class="bi bi-collection-fill"></i>
 {{ __('Materias') }}
 <span class="float-end">
     <a href="{{ route('materias.create') }}" class="btn btn-md btn-primary" data-bs-toggle="tooltip"

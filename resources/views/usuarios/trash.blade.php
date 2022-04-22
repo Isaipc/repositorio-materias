@@ -2,7 +2,10 @@
 
 @section('breadcrumbs', Breadcrumbs::render('usuarios.trash'))
 
-@section('primary-title', 'Alumnos eliminados')
+@section('primary-title')
+<i class="bi bi-person-x-fill"></i>
+{{__('Usuarios eliminados')}}
+@endsection
 
 @section('primary-content')
 <table class="table table-hover datatable table-responsive-sm mt-2">
