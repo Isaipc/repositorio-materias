@@ -24,30 +24,6 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/inicio', 'HomeController@index')->name('home');
     Route::get('/', 'HomeController@index');
 
-    Route::get('roles', 'RoleController@index')->name('roles.index');
-    Route::get('roles/eliminados', 'RoleController@trash')->name('roles.trash');
-    Route::get('roles/nuevo', 'RoleController@create')->name('roles.create');
-    Route::get('roles/eliminados', 'RoleController@trash')->name('roles.trash');
-    Route::put('roles/{role}/restaurar', 'RoleController@restore')->name('roles.restore');
-    Route::get('roles/nuevo', 'RoleController@create')->name('roles.create');
-    Route::post('roles', 'RoleController@store')->name('roles.store');
-    Route::get('roles/{role}', 'RoleController@show')->name('roles.show');
-    Route::get('roles/{role}/editar', 'RoleController@edit')->name('roles.edit');
-    Route::put('roles/{role}', 'RoleController@update')->name('roles.update');
-    Route::delete('roles/{role}', 'RoleController@destroy')->name('roles.destroy');
-
-    Route::get('permisos', 'PermissionController@index')->name('permisos.index');
-    Route::get('permisos/eliminados', 'PermissionController@trash')->name('permisos.trash');
-    Route::get('permisos/nuevo', 'PermissionController@create')->name('permisos.create');
-    Route::get('permisos/eliminados', 'PermissionController@trash')->name('permisos.trash');
-    Route::put('permisos/{permiso}/restaurar', 'PermissionController@restore')->name('permisos.restore');
-    Route::get('permisos/nuevo', 'PermissionController@create')->name('permisos.create');
-    Route::post('permisos', 'PermissionController@store')->name('permisos.store');
-    Route::get('permisos/{permiso}', 'PermissionController@show')->name('permisos.show');
-    Route::get('permisos/{permiso}/editar', 'PermissionController@edit')->name('permisos.edit');
-    Route::put('permisos/{permiso}', 'PermissionController@update')->name('permisos.update');
-    Route::delete('permisos/{permiso}', 'PermissionController@destroy')->name('permisos.destroy');
-
     Route::get('usuarios', 'UsuarioController@index')->name('usuarios.index');
     Route::get('usuarios/eliminados', 'UsuarioController@trash')->name('usuarios.trash');
     Route::put('usuarios/{user}/restaurar', 'UsuarioController@restore')->name('usuarios.restore');
