@@ -16,7 +16,7 @@ class TestUserSeeder extends Seeder
 
         $user = new User;
         $user->fill([
-            'name' => 'Administrador',
+            'nombre' => 'Administrador',
             'username' => 'admin',
             'email' => 'admin@mail.com',
             'password' => bcrypt('1Q2w3e4r5T'),
@@ -25,7 +25,7 @@ class TestUserSeeder extends Seeder
 
         $user = new User;
         $user->fill([
-            'name' => 'Gustavo Eslava',
+            'nombre' => 'Gustavo Eslava',
             'username' => 'gustavo01',
             'email' => 'gustavo.eslava@itssat.edu.mx',
             'password' => bcrypt('12345678'),
@@ -37,7 +37,7 @@ class TestUserSeeder extends Seeder
 
         $user = new User;
         $user->fill([
-            'name' => 'Hector David Ortiz Mateo',
+            'nombre' => 'Hector David Ortiz Mateo',
             'username' => 'hector_ortiz',
             'email' => 'hector.ortiz@itssat.edu.mx',
             'password' => bcrypt('12345678'),
@@ -50,7 +50,7 @@ class TestUserSeeder extends Seeder
 
         $user = new User;
         $user->fill([
-            'name' => 'Alumno test',
+            'nombre' => 'Alumno test',
             'username' => 'test',
             'email' => 'alumno@itssat.edu.mx',
             'password' => bcrypt('12345678')
@@ -62,7 +62,7 @@ class TestUserSeeder extends Seeder
 
         $user = new User;
         $user->fill([
-            'name' => 'Alumno test 2',
+            'nombre' => 'Alumno test 2',
             'username' => 'test2',
             'email' => 'alumno2@itssat.edu.mx',
             'password' => bcrypt('12345678')
