@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Storage;
 class Archivo extends Model
 {
     use Common;
-    
+
     protected $table = 'archivos';
     protected $fillable = [
         'nombre',
@@ -20,21 +20,11 @@ class Archivo extends Model
     ];
 
     /**
-     * All of the relationships to be touched.
+     * all of the relationships to be touched.
      *
      * @var array
      */
-    protected $touches = ['materia'];
-
-    /**
-     * Get the user that owns the archivo
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function materia(): BelongsTo
-    {
-        return $this->belongsTo(Materia::class);
-    }
+    protected $touches = ['unidad'];
 
     public function getUrlAttribute($value)
     {

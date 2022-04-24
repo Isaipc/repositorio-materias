@@ -23,9 +23,9 @@ class Materia extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function archivos(): HasMany
+    public function unidades(): HasMany
     {
-        return $this->hasMany(Archivo::class, 'materia_id', 'id');
+        return $this->hasMany(Unidad::class, 'materia_id', 'id');
     }
 
     /**
