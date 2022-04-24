@@ -67,7 +67,7 @@
                 @endif
                 @else
                 <li class="nav-item dropdown">
-                    <a id="navbarDropdown" class="btn btn-primary dropdown-toggle" href="#" role="button"
+                    <a id="navbarDropdown" class="btn btn-primary dropdown-toggle text-uppercase" href="#" role="button"
                         data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                         <i class="bi bi-person-circle"></i>
                         {{ Auth::user()->nombre }}
