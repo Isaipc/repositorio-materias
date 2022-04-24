@@ -17,7 +17,7 @@ class MateriaController extends Controller
      */
     public function index()
     {
-        return view('materias.index', [ ]);
+        return view('materias.index', []);
     }
 
     /**
@@ -37,7 +37,7 @@ class MateriaController extends Controller
      */
     public function trash()
     {
-        return view('materias.trash', [ ]);
+        return view('materias.trash', []);
     }
 
     /**
@@ -48,13 +48,18 @@ class MateriaController extends Controller
      */
     public function restore(Materia $materia)
     {
-        // dd($materia);
-        $materia->estatus = 2;
-        $materia->save();
+        try {
+            $materia->estatus = 2;
+            $r = $materia->save();
 
-        // alert()->success('Completado', 'Elemento restaurado');
-
-        return redirect()->route('materias.trash');
+            if ($r)
+                $response = response()->json(['success' => 'Se ha restaurado' . $materia->nombre]);
+            else
+                $response = response()->json(['error' => 'No se ha podido completar la operación']);
+        } catch (ErrorException $e) {
+            $response = response()->json(['error' => 'No se ha podido completar la operacion: ' . $e->getMessage()], 404);
+        }
+        return $response;
     }
 
     /**
@@ -64,7 +69,7 @@ class MateriaController extends Controller
      */
     public function create()
     {
-        return view('materias.create', [ ]);
+        return view('materias.create', []);
     }
 
     /**
@@ -75,8 +80,7 @@ class MateriaController extends Controller
      */
     public function store(Request $request)
     {
-        $this->save(new Materia, $request);
-        return redirect()->route('materias.create');
+        return $this->save(new Materia, $request);
     }
 
     /**
@@ -114,8 +118,7 @@ class MateriaController extends Controller
      */
     public function update(Request $request, Materia $materia)
     {
-        $this->save($materia, $request);
-        return redirect()->route('materias.index');
+        return $this->save($materia, $request);
     }
 
     /**
@@ -150,6 +153,9 @@ class MateriaController extends Controller
         $materia->descripcion = $request->descripcion;
         $materia->estatus =  isset($request->estatus) ? 1 : 2;
         $materia->save();
+
+        $response = response()->json(['success' => 'Se guardado ' . $materia->nombre]);
+        return $response;
     }
 
     /**
