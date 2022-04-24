@@ -5393,6 +5393,7 @@ var today = new Date();
 $(function ($) {
   // DataTables SETUP
   $('.datatable').DataTable({
+    satateSave: true,
     paginate: true,
     language: {
       emptyTable: "No hay datos disponibles",
@@ -5481,14 +5482,14 @@ function showToast(msg, type) {
 
   switch (type) {
     case 0:
-      toastElementHeader.classList.remove('bg-error');
+      toastElementHeader.classList.remove('bg-danger');
       toastElementHeader.classList.add('bg-success');
       toastElementTitle.textContent = 'Completado';
       break;
 
     case 1:
       toastElementHeader.classList.remove('bg-success');
-      toastElementHeader.classList.add('bg-error');
+      toastElementHeader.classList.add('bg-danger');
       toastElementTitle.textContent = 'Error';
       break;
   }

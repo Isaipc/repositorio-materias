@@ -21,6 +21,7 @@ $(function ($) {
 
     // DataTables SETUP
     $('.datatable').DataTable({
+        satateSave: true,
         paginate: true,
         language: {
             emptyTable: "No hay datos disponibles",
