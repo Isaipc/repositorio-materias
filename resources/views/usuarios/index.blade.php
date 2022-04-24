@@ -3,8 +3,8 @@
 @section('breadcrumbs', Breadcrumbs::render('usuarios.index'))
 
 @section('primary-title')
-<i class="bi bi-people-fill"></i>
-{{__('Usuarios')}}
+    <i class="bi bi-people-fill"></i>
+    {{ __('Usuarios') }}
 @endsection
 
 
@@ -13,5 +13,5 @@
 @endsection
 
 @section('secondary-content')
-@include('usuarios.list')
+    @include('usuarios.list')
 @endsection
