@@ -5,6 +5,7 @@ namespace App\Providers;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Blade;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -27,5 +28,13 @@ class AppServiceProvider extends ServiceProvider
     {
         Carbon::setLocale(config('app.locale'));
         Schema::defaultStringLength(125);
+
+        /* 
+        * view components
+        */
+        Blade::component('components.datatable', 'datatable');
+        Blade::component('components.datatable-actions', 'dtactions');
+        Blade::component('components.datatable-link', 'dtlink');
+        Blade::component('components.status-switch', 'statusswitch');
     }
 }
