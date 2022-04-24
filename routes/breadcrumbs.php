@@ -43,12 +43,10 @@ Breadcrumbs::macro('resource', function ($parent, $name, $title) {
 
 Breadcrumbs::resource('home', 'usuarios', 'Usuarios');
 Breadcrumbs::resource('home', 'materias', 'Materias');
-Breadcrumbs::resource('home', 'roles', 'Roles');
-Breadcrumbs::resource('home', 'permisos', 'Permisos');
 
 Breadcrumbs::for("archivos.index", function ($trail, $model) {
     $trail->parent('materias.show', $model);
-    $trail->push('Archivos', route('archivos.index', $model));
+    $trail->push('Contenido', route('archivos.index', $model));
 });
 
 Breadcrumbs::for("archivos.create", function ($trail, $model) {
