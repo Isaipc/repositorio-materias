@@ -123,13 +123,13 @@ function showToast(msg, type) {
     var toastElementBody = toastElement.querySelector('.toast-body');
     switch (type) {
         case 0:
-            toastElementHeader.classList.remove('bg-error');
+            toastElementHeader.classList.remove('bg-danger');
             toastElementHeader.classList.add('bg-success');
             toastElementTitle.textContent = 'Completado';
             break;
         case 1:
             toastElementHeader.classList.remove('bg-success');
-            toastElementHeader.classList.add('bg-error');
+            toastElementHeader.classList.add('bg-danger');
             toastElementTitle.textContent = 'Error';
             break;
     }
