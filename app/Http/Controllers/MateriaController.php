@@ -48,6 +48,7 @@ class MateriaController extends Controller
      */
     public function restore(Materia $materia)
     {
+        // dd($materia);
         $materia->estatus = 2;
         $materia->save();
 
@@ -123,10 +124,9 @@ class MateriaController extends Controller
      * @param  \App\Materia  $materia
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request)
+    public function destroy(Materia $materia)
     {
         try {
-            $materia = Materia::find($request->id);
             $materia->estatus = 0;
             $r = $materia->save();
 
@@ -150,11 +150,6 @@ class MateriaController extends Controller
         $materia->descripcion = $request->descripcion;
         $materia->estatus =  isset($request->estatus) ? 1 : 2;
         $materia->save();
-
-        Session::flash('success', "Success!");
-        // alert()->success('Completado', 'Guardado correctamente');
-        return Redirect::back();
-        // return $materia;
     }
 
     /**
@@ -164,15 +159,13 @@ class MateriaController extends Controller
      * @param  \App\Materia  $materia
      * @return \Illuminate\Http\Response
      */
-    public function changeStatus(Request $request)
+    public function changeStatus(Materia $materia, Request $request)
     {
         $validated = $request->validate([
-            'id' => 'required',
             'estatus' => 'required',
         ]);
 
         try {
-            $materia = Materia::find($request->id);
             $materia->estatus =  $request->estatus == "false" ? 2 : 1;
             $r = $materia->save();
             if ($r)
