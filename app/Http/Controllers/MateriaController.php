@@ -37,7 +37,17 @@ class MateriaController extends Controller
      */
     public function trash()
     {
-        return view('materias.trash', []);
+        return view('materias.trash');
+    }
+
+    /**
+     * display a listing of the resource.
+     *
+     * @return \illuminate\http\response
+     */
+    public function trashList()
+    {
+        return response()->json(['data' => Materia::archived()->get()]);
     }
 
     /**
@@ -53,7 +63,7 @@ class MateriaController extends Controller
             $r = $materia->save();
 
             if ($r)
-                $response = response()->json(['success' => 'Se ha restaurado' . $materia->nombre]);
+                $response = response()->json(['success' => 'Se ha restaurado ' . $materia->nombre]);
             else
                 $response = response()->json(['error' => 'No se ha podido completar la operación']);
         } catch (ErrorException $e) {
