@@ -70,7 +70,7 @@ $(function ($) {
                     renderHTML =
                         `<a href="/materias/${data.id}/editar" class="btn btn-sm btn-primary" data-bs-toggle="tooltip"
                         data-bs-placement="top" title="Editar">
-                        <i class="bi bi-pencil-square"></i>
+                        <i class="bi bi-pencil-fill"></i>
                     </a>
                     <button class="btn btn-sm btn-danger delete-item" data-bs-toggle="tooltip" data-url="materias"
                         data-bs-placement="top" title="Eliminar">
@@ -128,7 +128,7 @@ $(function ($) {
                     renderHTML =
                         `<button type="button" class="btn btn-sm btn-success restore-item" data-bs-toggle="tooltip"
                         data-url="materias" data-bs-placement="top" title="Restaurar">
-                        <i class="bi bi-upload"></i>
+                        <i class="bi bi-arrow-clockwise"></i>
                         </button>`;
                     return renderHTML;
                 }
@@ -172,7 +172,7 @@ $(function ($) {
                     renderHTML =
                         `<a href="/usuarios/${data.id}/editar" class="btn btn-sm btn-primary" data-bs-toggle="tooltip"
                         data-bs-placement="top" title="Editar">
-                        <i class="bi bi-pencil-square"></i>
+                        <i class="bi bi-pencil-fill"></i>
                     </a>
                     <button class="btn btn-sm btn-danger delete-item" data-bs-toggle="tooltip"
                         data-bs-placement="top" 
@@ -221,7 +221,7 @@ $(function ($) {
                     renderHTML =
                         `<button type="button" class="btn btn-sm btn-success restore-item" data-bs-toggle="tooltip"
                         data-url="usuarios" data-bs-placement="top" title="Restaurar">
-                        <i class="bi bi-upload"></i>
+                        <i class="bi bi-arrow-clockwise"></i>
                         </button>`;
                     return renderHTML;
                 }

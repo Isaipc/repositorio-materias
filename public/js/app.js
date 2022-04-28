@@ -5432,7 +5432,7 @@ $(function ($) {
     }, {
       targets: -1,
       render: function render(data, type, row, meta) {
-        renderHTML = "<a href=\"/materias/".concat(data.id, "/editar\" class=\"btn btn-sm btn-primary\" data-bs-toggle=\"tooltip\"\n                        data-bs-placement=\"top\" title=\"Editar\">\n                        <i class=\"bi bi-pencil-square\"></i>\n                    </a>\n                    <button class=\"btn btn-sm btn-danger delete-item\" data-bs-toggle=\"tooltip\" data-url=\"materias\"\n                        data-bs-placement=\"top\" title=\"Eliminar\">\n                        <i class=\"bi bi-trash-fill\"></i>\n                    </button>\n                    <a href=\"/materias/").concat(data.id, "/archivos\" class=\"btn btn-sm btn-light\" data-bs-toggle=\"tooltip\"\n                        data-bs-placement=\"top\" title=\"Mostrar contenido\">\n                        <i class=\"bi bi-file-earmark-fill\"></i>\n                        Contenido\n                    </a>");
+        renderHTML = "<a href=\"/materias/".concat(data.id, "/editar\" class=\"btn btn-sm btn-primary\" data-bs-toggle=\"tooltip\"\n                        data-bs-placement=\"top\" title=\"Editar\">\n                        <i class=\"bi bi-pencil-fill\"></i>\n                    </a>\n                    <button class=\"btn btn-sm btn-danger delete-item\" data-bs-toggle=\"tooltip\" data-url=\"materias\"\n                        data-bs-placement=\"top\" title=\"Eliminar\">\n                        <i class=\"bi bi-trash-fill\"></i>\n                    </button>\n                    <a href=\"/materias/").concat(data.id, "/archivos\" class=\"btn btn-sm btn-light\" data-bs-toggle=\"tooltip\"\n                        data-bs-placement=\"top\" title=\"Mostrar contenido\">\n                        <i class=\"bi bi-file-earmark-fill\"></i>\n                        Contenido\n                    </a>");
         return renderHTML;
       }
     }, {
@@ -5464,7 +5464,7 @@ $(function ($) {
     }, {
       targets: -1,
       render: function render(data, type, row, meta) {
-        renderHTML = "<button type=\"button\" class=\"btn btn-sm btn-success restore-item\" data-bs-toggle=\"tooltip\"\n                        data-url=\"materias\" data-bs-placement=\"top\" title=\"Restaurar\">\n                        <i class=\"bi bi-upload\"></i>\n                        </button>";
+        renderHTML = "<button type=\"button\" class=\"btn btn-sm btn-success restore-item\" data-bs-toggle=\"tooltip\"\n                        data-url=\"materias\" data-bs-placement=\"top\" title=\"Restaurar\">\n                        <i class=\"bi bi-arrow-clockwise\"></i>\n                        </button>";
         return renderHTML;
       }
     }]
@@ -5497,7 +5497,7 @@ $(function ($) {
     }, {
       targets: -1,
       render: function render(data, type, row, meta) {
-        renderHTML = "<a href=\"/usuarios/".concat(data.id, "/editar\" class=\"btn btn-sm btn-primary\" data-bs-toggle=\"tooltip\"\n                        data-bs-placement=\"top\" title=\"Editar\">\n                        <i class=\"bi bi-pencil-square\"></i>\n                    </a>\n                    <button class=\"btn btn-sm btn-danger delete-item\" data-bs-toggle=\"tooltip\"\n                        data-bs-placement=\"top\" \n                        data-url=\"usuarios\" data-type=\"DELETE\" title=\"Eliminar\">\n                        <i class=\"bi bi-trash-fill\"></i>\n                    </button>");
+        renderHTML = "<a href=\"/usuarios/".concat(data.id, "/editar\" class=\"btn btn-sm btn-primary\" data-bs-toggle=\"tooltip\"\n                        data-bs-placement=\"top\" title=\"Editar\">\n                        <i class=\"bi bi-pencil-fill\"></i>\n                    </a>\n                    <button class=\"btn btn-sm btn-danger delete-item\" data-bs-toggle=\"tooltip\"\n                        data-bs-placement=\"top\" \n                        data-url=\"usuarios\" data-type=\"DELETE\" title=\"Eliminar\">\n                        <i class=\"bi bi-trash-fill\"></i>\n                    </button>");
         return renderHTML;
       }
     }]
@@ -5530,7 +5530,7 @@ $(function ($) {
     }, {
       targets: -1,
       render: function render(data, type, row, meta) {
-        renderHTML = "<button type=\"button\" class=\"btn btn-sm btn-success restore-item\" data-bs-toggle=\"tooltip\"\n                        data-url=\"usuarios\" data-bs-placement=\"top\" title=\"Restaurar\">\n                        <i class=\"bi bi-upload\"></i>\n                        </button>";
+        renderHTML = "<button type=\"button\" class=\"btn btn-sm btn-success restore-item\" data-bs-toggle=\"tooltip\"\n                        data-url=\"usuarios\" data-bs-placement=\"top\" title=\"Restaurar\">\n                        <i class=\"bi bi-arrow-clockwise\"></i>\n                        </button>";
         return renderHTML;
       }
     }]
