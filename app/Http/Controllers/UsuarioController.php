@@ -25,6 +25,16 @@ class UsuarioController extends Controller
     }
 
     /**
+     * display a listing of the resource.
+     *
+     * @return \illuminate\http\response
+     */
+    public function list()
+    {
+        return response()->json(['data' => User::actives()->get()]);
+    }
+
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -35,18 +45,35 @@ class UsuarioController extends Controller
     }
 
     /**
+     * display a listing of the resource.
+     *
+     * @return \illuminate\http\response
+     */
+    public function trashList()
+    {
+        return response()->json(['data' => User::archived()->get()]);
+    }
+
+    /**
      * update the specified resource in storage.
      *
-     * @param  \app\User  $user
+     * @param  \app\Materia  $materia
      * @return \illuminate\http\response
      */
     public function restore(User $user)
     {
-        $user->estatus = 1;
-        $user->save();
+        try {
+            $user->estatus = 2;
+            $r = $user->save();
 
-
-        return redirect()->route('usuarios.trash');
+            if ($r)
+                $response = response()->json(['success' => 'Se ha restaurado ' . $user->nombre]);
+            else
+                $response = response()->json(['error' => 'No se ha podido completar la operación']);
+        } catch (ErrorException $e) {
+            $response = response()->json(['error' => 'No se ha podido completar la operacion: ' . $e->getMessage()], 404);
+        }
+        return $response;
     }
 
     /**
