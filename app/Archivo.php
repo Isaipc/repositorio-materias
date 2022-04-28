@@ -16,7 +16,6 @@ class Archivo extends Model
         'nombre',
         'url',
         'estatus',
-        'materia_id',
     ];
 
     /**
@@ -29,5 +28,15 @@ class Archivo extends Model
     public function getUrlAttribute($value)
     {
         return Storage::url($value);
+    }
+
+    /**
+     * Get the user that owns the archivo
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function unidad(): BelongsTo
+    {
+        return $this->belongsTo(Unidad::class);
     }
 }
