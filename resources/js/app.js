@@ -20,45 +20,330 @@ var today = new Date();
 $(function ($) {
 
     // DataTables SETUP
-    $('.datatable').DataTable({
-        satateSave: true,
+
+    let dtButtons = $.extend(true, [], $.fn.DataTable.defaults.buttons);
+    let dtLanguageOptions = {
+        emptyTable: "No hay datos disponibles",
+        zeroRecords: "No se encontraron resultados",
+        infoFiltered: "(filtrado de _MAX_ registros totales)",
+        infoEmpty: "Mostrando 0 registros",
+        search: 'Buscar',
+        info: "Mostrando pagina _PAGE_ de _PAGES_",
+        paginate: {
+            first: "Primero",
+            last: "Ultimo",
+            next: "Siguiente",
+            previous: "Anterior"
+        },
+        lengthMenu: "Mostrar _MENU_ filas",
+    };
+
+    let materiasDtOverrideGlobals = {
+        language: dtLanguageOptions,
         paginate: true,
-        language: {
-            emptyTable: "No hay datos disponibles",
-            zeroRecords: "No se encontraron resultados",
-            infoFiltered: "(filtrado de _MAX_ registros totales)",
-            infoEmpty: "Mostrando 0 registros",
-            search: 'Buscar',
-            info: "Mostrando pagina _PAGE_ de _PAGES_",
-            paginate: {
-                first: "Primero",
-                last: "Ultimo",
-                next: "Siguiente",
-                previous: "Anterior"
+        stateSave: true,
+        ajax: {
+            url: '/materias/list',
+            dataSrc: 'data',
+        },
+        columns: [
+            { data: null },
+            { data: null },
+            { data: null },
+        ],
+        columnDefs: [
+            {
+                targets: 0,
+                render: function (data, type, row, meta) {
+                    renderHTML =
+                        `<a href="/materias/${data.id}" class="btn btn-link" data-bs-toggle="tooltip"
+                          data-bs-placement="top" title="Mostrar detalles">
+                                <i class="bi bi-box-arrow-up-right"></i>
+                        </a>
+                        ${data.nombre}`
+                    return renderHTML;
+                }
             },
-            lengthMenu: "Mostrar _MENU_ filas",
-        }
+            {
+                targets: -1,
+                render: function (data, type, row, meta) {
+                    renderHTML =
+                        `<a href="/materias/${data.id}/editar" class="btn btn-sm btn-primary" data-bs-toggle="tooltip"
+                        data-bs-placement="top" title="Editar">
+                        <i class="bi bi-pencil-square"></i>
+                    </a>
+                    <button class="btn btn-sm btn-danger delete-item" data-bs-toggle="tooltip" data-url="materias"
+                        data-bs-placement="top" title="Eliminar">
+                        <i class="bi bi-trash-fill"></i>
+                    </button>
+                    <a href="/materias/${data.id}/archivos" class="btn btn-sm btn-light" data-bs-toggle="tooltip"
+                        data-bs-placement="top" title="Mostrar contenido">
+                        <i class="bi bi-file-earmark-fill"></i>
+                        Contenido
+                    </a>`;
+                    return renderHTML;
+                }
+            },
+            {
+                targets: 1,
+                render: function (data, type, row, meta) {
+                    return `<div class="form-check form-switch">
+                    <input class="form-check-input change-status" ${data.estatus == 1 ? 'checked' : ''} type="checkbox" role="switch"
+                    data-url="materias">
+                    </div>`;
+                }
+            }
+        ],
+
+    };
+
+    let materiasTrashDtOverrideGlobals = {
+        language: dtLanguageOptions,
+        paginate: true,
+        stateSave: true,
+        ajax: {
+            url: '/materias/trash/list',
+            dataSrc: 'data',
+        },
+        columns: [
+            { data: null },
+            { data: null },
+        ],
+        columnDefs: [
+            {
+                targets: 0,
+                render: function (data, type, row, meta) {
+                    renderHTML =
+                        `<a href="/materias/${data.id}" class="btn btn-link" data-bs-toggle="tooltip"
+                          data-bs-placement="top" title="Mostrar detalles">
+                                <i class="bi bi-box-arrow-up-right"></i>
+                        </a>
+                        ${data.nombre}`
+                    return renderHTML;
+                }
+            },
+            {
+                targets: -1,
+                render: function (data, type, row, meta) {
+                    renderHTML =
+                        `<button type="button" class="btn btn-sm btn-success restore-item" data-bs-toggle="tooltip"
+                        data-url="materias" data-bs-placement="top" title="Restaurar">
+                        <i class="bi bi-upload"></i>
+                        </button>`;
+                    return renderHTML;
+                }
+            },
+        ],
+
+    };
+
+    let usersDtOverrideGlobals = {
+        language: dtLanguageOptions,
+        paginate: true,
+        stateSave: true,
+        processing: true,
+        serverSide: true,
+        ajax: {
+            url: '/usuarios/list',
+            dataSrc: 'data',
+        },
+        columns: [
+            { data: null },
+            { data: 'email' },
+            { data: 'username' },
+            { data: null },
+        ],
+        columnDefs: [
+            {
+                targets: 0,
+                render: function (data, type, row, meta) {
+                    renderHTML =
+                        `<a href="/usuarios/${data.id}" class="btn btn-link" data-bs-toggle="tooltip"
+                          data-bs-placement="top" title="Mostrar detalles">
+                                <i class="bi bi-box-arrow-up-right"></i>
+                        </a>
+                        ${data.nombre}`
+                    return renderHTML;
+                }
+            },
+            {
+                targets: -1,
+                render: function (data, type, row, meta) {
+                    renderHTML =
+                        `<a href="/usuarios/${data.id}/editar" class="btn btn-sm btn-primary" data-bs-toggle="tooltip"
+                        data-bs-placement="top" title="Editar">
+                        <i class="bi bi-pencil-square"></i>
+                    </a>
+                    <button class="btn btn-sm btn-danger delete-item" data-bs-toggle="tooltip"
+                        data-bs-placement="top" 
+                        data-url="usuarios" data-type="DELETE" title="Eliminar">
+                        <i class="bi bi-trash-fill"></i>
+                    </button>`;
+                    return renderHTML;
+                }
+            },
+        ],
+
+    };
+
+    let usersTrashDtOverrideGlobals = {
+        language: dtLanguageOptions,
+        processing: true,
+        serverSide: true,
+        paginate: true,
+        stateSave: true,
+        ajax: {
+            url: '/usuarios/trash/list',
+            dataSrc: 'data',
+        },
+        columns: [
+            { data: null },
+            { data: 'email' },
+            { data: 'username' },
+            { data: null },
+        ],
+        columnDefs: [
+            {
+                targets: 0,
+                render: function (data, type, row, meta) {
+                    renderHTML =
+                        `<a href="/usuarios/${data.id}" class="btn btn-link" data-bs-toggle="tooltip"
+                          data-bs-placement="top" title="Mostrar detalles">
+                                <i class="bi bi-box-arrow-up-right"></i>
+                        </a>
+                        ${data.nombre}`
+                    return renderHTML;
+                }
+            },
+            {
+                targets: -1,
+                render: function (data, type, row, meta) {
+                    renderHTML =
+                        `<button type="button" class="btn btn-sm btn-success restore-item" data-bs-toggle="tooltip"
+                        data-url="usuarios" data-bs-placement="top" title="Restaurar">
+                        <i class="bi bi-upload"></i>
+                        </button>`;
+                    return renderHTML;
+                }
+            },
+        ],
+    };
+
+    var materiasDataTable = $('#materiasDT').DataTable(materiasDtOverrideGlobals);
+    var materiasTrashDataTable = $('#materiasTrashDT').DataTable(materiasTrashDtOverrideGlobals);
+    var usuariosDataTable = $('#usuariosDT').DataTable(usersDtOverrideGlobals);
+    var usuariosTrashDataTable = $('#usuariosTrashDT').DataTable(usersTrashDtOverrideGlobals);
+
+    var modalConfirmBtn = document.getElementById('confirmBtn');
+    var modalTitle = confirmDialog.querySelector('.modal-title');
+    var modalMsg = confirmDialog.querySelector('.modal-msg');
+
+    $('.datatable tbody').on('click', '.restore-item', function () {
+
+        const ITEM_URL = this.dataset.url;
+
+        if (ITEM_URL == 'materias')
+            data = materiasTrashDataTable.row($(this).parents('tr')).data();
+        else if (ITEM_URL == 'usuarios')
+            data = usuariosTrashDataTable.row($(this).parents('tr')).data();
+
+        modal.show();
+
+        modalTitle.textContent = 'Restaurar';
+        modalMsg.textContent = '¿Estas seguro que desea restaurar "' + data.nombre + '"?'
+
+        modalConfirmBtn.dataset.url = `/${ITEM_URL}/${data.id}/restaurar`;
+        modalConfirmBtn.dataset.type = 'PUT';
     });
 
-    // AJAX SETUP
-    $.ajaxSetup({
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf_token"]').attr('content')
-        }
+    $('.datatable tbody').on('click', '.delete-item', function () {
+
+        const ITEM_URL = this.dataset.url;
+
+        if (ITEM_URL == 'materias')
+            data = materiasDataTable.row($(this).parents('tr')).data();
+        else if (ITEM_URL == 'usuarios')
+            data = usuariosDataTable.row($(this).parents('tr')).data();
+
+
+        modal.show();
+
+        modalTitle.textContent = 'Eliminar';
+        modalMsg.textContent = '¿Estas seguro que desea eliminar "' + data.nombre + '"?'
+
+        modalConfirmBtn.dataset.url = `/${ITEM_URL}/${data.id}`;
+        modalConfirmBtn.dataset.type = 'DELETE'
     });
 
-    $('.change-status').on('change', (e) => {
-        const ITEM_ID = e.currentTarget.dataset.id;
+    $('#confirmBtn').on('click', (e) => {
+        modal.hide();
+
         const ITEM_URL = e.currentTarget.dataset.url;
-        const ITEM_STATUS = e.currentTarget.checked;
+        const ITEM_TYPE = e.currentTarget.dataset.type;
+
+        $.ajax({
+            type: ITEM_TYPE,
+            url: ITEM_URL,
+            headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+            success: (data) => {
+                showToast(data.success, TOAST_SUCCESS_TYPE);
+                materiasDataTable.ajax.reload();
+                materiasTrashDataTable.ajax.reload();
+                usuariosDataTable.ajax.reload();
+                usuariosTrashDataTable.ajax.reload();
+            },
+            error: (jqXHR, textStatus, errorThrown) => {
+                showToast(jqXHR.responseJSON.error, TOAST_ERROR_TYPE);
+            }
+        });
+    });
+
+    $('#materiaForm').on('submit', function (e) {
+
+        var form = $('#materiaForm');
+        var data = form.serialize();
+        var itemId = $('#itemId');
+
+        if (itemId.val() == 0) {
+            url = '/materias'
+            type = 'POST';
+        }
+        else {
+            url = `/materias/${itemId.val()}`
+            type = 'PUT';
+        }
+
+        $.ajax({
+            type: type,
+            headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+            url: url,
+            dataType: 'json',
+            data: data,
+            success: (data) => {
+                showToast(data.success, TOAST_SUCCESS_TYPE);
+                materiasDataTable.ajax.reload();
+                usuariosDataTable.ajax.reload();
+            },
+            error: (jqXHR, textStatus, errorThrown) => {
+                showToast(jqXHR.responseJSON.error, TOAST_ERROR_TYPE);
+            }
+        });
+    });
+
+    $('.datatable tbody').on('change', '.change-status', function () {
+
+        var data = materiasDataTable.row($(this).parents('tr')).data();
+
+        const ITEM_URL = this.dataset.url;
+        const ITEM_STATUS = this.checked;
 
         $.ajax({
             type: 'PUT',
             headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
-            url: ITEM_URL + '/' + ITEM_ID + ' /change-status',
+            url: `/${ITEM_URL}/${data.id}/change-status`,
             dataType: 'json',
             data: {
-                id: ITEM_ID,
+                id: data.id,
                 estatus: ITEM_STATUS
             },
             success: (data) => {
@@ -71,50 +356,8 @@ $(function ($) {
 
     });
 
-    $('.delete-usuario, .delete-materia, .delete-archivo').on('click', (e) => {
-
-        const ITEM_ID = e.currentTarget.dataset.id;
-        const ITEM_URL = e.currentTarget.dataset.url;
-        const ITEM_NAME = e.currentTarget.dataset.name;
-
-        modal.show();
-
-        var title = confirmDialog.querySelector('.modal-title');
-        var msg = confirmDialog.querySelector('.modal-msg');
-        title.textContent = 'Eliminar';
-        msg.textContent = '¿Estas seguro que desea eliminar "' + ITEM_NAME + '"?'
-
-        confirmBtn = document.getElementById('confirmBtn');
-        confirmBtn.dataset.id = ITEM_ID;
-        confirmBtn.dataset.url = ITEM_URL;
-    });
-
-
-    $('#confirmBtn').on('click', (e) => {
-        modal.hide();
-
-        const ITEM_ID = e.currentTarget.dataset.id;
-        const ITEM_URL = e.currentTarget.dataset.url;
-
-        $.ajax({
-            type: 'DELETE',
-            url: ITEM_URL + '/' + ITEM_ID,
-            headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
-            success: (data) => {
-                showToast(data.success, TOAST_SUCCESS_TYPE);
-                $('#rowItem' + ITEM_ID).remove();
-            },
-            error: (jqXHR, textStatus, errorThrown) => {
-                showToast(jqXHR.responseJSON.error, TOAST_ERROR_TYPE);
-            }
-        });
-    });
-
-
 
 });
-
-
 
 function showToast(msg, type) {
 
@@ -136,7 +379,7 @@ function showToast(msg, type) {
     }
     toastElementBody.textContent = msg;
 
-    var toast = new bootstrap.Toast(toastElement);
+    var toast = bootstrap.Toast.getInstance(toastElement);
     toast.show();
 }
 
