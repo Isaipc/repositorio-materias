@@ -5406,11 +5406,13 @@ $(function ($) {
       next: "Siguiente",
       previous: "Anterior"
     },
-    lengthMenu: "Mostrar _MENU_ filas"
+    lengthMenu: "Mostrar _MENU_ filas",
+    processing: 'Procesando ...'
   };
   var materiasDtOverrideGlobals = {
     language: dtLanguageOptions,
     paginate: true,
+    processing: true,
     stateSave: true,
     ajax: {
       url: '/materias/list',
@@ -5445,6 +5447,7 @@ $(function ($) {
   var materiasTrashDtOverrideGlobals = {
     language: dtLanguageOptions,
     paginate: true,
+    processing: true,
     stateSave: true,
     ajax: {
       url: '/materias/trash/list',
@@ -5474,7 +5477,6 @@ $(function ($) {
     paginate: true,
     stateSave: true,
     processing: true,
-    serverSide: true,
     ajax: {
       url: '/usuarios/list',
       dataSrc: 'data'
@@ -5505,7 +5507,6 @@ $(function ($) {
   var usersTrashDtOverrideGlobals = {
     language: dtLanguageOptions,
     processing: true,
-    serverSide: true,
     paginate: true,
     stateSave: true,
     ajax: {
