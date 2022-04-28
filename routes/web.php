@@ -17,12 +17,15 @@ use Illuminate\Support\Facades\Auth;
 
 Auth::routes();
 
+
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/inicio', 'HomeController@index')->name('home');
     Route::get('/', 'HomeController@index');
 
     Route::get('usuarios', 'UsuarioController@index')->name('usuarios.index');
+    Route::get('usuarios/list', 'UsuarioController@list');
     Route::get('usuarios/eliminados', 'UsuarioController@trash')->name('usuarios.trash');
+    Route::get('usuarios/trash/list', 'UsuarioController@trashList');
     Route::put('usuarios/{user}/restaurar', 'UsuarioController@restore')->name('usuarios.restore');
     Route::get('usuarios/{user}/restablecer-contrasena', 'UsuarioController@editPassword')->name('usuarios.password-edit');
     Route::put('usuarios/{user}/contrasena/restablecer', 'UsuarioController@resetPassword')->name('usuarios.password-reset');
@@ -34,8 +37,10 @@ Route::group(['middleware' => 'auth'], function () {
     Route::delete('usuarios/{id}', 'UsuarioController@destroy')->name('usuarios.destroy');
 
     Route::get('materias', 'MateriaController@index')->name('materias.index');
-    Route::get('materias/list', 'MateriaController@list')->name('materias.list');
+    Route::get('materias/list', 'MateriaController@list');
     Route::get('materias/eliminados', 'MateriaController@trash')->name('materias.trash');
+    Route::get('materias/trash/list', 'MateriaController@trashList');
+    Route::get('materias/list', 'MateriaController@list')->name('materias.list');
     Route::put('materias/{materia}/restaurar', 'MateriaController@restore')->name('materias.restore');
     Route::get('materias/nuevo', 'MateriaController@create')->name('materias.create');
     Route::post('materias', 'MateriaController@store')->name('materias.store');
@@ -45,7 +50,18 @@ Route::group(['middleware' => 'auth'], function () {
     Route::put('materias/{materia}/change-status', 'MateriaController@changeStatus');
     Route::delete('materias/{materia}', 'MateriaController@destroy')->name('materias.destroy');
 
+    Route::get('unidades/{materia}/list', 'UnidadController@list');
+    Route::get('unidades/trash/list', 'UnidadController@trashList');
+    Route::put('unidades/{unidad}/restaurar', 'UnidadController@restore')->name('unidades.restore');
+    Route::get('unidades/nuevo', 'UnidadController@new')->name('unidades.create');
+    Route::post('unidades', 'UnidadController@register')->name('unidades.store');
+    Route::get('unidades/{unidad}', 'UnidadController@show')->name('unidades.show');
+    Route::get('unidades/{unidad}/editar', 'UnidadController@edit')->name('unidades.edit');
+    Route::put('unidades/{unidad}', 'UnidadController@update')->name('unidades.update');
+    Route::delete('unidades/{id}', 'UnidadController@destroy')->name('unidades.destroy');
+
     Route::get('materias/{materia}/archivos', 'ArchivoController@index')->name('archivos.index');
+    Route::get('archivos/{unidad}/list', 'ArchivoController@list');
     Route::get('materias/{materia}/archivos/eliminados', 'ArchivoController@trash')->name('archivos.trash');
     Route::put('materias/archivos/{archivo}/restaurar', 'ArchivoController@restore')->name('archivos.restore');
     Route::get('materias/{materia}/archivos/nuevo', 'ArchivoController@create')->name('archivos.create');
