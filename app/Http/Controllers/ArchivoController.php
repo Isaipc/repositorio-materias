@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Materia;
 use App\Archivo;
+use App\Unidad;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 
@@ -17,9 +18,19 @@ class ArchivoController extends Controller
     public function index(Materia $materia)
     {
         return view('archivos.index', [
-            'materia' => $materia,
-            'deleted' => Archivo::archived()->count(),
-            'rows' => Archivo::actives()->get(),
+            'item' => $materia,
+        ]);
+    }
+
+    /**
+     * display a listing of the resource.
+     *
+     * @return \illuminate\http\response
+     */
+    public function list(Unidad $unidad)
+    {
+        return response()->json([
+            'data' => $unidad->archivos
         ]);
     }
 
