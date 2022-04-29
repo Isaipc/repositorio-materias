@@ -5387,8 +5387,6 @@ __webpack_require__(/*! bootstrap-icons/font/bootstrap-icons */ "./node_modules/
 __webpack_require__(/*! datatables.net-bs5 */ "./node_modules/datatables.net-bs5/js/dataTables.bootstrap5.js");
 
 var dateFormat = 'DD/MM/YYYY';
-var TOAST_ERROR_TYPE = 1;
-var TOAST_SUCCESS_TYPE = 0;
 var today = new Date();
 $(function ($) {
   // DataTables SETUP
@@ -5637,33 +5635,7 @@ $(function ($) {
       }
     });
   });
-});
-
-function showToast(msg, type) {
-  var toastElement = document.getElementById('toast');
-  var toastElementHeader = toastElement.querySelector('.toast-header');
-  var toastElementTitle = toastElement.querySelector('.toast-title');
-  var toastElementBody = toastElement.querySelector('.toast-body');
-
-  switch (type) {
-    case 0:
-      toastElementHeader.classList.remove('bg-danger');
-      toastElementHeader.classList.add('bg-success');
-      toastElementTitle.textContent = 'Completado';
-      break;
-
-    case 1:
-      toastElementHeader.classList.remove('bg-success');
-      toastElementHeader.classList.add('bg-danger');
-      toastElementTitle.textContent = 'Error';
-      break;
-  }
-
-  toastElementBody.textContent = msg;
-  var toast = bootstrap.Toast.getInstance(toastElement);
-  toast.show();
-} // INIT BOOTSTRAP COMPONENTS
-
+}); // INIT BOOTSTRAP COMPONENTS
 
 var confirmDialog = document.getElementById('confirmDialog');
 var modal = new bootstrap.Modal(confirmDialog, {

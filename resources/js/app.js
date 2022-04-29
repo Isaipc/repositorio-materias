@@ -12,13 +12,9 @@ require('bootstrap-icons/font/bootstrap-icons');
 require('datatables.net-bs5')
 
 const dateFormat = 'DD/MM/YYYY';
-const TOAST_ERROR_TYPE = 1;
-const TOAST_SUCCESS_TYPE = 0;
-
 var today = new Date();
 
 $(function ($) {
-
     // DataTables SETUP
 
     let dtButtons = $.extend(true, [], $.fn.DataTable.defaults.buttons);
@@ -311,6 +307,7 @@ $(function ($) {
         }
         else {
             url = `/materias/${itemId.val()}`
+
             type = 'PUT';
         }
 
@@ -356,33 +353,7 @@ $(function ($) {
         });
 
     });
-
-
 });
-
-function showToast(msg, type) {
-
-    var toastElement = document.getElementById('toast');
-    var toastElementHeader = toastElement.querySelector('.toast-header');
-    var toastElementTitle = toastElement.querySelector('.toast-title');
-    var toastElementBody = toastElement.querySelector('.toast-body');
-    switch (type) {
-        case 0:
-            toastElementHeader.classList.remove('bg-danger');
-            toastElementHeader.classList.add('bg-success');
-            toastElementTitle.textContent = 'Completado';
-            break;
-        case 1:
-            toastElementHeader.classList.remove('bg-success');
-            toastElementHeader.classList.add('bg-danger');
-            toastElementTitle.textContent = 'Error';
-            break;
-    }
-    toastElementBody.textContent = msg;
-
-    var toast = bootstrap.Toast.getInstance(toastElement);
-    toast.show();
-}
 
 // INIT BOOTSTRAP COMPONENTS
 var confirmDialog = document.getElementById('confirmDialog');
