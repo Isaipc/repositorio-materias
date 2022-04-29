@@ -157,7 +157,6 @@ class MateriaController extends Controller
     {
         $validated = $request->validate([
             'nombre' => 'required',
-            'image' => 'mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
         $materia->nombre = $request->nombre;
         $materia->descripcion = $request->descripcion;
