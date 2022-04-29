@@ -281,7 +281,6 @@ $(function ($) {
         $.ajax({
             type: ITEM_TYPE,
             url: ITEM_URL,
-            headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
             success: (data) => {
                 showToast(data.success, TOAST_SUCCESS_TYPE);
                 materiasDataTable.ajax.reload();
@@ -313,7 +312,6 @@ $(function ($) {
 
         $.ajax({
             type: type,
-            headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
             url: url,
             dataType: 'json',
             data: data,
@@ -337,7 +335,6 @@ $(function ($) {
 
         $.ajax({
             type: 'PUT',
-            headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
             url: `/${ITEM_URL}/${data.id}/change-status`,
             dataType: 'json',
             data: {

@@ -5566,9 +5566,6 @@ $(function ($) {
     $.ajax({
       type: ITEM_TYPE,
       url: ITEM_URL,
-      headers: {
-        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-      },
       success: function success(data) {
         showToast(data.success, TOAST_SUCCESS_TYPE);
         materiasDataTable.ajax.reload();
@@ -5596,9 +5593,6 @@ $(function ($) {
 
     $.ajax({
       type: type,
-      headers: {
-        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-      },
       url: url,
       dataType: 'json',
       data: data,
@@ -5618,9 +5612,6 @@ $(function ($) {
     var ITEM_STATUS = this.checked;
     $.ajax({
       type: 'PUT',
-      headers: {
-        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-      },
       url: "/".concat(ITEM_URL, "/").concat(data.id, "/change-status"),
       dataType: 'json',
       data: {
@@ -5688,6 +5679,11 @@ try {
 
 window.axios = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+$.ajaxSetup({
+  headers: {
+    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+  }
+});
 /**
  * Echo exposes an expressive API for subscribing to channels and listening
  * for events that are broadcast by Laravel. Echo and event broadcasting
