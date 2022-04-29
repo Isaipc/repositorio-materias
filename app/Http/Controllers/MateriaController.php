@@ -164,7 +164,7 @@ class MateriaController extends Controller
         $materia->estatus =  isset($request->estatus) ? 1 : 2;
         $materia->save();
 
-        $response = response()->json(['success' => 'Se guardado ' . $materia->nombre]);
+        $response = response()->json(['success' => 'Se ha guardado ' . $materia->nombre]);
         return $response;
     }
 
