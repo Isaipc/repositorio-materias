@@ -53,10 +53,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('unidades/{materia}/list', 'UnidadController@list');
     Route::get('unidades/trash/list', 'UnidadController@trashList');
     Route::put('unidades/{unidad}/restaurar', 'UnidadController@restore')->name('unidades.restore');
-    Route::get('unidades/nuevo', 'UnidadController@new')->name('unidades.create');
-    Route::post('unidades', 'UnidadController@register')->name('unidades.store');
+    Route::post('unidades', 'UnidadController@store')->name('unidades.store');
     Route::get('unidades/{unidad}', 'UnidadController@show')->name('unidades.show');
-    Route::get('unidades/{unidad}/editar', 'UnidadController@edit')->name('unidades.edit');
     Route::put('unidades/{unidad}', 'UnidadController@update')->name('unidades.update');
     Route::delete('unidades/{id}', 'UnidadController@destroy')->name('unidades.destroy');
 
