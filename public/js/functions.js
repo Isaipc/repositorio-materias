@@ -1,3 +1,6 @@
+STATUS_ENABLED = 1;
+STATUS_DISABLED = 2;
+
 TOAST_ERROR_TYPE = 1;
 TOAST_SUCCESS_TYPE = 0;
 
@@ -23,4 +26,8 @@ function showToast(msg, type) {
 
     var toast = bootstrap.Toast.getInstance(toastElement);
     toast.show();
+}
+
+function getSwitchStatus(status) {
+    return status == STATUS_ENABLED;
 }
