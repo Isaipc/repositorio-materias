@@ -5388,8 +5388,33 @@ __webpack_require__(/*! datatables.net-bs5 */ "./node_modules/datatables.net-bs5
 
 var dateFormat = 'DD/MM/YYYY';
 var today = new Date();
-$(function ($) {
-  // DataTables SETUP
+$(function () {
+  // INIT BOOTSTRAP COMPONENTS
+  var confirmDialog = document.getElementById('confirmDialog');
+  var modal = new bootstrap.Modal(confirmDialog, {
+    keyboard: true
+  }); // initialize all toast 
+
+  var option = [];
+  var toastElementList = [].slice.call(document.querySelectorAll('.toast'));
+  var toastList = toastElementList.map(function (toastE) {
+    return new bootstrap.Toast(toastE, option);
+  }); // initialize all dropdowns 
+
+  var dropdownElementList = [].slice.call(document.querySelectorAll('.dropdown-toggle'));
+  var dropdownList = dropdownElementList.map(function (dropdownToggleEl) {
+    dropdown = new bootstrap.Dropdown(dropdownToggleEl);
+    return dropdown;
+  }); // initialize all tooltips
+
+  var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+  var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+    return new bootstrap.Tooltip(tooltipTriggerEl);
+  });
+  new bootstrap.Tooltip(document.body, {
+    selector: '.has-tooltip'
+  }); // DataTables SETUP
+
   var dtButtons = $.extend(true, [], $.fn.DataTable.defaults.buttons);
   var dtLanguageOptions = {
     emptyTable: "No hay datos disponibles",
@@ -5426,13 +5451,13 @@ $(function ($) {
     columnDefs: [{
       targets: 0,
       render: function render(data, type, row, meta) {
-        renderHTML = "<a href=\"/materias/".concat(data.id, "\" class=\"btn btn-link\" data-bs-toggle=\"tooltip\"\n                          data-bs-placement=\"top\" title=\"Mostrar detalles\">\n                                <i class=\"bi bi-box-arrow-up-right\"></i>\n                        </a>\n                        ").concat(data.nombre);
+        renderHTML = "<a href=\"/materias/".concat(data.id, "\" class=\"btn btn-link has-tooltip\" data-bs-toggle=\"tooltip\"\n                          data-bs-placement=\"top\" title=\"Mostrar detalles\">\n                                <i class=\"bi bi-box-arrow-up-right\"></i>\n                        </a>\n                        ").concat(data.nombre);
         return renderHTML;
       }
     }, {
       targets: -1,
       render: function render(data, type, row, meta) {
-        renderHTML = "<a href=\"/materias/".concat(data.id, "/editar\" class=\"btn btn-sm btn-primary\" data-bs-toggle=\"tooltip\"\n                        data-bs-placement=\"top\" title=\"Editar\">\n                        <i class=\"bi bi-pencil-fill\"></i>\n                    </a>\n                    <button class=\"btn btn-sm btn-danger delete-item\" data-bs-toggle=\"tooltip\" data-url=\"materias\"\n                        data-bs-placement=\"top\" title=\"Eliminar\">\n                        <i class=\"bi bi-trash-fill\"></i>\n                    </button>\n                    <a href=\"/materias/").concat(data.id, "/archivos\" class=\"btn btn-sm btn-light\" data-bs-toggle=\"tooltip\"\n                        data-bs-placement=\"top\" title=\"Mostrar contenido\">\n                        <i class=\"bi bi-file-earmark-fill\"></i>\n                        Contenido\n                    </a>");
+        renderHTML = "<a href=\"/materias/".concat(data.id, "/editar\" class=\"btn btn-sm btn-primary has-tooltip\" data-bs-toggle=\"tooltip\"\n                        data-bs-placement=\"top\" title=\"Editar\">\n                        <i class=\"bi bi-pencil-fill\"></i>\n                    </a>\n                    <button class=\"btn btn-sm btn-danger delete-item has-tooltip\" data-bs-toggle=\"tooltip\" data-url=\"materias\"\n                        data-bs-placement=\"top\" title=\"Eliminar\">\n                        <i class=\"bi bi-trash-fill\"></i>\n                    </button>\n                    <a href=\"/materias/").concat(data.id, "/archivos\" class=\"btn btn-sm btn-light has-tooltip\" data-bs-toggle=\"tooltip\"\n                        data-bs-placement=\"top\" title=\"Mostrar contenido\">\n                        <i class=\"bi bi-file-earmark-fill\"></i>\n                        Contenido\n                    </a>");
         return renderHTML;
       }
     }, {
@@ -5626,28 +5651,6 @@ $(function ($) {
       }
     });
   });
-}); // INIT BOOTSTRAP COMPONENTS
-
-var confirmDialog = document.getElementById('confirmDialog');
-var modal = new bootstrap.Modal(confirmDialog, {
-  keyboard: true
-}); // initialize all toast 
-
-var option = [];
-var toastElementList = [].slice.call(document.querySelectorAll('.toast'));
-var toastList = toastElementList.map(function (toastE) {
-  return new bootstrap.Toast(toastE, option);
-}); // initialize all dropdowns 
-
-var dropdownElementList = [].slice.call(document.querySelectorAll('.dropdown-toggle'));
-var dropdownList = dropdownElementList.map(function (dropdownToggleEl) {
-  dropdown = new bootstrap.Dropdown(dropdownToggleEl);
-  return dropdown;
-}); // initialize all tooltips
-
-var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
-var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-  return new bootstrap.Tooltip(tooltipTriggerEl);
 });
 
 /***/ }),

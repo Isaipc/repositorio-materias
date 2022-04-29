@@ -14,9 +14,37 @@ require('datatables.net-bs5')
 const dateFormat = 'DD/MM/YYYY';
 var today = new Date();
 
-$(function ($) {
-    // DataTables SETUP
+$(function () {
 
+    // INIT BOOTSTRAP COMPONENTS
+    var confirmDialog = document.getElementById('confirmDialog');
+    var modal = new bootstrap.Modal(confirmDialog, {
+        keyboard: true
+    });
+
+    // initialize all toast 
+    const option = [];
+    var toastElementList = [].slice.call(document.querySelectorAll('.toast'))
+    var toastList = toastElementList.map(function (toastE) {
+        return new bootstrap.Toast(toastE, option);
+    });
+
+    // initialize all dropdowns 
+    var dropdownElementList = [].slice.call(document.querySelectorAll('.dropdown-toggle'))
+    var dropdownList = dropdownElementList.map(function (dropdownToggleEl) {
+        dropdown = new bootstrap.Dropdown(dropdownToggleEl)
+        return dropdown;
+    });
+
+    // initialize all tooltips
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+        return new bootstrap.Tooltip(tooltipTriggerEl)
+    });
+
+    new bootstrap.Tooltip(document.body, { selector: '.has-tooltip' });
+
+    // DataTables SETUP
     let dtButtons = $.extend(true, [], $.fn.DataTable.defaults.buttons);
     let dtLanguageOptions = {
         emptyTable: "No hay datos disponibles",
@@ -54,7 +82,7 @@ $(function ($) {
                 targets: 0,
                 render: function (data, type, row, meta) {
                     renderHTML =
-                        `<a href="/materias/${data.id}" class="btn btn-link" data-bs-toggle="tooltip"
+                        `<a href="/materias/${data.id}" class="btn btn-link has-tooltip" data-bs-toggle="tooltip"
                           data-bs-placement="top" title="Mostrar detalles">
                                 <i class="bi bi-box-arrow-up-right"></i>
                         </a>
@@ -66,15 +94,15 @@ $(function ($) {
                 targets: -1,
                 render: function (data, type, row, meta) {
                     renderHTML =
-                        `<a href="/materias/${data.id}/editar" class="btn btn-sm btn-primary" data-bs-toggle="tooltip"
+                        `<a href="/materias/${data.id}/editar" class="btn btn-sm btn-primary has-tooltip" data-bs-toggle="tooltip"
                         data-bs-placement="top" title="Editar">
                         <i class="bi bi-pencil-fill"></i>
                     </a>
-                    <button class="btn btn-sm btn-danger delete-item" data-bs-toggle="tooltip" data-url="materias"
+                    <button class="btn btn-sm btn-danger delete-item has-tooltip" data-bs-toggle="tooltip" data-url="materias"
                         data-bs-placement="top" title="Eliminar">
                         <i class="bi bi-trash-fill"></i>
                     </button>
-                    <a href="/materias/${data.id}/archivos" class="btn btn-sm btn-light" data-bs-toggle="tooltip"
+                    <a href="/materias/${data.id}/archivos" class="btn btn-sm btn-light has-tooltip" data-bs-toggle="tooltip"
                         data-bs-placement="top" title="Mostrar contenido">
                         <i class="bi bi-file-earmark-fill"></i>
                         Contenido
@@ -352,28 +380,3 @@ $(function ($) {
     });
 });
 
-// INIT BOOTSTRAP COMPONENTS
-var confirmDialog = document.getElementById('confirmDialog');
-var modal = new bootstrap.Modal(confirmDialog, {
-    keyboard: true
-});
-
-// initialize all toast 
-const option = [];
-var toastElementList = [].slice.call(document.querySelectorAll('.toast'))
-var toastList = toastElementList.map(function (toastE) {
-    return new bootstrap.Toast(toastE, option);
-});
-
-// initialize all dropdowns 
-var dropdownElementList = [].slice.call(document.querySelectorAll('.dropdown-toggle'))
-var dropdownList = dropdownElementList.map(function (dropdownToggleEl) {
-    dropdown = new bootstrap.Dropdown(dropdownToggleEl)
-    return dropdown;
-});
-
-// initialize all tooltips
-var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
-var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-    return new bootstrap.Tooltip(tooltipTriggerEl)
-});
