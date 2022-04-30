@@ -19,7 +19,7 @@ class UnidadController extends Controller implements Constants
     public function list(Materia $materia)
     {
         return response()->json([
-            'data' => $materia->unidades->where('estatus', '!=', Constants::ST_ARCHIVED)
+            'data' => $materia->unidades()->where('estatus', '!=', Constants::ST_ARCHIVED)->get()
         ]);
     }
 
