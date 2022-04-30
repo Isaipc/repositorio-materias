@@ -56,7 +56,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('unidades', 'UnidadController@store')->name('unidades.store');
     Route::get('unidades/{unidad}', 'UnidadController@show')->name('unidades.show');
     Route::put('unidades/{unidad}', 'UnidadController@update')->name('unidades.update');
-    Route::delete('unidades/{id}', 'UnidadController@destroy')->name('unidades.destroy');
+    Route::delete('unidades/{unidad}', 'UnidadController@destroy')->name('unidades.destroy');
 
     Route::get('materias/{materia}/archivos', 'ArchivoController@index')->name('archivos.index');
     Route::get('archivos/{unidad}/list', 'ArchivoController@list');
