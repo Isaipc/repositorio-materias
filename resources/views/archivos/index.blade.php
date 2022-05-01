@@ -74,29 +74,31 @@
     </div>
 
     <!-- File Upload Modal -->
-    <div class="modal fade" id="uploadFile" tabindex="-1" role="dialog" aria-labelledby="modelTitleId"
+    <div class="modal fade" id="uploadFileModal" tabindex="-1" role="dialog" aria-labelledby="modelTitleId"
         aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Modal title</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="mb-3">
-                        <label for="exampleFormControlInput1" class="form-label">Email address</label>
-                        <input type="email" class="form-control" id="exampleFormControlInput1"
-                            placeholder="name@example.com">
+                <form id="fileUploadForm" action="javascript:void(0)" method="POST" enctype="multipart/form-data">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Subir archivo</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <div class="mb-3">
-                        <label for="exampleFormControlTextarea1" class="form-label">Example textarea</label>
-                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                    <div class="modal-body">
+                        <input id="unidadId" type="hidden" name="unidad_id" value="0">
+                        <div class="mb-3">
+                            <label for="nom" class="col-form-label">Nombre</label>
+                            <input id="nom" type="text" class="form-control" name="nombre" value="{{ old('nombre') }}"
+                                autofocus>
+                        </div>
+                        <div class="mb-3">
+                            <input class="form-control" name="file" id="formFileSm" type="file">
+                        </div>
                     </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Save</button>
-                </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-md btn-primary">Guardar</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
@@ -159,8 +161,9 @@
                     targets: 1,
                     render: function(data, type, row, meta) {
                         renderHTML =
-                            `<a href="/materias/${data.id}" class="btn btn-link" data-bs-toggle="tooltip"
-                      data-bs-placement="top" title="Mostrar detalles">
+                            `<a href="/materias/${data.id}" class="btn btn-link has-tooltip" 
+                                data-bs-toggle="tooltip"
+                                data-bs-placement="top" title="Mostrar detalles">
                             <i class="bi bi-box-arrow-up-right"></i>
                     </a>
                     ${data.nombre}`
@@ -171,28 +174,30 @@
                     targets: 2,
                     render: function(data, type, row, meta) {
                         return `<div class="form-check form-switch">
-            <input class="form-check-input change-status" ${data.estatus == 1 ? 'checked' : ''} type="checkbox" role="switch"
-            data-url="materias">
-            </div>`;
+                                    <input class="form-check-input change-status" ${data.estatus == 1 ? 'checked' : ''} 
+                                    type="checkbox" role="switch" data-url="materias">
+                                </div>`;
                     }
                 },
                 {
                     targets: -1,
                     render: function(data, type, row, meta) {
                         renderHTML =
-                            `<button class="btn btn-sm btn-primary edit-item" data-bs-toggle="modal" data-bs-target="#itemModal"
-                        data-bs-placement="top" title="Editar">
-                        <i class="bi bi-pencil-fill"></i>
-                    </button>
-                    <button class="btn btn-sm btn-danger delete-item" data-bs-toggle="tooltip" data-url="unidades"
-                        data-bs-placement="top" title="Eliminar">
-                        <i class="bi bi-trash-fill"></i>
-                    </button>
-                    <button class="btn btn-sm btn-secondary delete-item" data-url="materias"
-                        data-bs-placement="top" title="Subir archivo"
-                       data-bs-toggle="modal" data-bs-target="#uploadFile">
-                        <i class="bi bi-upload"></i>
-                    </button>`;
+                            `<button class="btn btn-sm btn-primary edit-item has-tooltip" 
+                                data-bs-toggle="tooltip" 
+                                data-bs-placement="top" title="Editar">
+                                <i class="bi bi-pencil-fill"></i>
+                            </button>
+                            <button class="btn btn-sm btn-danger delete-item has-tooltip" 
+                                data-bs-toggle="tooltip" data-url="unidades"
+                                data-bs-placement="top" title="Eliminar">
+                                <i class="bi bi-trash-fill"></i>
+                            </button>
+                            <button class="btn btn-sm btn-secondary upload-file has-tooltip" 
+                                data-bs-toggle="tooltip"
+                                data-bs-placement="top" title="Subir archivo">
+                                <i class="bi bi-upload"></i>
+                            </button>`;
                         return renderHTML;
                     }
                 },
@@ -201,12 +206,17 @@
 
         var itemModalElement = document.getElementById('itemModal');
         var confirmationModalElement = document.getElementById('confirmationModal');
+        var uploadFileModalElement = document.getElementById('uploadFileModal');
 
         var itemModal = new bootstrap.Modal(itemModalElement, {
             keyboard: true
         });
 
         var confirmationModal = new bootstrap.Modal(confirmationModalElement, {
+            keyboard: true
+        });
+
+        var uploadFileModal = new bootstrap.Modal(uploadFileModalElement, {
             keyboard: true
         });
 
@@ -239,6 +249,8 @@
             var tr = $(this).closest('tr');
             var data = dtContenido.row(tr).data();
 
+            itemModal.show();
+
             $('#id').val(data.id);
             $('#nombre').val(data.nombre);
             $('#estatus').prop('checked', getSwitchStatus(data.estatus));
@@ -265,6 +277,16 @@
 
             confirmationDeleteButton.dataset.url = `/${ITEM_URL}/${data.id}`;
             confirmationDeleteButton.dataset.type = 'DELETE'
+        });
+
+        $('#dtContenido').on('click', 'tbody .upload-file', function() {
+
+            var tr = $(this).closest('tr');
+            var data = dtContenido.row(tr).data();
+
+            $('#unidadId').val(data.id);
+            uploadFileModal.show();
+
         });
 
         $('#confirmationDeleteButton').on('click', function() {
@@ -310,6 +332,30 @@
                     showToast(data.success, TOAST_SUCCESS_TYPE);
                     itemModal.hide();
                     form[0].reset();
+                    dtContenido.ajax.reload();
+                },
+                error: (jqXHR, textStatus, errorThrown) => {
+                    showToast(jqXHR.responseJSON.error, TOAST_ERROR_TYPE);
+                }
+            });
+        });
+
+        $('#fileUploadForm').on('submit', function(e) {
+            const form = document.getElementById('fileUploadForm');
+            const formData = new FormData(form);
+            const unidadId = $('#unidadId').val();
+
+            $.ajax({
+                type: 'POST',
+                url: `/archivos/${unidadId}`,
+                processData: false,
+                contentType: false,
+                // dataType: 'json',
+                data: formData,
+                success: (data) => {
+                    showToast(data.success, TOAST_SUCCESS_TYPE);
+                    uploadFileModal.hide();
+                    $(form)[0].reset();
                     dtContenido.ajax.reload();
                 },
                 error: (jqXHR, textStatus, errorThrown) => {
