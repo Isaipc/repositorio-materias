@@ -4,11 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Materia;
 use App\Archivo;
+use App\Constants;
 use App\Unidad;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Storage;
 
-class ArchivoController extends Controller
+class ArchivoController extends Controller implements Constants
 {
     /**
      * Display a listing of the resource.
@@ -30,7 +32,7 @@ class ArchivoController extends Controller
     public function list(Unidad $unidad)
     {
         return response()->json([
-            'data' => $unidad->archivos
+            'data' => $unidad->archivos()->where('estatus', '!=', Constants::ST_ARCHIVED)->get()
         ]);
     }
 
@@ -77,9 +79,8 @@ class ArchivoController extends Controller
 
     protected function validator(Request $request)
     {
-        $request->validate([
+        return $request->validate([
             'nombre' => 'required',
-            'estatus' => 'required',
             'file' => 'max:4096',
         ]);
     }
@@ -90,28 +91,30 @@ class ArchivoController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Materia $materia, Request $request)
+    public function store(Unidad $unidad, Request $request)
     {
         $this->validator($request);
 
         $archivo = new Archivo;
-
         $archivo->nombre = $request->nombre;
-        $archivo->materia_id = $materia->id;
-        $archivo->estatus = $request->estatus;
+        $archivo->estatus =  isset($request->estatus) ? 1 : 2;
 
-        if ($request->hasFile('file')) {
-            if (!$request->file('file')->isValid())
-                abort(500, 'Could not upload image :(');
-            $url = Archivo::store($request->file);
-        }
+        if (!$request->hasFile('file'))
+            abort(500, 'Could not upload image :(');
 
-        $archivo->url = $url;
-        $archivo->save();
+        if (!$request->file('file')->isValid())
+            abort(500, 'Could not upload image :(');
 
+        $file = $request->file('file');
+        $path = $file->storeAs(
+            'public',
+            $request->nombre . '.' . $file->getClientOriginalExtension()
+        );
 
+        $archivo->url = $path;
+        $unidad->archivos()->save($archivo);
 
-        return redirect()->route('archivos.create', $materia);
+        return  response()->json(['success' => 'Se subido el archivo']);
     }
 
     /**
@@ -161,8 +164,8 @@ class ArchivoController extends Controller
         if ($request->hasFile('file')) {
             if (!$request->file('file')->isValid())
                 abort(500, 'No se ha podido subir el archivo :(');
-            $url = Archivo::store($request->file);
-            Archivo::destroy($archivo->url);
+            // $url = Archivo::store($request->file);
+            // Archivo::destroy($archivo->url);
         }
 
         $archivo->url = $url;
