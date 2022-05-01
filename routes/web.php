@@ -16,8 +16,6 @@ use Illuminate\Support\Facades\Auth;
 */
 
 Auth::routes();
-
-
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/inicio', 'HomeController@index')->name('home');
     Route::get('/', 'HomeController@index');
@@ -58,15 +56,15 @@ Route::group(['middleware' => 'auth'], function () {
     Route::put('unidades/{unidad}', 'UnidadController@update')->name('unidades.update');
     Route::delete('unidades/{unidad}', 'UnidadController@destroy')->name('unidades.destroy');
 
+    
     Route::get('materias/{materia}/archivos', 'ArchivoController@index')->name('archivos.index');
+
     Route::get('archivos/{unidad}/list', 'ArchivoController@list');
+    Route::post('archivos/{unidad}', 'ArchivoController@store');
+
     Route::get('materias/{materia}/archivos/eliminados', 'ArchivoController@trash')->name('archivos.trash');
     Route::put('materias/archivos/{archivo}/restaurar', 'ArchivoController@restore')->name('archivos.restore');
     Route::get('materias/{materia}/archivos/nuevo', 'ArchivoController@create')->name('archivos.create');
     Route::post('materias/{materia}/archivos', 'ArchivoController@store')->name('archivos.store');
     Route::get('materias/{materia}/archivos/{archivo}', 'ArchivoController@show')->name('archivos.show');
-    Route::get('materias/{materia}/archivos/{archivo}/editar', 'ArchivoController@edit')->name('archivos.edit');
-    Route::put('materias/archivos/{archivo}', 'ArchivoController@update')->name('archivos.update');
-    Route::delete('materias/archivos/{archivo}/archive', 'ArchivoController@archive')->name('archivos.archive');
-    Route::delete('materias/archivos/{archivo}/delete', 'ArchivoController@destroy')->name('archivos.destroy');
 });
