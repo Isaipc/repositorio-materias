@@ -84,14 +84,14 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
+                        <div class="mb-3">
+                            <input class="form-control" name="file" id="fileInput" type="file">
+                        </div>
                         <input id="unidadId" type="hidden" name="unidad_id" value="0">
                         <div class="mb-3">
-                            <label for="nom" class="col-form-label">Nombre</label>
-                            <input id="nom" type="text" class="form-control" name="nombre" value="{{ old('nombre') }}"
-                                autofocus>
-                        </div>
-                        <div class="mb-3">
-                            <input class="form-control" name="file" id="formFileSm" type="file">
+                            <label for="fileName" class="col-form-label">Nombre</label>
+                            <input id="fileName" type="text" class="form-control" name="nombre"
+                                value="{{ old('nombre') }}" autofocus>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -378,19 +378,22 @@
                 rowItems += `<tr class=>
                             <td></td>    
                             <td>    
-                                <a href="${e.url}" class="text-decoration-none has-tooltip" data-bs-toggle="tooltip"  data-bs-placement="top" title="Mostrar detalles">
-                                <i class="bi bi-file-earmark-fill"></i>
+                                <a href="${e.url}" class="text-decoration-none has-tooltip" 
+                                data-bs-toggle="tooltip" data-bs-placement="top" title="Mostrar detalles"
+                                target="_blank" rel="noopener noreferrer">
+                                <i class="bi bi-filetype-${e.extension}" style="font-size: 1.5rem;"></i>
                                 ${e.nombre}
                                 </a>
                             </td>
                             <td>
-                        <div class="form-check form-switch">
-            <input class="form-check-input change-status" ${data.estatus == 1 ? 'checked' : ''} type="checkbox" role="switch"
-            data-url="materias">
-            </div>
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input change-status" ${data.estatus == 1 ? 'checked' : ''} 
+                                    type="checkbox" role="switch" data-url="materias">
+                                </div>
                             </td>
                             <td>
-                                <button class="btn btn-sm btn-danger delete-item has-tooltip" data-bs-toggle="tooltip" data-url="materias"
+                                <button class="btn btn-sm btn-danger delete-item has-tooltip" 
+                                    data-bs-toggle="tooltip" data-url="materias"
                                     data-bs-placement="top" title="Eliminar">
                                     <i class="bi bi-trash-fill"></i>
                                 </button>
