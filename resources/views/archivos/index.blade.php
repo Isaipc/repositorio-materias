@@ -364,6 +364,10 @@
             });
         });
 
+        $('#fileInput').on('change', function() {
+            $('#fileName').val(this.files[0].name);
+        });
+
         function format(data) {
 
             var rowItems = '';
