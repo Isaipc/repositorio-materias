@@ -111,6 +111,7 @@ class ArchivoController extends Controller implements Constants
             $request->nombre . '.' . $file->getClientOriginalExtension()
         );
 
+        $archivo->extension = $file->getClientOriginalExtension();
         $archivo->url = $path;
         $unidad->archivos()->save($archivo);
 
