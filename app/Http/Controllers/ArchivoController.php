@@ -114,7 +114,7 @@ class ArchivoController extends Controller implements Constants
         $archivo->url = $path;
         $unidad->archivos()->save($archivo);
 
-        return  response()->json(['success' => 'Se subido el archivo']);
+        return  response()->json(['success' => 'Se ha subido el archivo']);
     }
 
     /**
