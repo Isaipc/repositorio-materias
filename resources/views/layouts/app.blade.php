@@ -23,23 +23,19 @@
     <div id="page-container">
         @yield('frame')
     </div>
-    <!-- Modal -->
-    <div class="modal fade" id="confirmDialog" data-bs-keyboard="false" tabindex="-1"
-        aria-labelledby="confirmDialogLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
+    <!-- Confirmation Modal -->
+    <div class="modal fade" id="confirmationModal" tabindex="-1" role="dialog" aria-labelledby="modelTitleId"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
+                    <h5 class="modal-title"></h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="modal-body d-flex flex-columns align-items-center">
-                    {{-- <input type="hidden" name=""> --}}
-                    <i class="bi bi-exclamation-diamond-fill" style="font-size: 3rem; color: orange;"></i>
-                    <span class="modal-msg"> </span>
-                </div>
+                <div class="modal-body text-center"></div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancelar</button>
-                    <button type="button" class="btn btn-primary" id="confirmBtn">Aceptar</button>
+                    <button id="confirmationDeleteButton" type="button" class="btn btn-primary">Aceptar</button>
                 </div>
             </div>
         </div>
