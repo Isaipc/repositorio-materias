@@ -103,7 +103,7 @@
             const tr = $(this).closest('tr');
             const data = dtMateriaTrash.row(tr).data();
 
-            confirmationModalElement.querySelector('.modal-title').textContent = 'Eliminar';
+            confirmationModalElement.querySelector('.modal-title').textContent = 'Eliminar permanentemente';
             confirmationModalElement.querySelector('.modal-body').innerHTML =
                 `<div>
             <i class="bi bi-exclamation-circle-fill" style="font-size: 2.5rem; color: red;"></i>
