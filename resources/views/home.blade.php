@@ -2,57 +2,56 @@
 
 @section('breadcrumbs', Breadcrumbs::render('home'))
 
-@section('title')
-@hasrole('Administrador')
-Repositorio
-@endhasrole
-@hasrole('Alumno')
-Mis materias
-@endhasrole
-
-@endsection
-@section('content')
-<div class="d-flex flex-wrap justify-content-center">
+@section('primary-title')
     @hasrole('Administrador')
-    @foreach ($materias_rep as $m)
-    <div class="card card-primary col-md-4 ms-2 mt-2">
-        <div class="card-body text-center">
-            <h5 class="card-title"> {{ $m->nombre }} </h5>
-            <div class="d-flex justify-content-around mt-2">
-                <a href="{{ route('archivos.index', $m)}}" class="btn btn-md btn-light">
-                    <i class="bi bi-files"></i>
-                    Archivos ({{ $m->archivos->count() }})
-                </a>
-                <a href="{{ route('materias.show', $m)}}" class="btn btn-md btn-light">
-                    <i class="bi bi-people"></i>
-                    Alumnos ({{ $m->alumnos->count() }})
-                </a>
-            </div>
-        </div>
-    </div>
-    @endforeach
+        Repositorio
     @endhasrole
+    @hasrole('Alumno')
+        Mis materias
+    @endhasrole
+@endsection
 
-    @foreach ($materias_alumn as $m)
-    <div class="card card-primary col-md-4 ms-2 mt-2">
-        <div class="card-body text-center">
-            <h5 class="card-title"> {{ $m->nombre }} </h5>
+@section('primary-content')
+    <div class="d-flex flex-wrap justify-content-center">
+        @hasrole('Administrador')
+            @foreach ($materias_rep as $m)
+                <div class="card card-primary col-md-4 ms-2 mt-2">
+                    <div class="card-body text-center">
+                        <h5 class="card-title"> {{ $m->nombre }} </h5>
+                        <div class="d-flex justify-content-around mt-2">
+                            <a href="{{ route('archivos.index', $m) }}" class="btn btn-md btn-light">
+                                <i class="bi bi-files"></i>
+                                Mostrar contenido
+                            </a>
+                            <a href="{{ route('alumnos.index', $m) }}" class="btn btn-md btn-light">
+                                <i class="bi bi-people-fill"></i>
+                                Alumnos
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            @endforeach
+        @endhasrole
 
-            @if ($m->estatus == 1 )
-            <a href="{{ route('materias.show', $m)}}" class="btn btn-md btn-light">
-                <i class="bi bi-files"></i>
-                Archivos ({{ $m->archivos->count() }})
-            </a>
-            @else
-            <p class="text-muted mt-3">
-                Esta materia no se encuentra disponible. 
-            </p>
-            @endif
-        </div>
+        @foreach ($materias_alumn as $m)
+            <div class="card card-primary col-md-4 ms-2 mt-2">
+                <div class="card-body text-center">
+                    <h5 class="card-title"> {{ $m->nombre }} </h5>
+
+                    @if ($m->estatus == 1)
+                        <a href="{{ route('archivos.index', $m) }}" class="btn btn-md btn-light">
+                            <i class="bi bi-files"></i>
+                            Mostrar contenido
+                        </a>
+                    @else
+                        <p class="text-muted mt-3">
+                            Esta materia no se encuentra disponible.
+                        </p>
+                    @endif
+                </div>
+            </div>
+        @endforeach
+
+
     </div>
-
-    @endforeach
-
-
-</div>
 @endsection
