@@ -5,19 +5,21 @@
 @section('primary-title')
     <i class="bi bi-collection-fill"></i>
     {{ $item->nombre }}
-    <span class="float-end">
-        <button class="btn btn-md btn-light add-item" title="Crear nuevo" data-bs-toggle="modal" data-bs-target="#itemModal">
-            <i class="bi bi-plus"></i>
-        </button>
-        <a href="{{ route('materias.trash') }}" class="btn btn-md btn-secondary position-relative" data-bs-toggle="tooltip"
-            data-bs-placement="top" title="Mostrar eliminados">
-            <i class="bi bi-trash-fill"></i>
-            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                {{-- {{ $archived->count() }} --}}
-                <span class="visually-hidden"></span>
-            </span>
-        </a>
-    </span>
+    @hasrole('Administrador')
+        <span class="float-end">
+            <button class="btn btn-md btn-light add-item" title="Crear nuevo" data-bs-toggle="modal" data-bs-target="#itemModal">
+                <i class="bi bi-plus"></i>
+            </button>
+            <a href="{{ route('materias.trash') }}" class="btn btn-md btn-secondary position-relative" data-bs-toggle="tooltip"
+                data-bs-placement="top" title="Mostrar eliminados">
+                <i class="bi bi-trash-fill"></i>
+                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                    {{ $archived->count() }}
+                    <span class="visually-hidden"></span>
+                </span>
+            </a>
+        </span>
+    @endhasrole
 @endsection
 
 @section('primary-content')

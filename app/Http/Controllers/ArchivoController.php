@@ -21,6 +21,7 @@ class ArchivoController extends Controller implements Constants
     {
         return view('archivos.index', [
             'item' => $materia,
+            'archived' => $materia->unidades()->where('estatus', Constants::ST_ARCHIVED)->get()
         ]);
     }
 
@@ -106,9 +107,11 @@ class ArchivoController extends Controller implements Constants
             abort(500, 'Could not upload image :(');
 
         $file = $request->file('file');
+        $fileName = $request->nombre;
+
         $path = $file->storeAs(
             'public',
-            $request->nombre . '.' . $file->getClientOriginalExtension()
+            $fileName
         );
 
         $archivo->extension = $file->getClientOriginalExtension();
