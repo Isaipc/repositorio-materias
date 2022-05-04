@@ -57,7 +57,7 @@ class UsuarioController extends Controller
     /**
      * update the specified resource in storage.
      *
-     * @param  \app\Materia  $materia
+     * @param  \app\User  $item
      * @return \illuminate\http\response
      */
     public function restore(User $user)
@@ -107,7 +107,9 @@ class UsuarioController extends Controller
         ])->save();
 
         $item->assignRole('Alumno');
-        return redirect()->route('usuarios.index');
+
+        $response = response()->json(['success' => 'Se ha guardado ' . $item->nombre]);
+        return $response;
     }
 
     /**
@@ -161,23 +163,28 @@ class UsuarioController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\User  $user
+     * @param  \App\User  $item
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request)
+    public function archive(User $user)
     {
-        try {
-            $user = User::find($request->id);
-            $user->estatus = 0;
-            $r = $user->save();
+        $user->estatus = 0;
+        $user->save();
 
-            if ($r)
-                $response = response()->json(['success' => 'Se ha eliminado ' . $user->nombre]);
-            else
-                $response = response()->json(['error' => 'No se ha podido completar la operación']);
-        } catch (ErrorException $e) {
-            $response = response()->json(['error' => 'No se ha podido completar la operacion: ' . $e->getMessage()], 404);
-        }
+        $response = response()->json(['success' => 'Se ha eliminado ' . $user->nombre]);
+        return $response;
+    }
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \App\User  $item
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(User $user)
+    {
+        $user->delete();
+
+        $response = response()->json(['success' => 'Se ha eliminado ' . $user->nombre]);
         return $response;
     }
 
@@ -210,8 +217,8 @@ class UsuarioController extends Controller
     {
         return Validator::make($data, [
             'name' => ['required', 'string', 'max:50'],
-            'username' => ['required', 'string', 'max:50'],
-            // 'email' => ['string', 'email', 'max:50', 'unique:users'],
+            'username' => ['required', 'string', 'max:50', 'unique:users'],
+            'email' => ['string', 'email', 'max:50', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
         ]);
     }
