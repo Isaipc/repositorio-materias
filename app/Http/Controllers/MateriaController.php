@@ -17,7 +17,7 @@ class MateriaController extends Controller
      */
     public function index()
     {
-        return view('materias.index', []);
+        return view('materias.index');
     }
 
     /**
@@ -90,6 +90,7 @@ class MateriaController extends Controller
      */
     public function store(Request $request)
     {
+        $validated = $request->validate(['nombre' => 'required|unique:materias',]);
         return $this->save(new Materia, $request);
     }
 
@@ -128,6 +129,7 @@ class MateriaController extends Controller
      */
     public function update(Request $request, Materia $materia)
     {
+        $validated = $request->validate(['nombre' => 'required',]);
         return $this->save($materia, $request);
     }
 
@@ -137,27 +139,30 @@ class MateriaController extends Controller
      * @param  \App\Materia  $materia
      * @return \Illuminate\Http\Response
      */
+    public function archive(Materia $materia)
+    {
+        $materia->estatus = 0;
+        $materia->save();
+
+        $response = response()->json(['success' => 'Se ha eliminado ' . $materia->nombre]);
+        return $response;
+    }
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \App\Materia  $materia
+     * @return \Illuminate\Http\Response
+     */
     public function destroy(Materia $materia)
     {
-        try {
-            $materia->estatus = 0;
-            $r = $materia->save();
+        $materia->delete();
 
-            if ($r)
-                $response = response()->json(['success' => 'Se ha eliminado ' . $materia->nombre]);
-            else
-                $response = response()->json(['error' => 'No se ha podido completar la operación']);
-        } catch (ErrorException $e) {
-            $response = response()->json(['error' => 'No se ha podido completar la operacion: ' . $e->getMessage()], 404);
-        }
+        $response = response()->json(['success' => 'Se ha eliminado ' . $materia->nombre]);
         return $response;
     }
 
     protected function save(Materia $materia, Request $request)
     {
-        $validated = $request->validate([
-            'nombre' => 'required',
-        ]);
         $materia->nombre = $request->nombre;
         $materia->descripcion = $request->descripcion;
         $materia->estatus =  isset($request->estatus) ? 1 : 2;
