@@ -4,6 +4,23 @@ STATUS_DISABLED = 2;
 TOAST_ERROR_TYPE = 1;
 TOAST_SUCCESS_TYPE = 0;
 
+const dtLanguageOptions = {
+    emptyTable: "No hay datos disponibles",
+    zeroRecords: "No se encontraron resultados",
+    infoFiltered: "(filtrado de _MAX_ registros totales)",
+    infoEmpty: "Mostrando 0 registros",
+    search: 'Buscar',
+    info: "Mostrando pagina _PAGE_ de _PAGES_",
+    paginate: {
+        first: "Primero",
+        last: "Ultimo",
+        next: "Siguiente",
+        previous: "Anterior"
+    },
+    lengthMenu: "Mostrar _MENU_ filas",
+    processing: 'Procesando ...'
+};
+
 function showToast(msg, type) {
 
     var toastElement = document.getElementById('toast');
