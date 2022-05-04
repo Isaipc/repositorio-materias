@@ -27,15 +27,16 @@
                     @yield('primary-content')
                 </div>
             </div>
-            <div class="card mt-3 shadow-sm">
-                <div class="card-header bg-light text-dark text-center text-uppercase">
-                    @yield('secondary-title')
+            @hasrole('Administrador')
+                <div class="card mt-3 shadow-sm">
+                    <div class="card-header bg-light text-dark text-center text-uppercase">
+                        @yield('secondary-title')
+                    </div>
+                    <div class="card-body container">
+                        @yield('secondary-content')
+                    </div>
                 </div>
-                <div class="card-body container">
-                    @yield('secondary-content')
-                </div>
-            </div>
-
+            @endhasrole
         </div>
     </main>
 @endsection
