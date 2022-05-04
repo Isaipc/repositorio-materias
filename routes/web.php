@@ -48,6 +48,11 @@ Route::group(['middleware' => 'auth'], function () {
     Route::put('materias/{materia}/change-status', 'MateriaController@changeStatus');
     Route::delete('materias/{materia}', 'MateriaController@destroy')->name('materias.destroy');
 
+    Route::get('materias/{materia}/archivos', 'ArchivoController@index')->name('archivos.index');
+    Route::get('materias/{materia}/alumnos', 'AlumnoController@index')->name('alumnos.index');
+
+    Route::get('alumnos/{materia}/list', 'AlumnoController@list');
+
     Route::get('unidades/{materia}/list', 'UnidadController@list');
     Route::get('unidades/trash/list', 'UnidadController@trashList');
     Route::put('unidades/{unidad}/restaurar', 'UnidadController@restore')->name('unidades.restore');

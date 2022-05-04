@@ -86,8 +86,11 @@ $(function () {
                     </button>
                     <a href="/materias/${data.id}/archivos" class="btn btn-sm btn-light has-tooltip" data-bs-toggle="tooltip"
                         data-bs-placement="top" title="Mostrar contenido">
-                        <i class="bi bi-file-earmark-fill"></i>
-                        Contenido
+                        <i class="bi bi-file-earmark-fill"></i> Contenido
+                    </a>
+                    <a href="/materias/${data.id}/alumnos" class="btn btn-sm btn-light has-tooltip" data-bs-toggle="tooltip"
+                        data-bs-placement="top" title="Mostrar alumnos">
+                        <i class="bi bi-people-fill"></i> Alumnos
                     </a>`;
                     return renderHTML;
                 }
