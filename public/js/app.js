@@ -5387,34 +5387,34 @@ __webpack_require__(/*! bootstrap-icons/font/bootstrap-icons */ "./node_modules/
 __webpack_require__(/*! datatables.net-bs5 */ "./node_modules/datatables.net-bs5/js/dataTables.bootstrap5.js");
 
 var dateFormat = 'DD/MM/YYYY';
-var today = new Date();
+var today = new Date(); // INIT BOOTSTRAP COMPONENTS
+
+var confirmDialog = document.getElementById('confirmDialog');
+var modal = new bootstrap.Modal(confirmDialog, {
+  keyboard: true
+}); // initialize all toast 
+
+var option = [];
+var toastElementList = [].slice.call(document.querySelectorAll('.toast'));
+var toastList = toastElementList.map(function (toastE) {
+  return new bootstrap.Toast(toastE, option);
+}); // initialize all dropdowns 
+
+var dropdownElementList = [].slice.call(document.querySelectorAll('.dropdown-toggle'));
+var dropdownList = dropdownElementList.map(function (dropdownToggleEl) {
+  dropdown = new bootstrap.Dropdown(dropdownToggleEl);
+  return dropdown;
+}); // initialize all tooltips
+
+var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+  return new bootstrap.Tooltip(tooltipTriggerEl);
+});
+new bootstrap.Tooltip(document.body, {
+  selector: '.has-tooltip'
+});
 $(function () {
-  // INIT BOOTSTRAP COMPONENTS
-  var confirmDialog = document.getElementById('confirmDialog');
-  var modal = new bootstrap.Modal(confirmDialog, {
-    keyboard: true
-  }); // initialize all toast 
-
-  var option = [];
-  var toastElementList = [].slice.call(document.querySelectorAll('.toast'));
-  var toastList = toastElementList.map(function (toastE) {
-    return new bootstrap.Toast(toastE, option);
-  }); // initialize all dropdowns 
-
-  var dropdownElementList = [].slice.call(document.querySelectorAll('.dropdown-toggle'));
-  var dropdownList = dropdownElementList.map(function (dropdownToggleEl) {
-    dropdown = new bootstrap.Dropdown(dropdownToggleEl);
-    return dropdown;
-  }); // initialize all tooltips
-
-  var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
-  var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-    return new bootstrap.Tooltip(tooltipTriggerEl);
-  });
-  new bootstrap.Tooltip(document.body, {
-    selector: '.has-tooltip'
-  }); // DataTables SETUP
-
+  // DataTables SETUP
   var dtButtons = $.extend(true, [], $.fn.DataTable.defaults.buttons);
   var dtLanguageOptions = {
     emptyTable: "No hay datos disponibles",

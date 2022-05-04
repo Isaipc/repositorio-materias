@@ -14,35 +14,35 @@ require('datatables.net-bs5')
 const dateFormat = 'DD/MM/YYYY';
 var today = new Date();
 
+// INIT BOOTSTRAP COMPONENTS
+var confirmDialog = document.getElementById('confirmDialog');
+var modal = new bootstrap.Modal(confirmDialog, {
+    keyboard: true
+});
+
+// initialize all toast 
+const option = [];
+var toastElementList = [].slice.call(document.querySelectorAll('.toast'))
+var toastList = toastElementList.map(function (toastE) {
+    return new bootstrap.Toast(toastE, option);
+});
+
+// initialize all dropdowns 
+var dropdownElementList = [].slice.call(document.querySelectorAll('.dropdown-toggle'))
+var dropdownList = dropdownElementList.map(function (dropdownToggleEl) {
+    dropdown = new bootstrap.Dropdown(dropdownToggleEl)
+    return dropdown;
+});
+
+// initialize all tooltips
+var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+    return new bootstrap.Tooltip(tooltipTriggerEl)
+});
+
+new bootstrap.Tooltip(document.body, { selector: '.has-tooltip' });
+
 $(function () {
-
-    // INIT BOOTSTRAP COMPONENTS
-    var confirmDialog = document.getElementById('confirmDialog');
-    var modal = new bootstrap.Modal(confirmDialog, {
-        keyboard: true
-    });
-
-    // initialize all toast 
-    const option = [];
-    var toastElementList = [].slice.call(document.querySelectorAll('.toast'))
-    var toastList = toastElementList.map(function (toastE) {
-        return new bootstrap.Toast(toastE, option);
-    });
-
-    // initialize all dropdowns 
-    var dropdownElementList = [].slice.call(document.querySelectorAll('.dropdown-toggle'))
-    var dropdownList = dropdownElementList.map(function (dropdownToggleEl) {
-        dropdown = new bootstrap.Dropdown(dropdownToggleEl)
-        return dropdown;
-    });
-
-    // initialize all tooltips
-    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
-    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-        return new bootstrap.Tooltip(tooltipTriggerEl)
-    });
-
-    new bootstrap.Tooltip(document.body, { selector: '.has-tooltip' });
 
     // DataTables SETUP
     let dtButtons = $.extend(true, [], $.fn.DataTable.defaults.buttons);
