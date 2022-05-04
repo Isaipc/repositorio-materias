@@ -54,6 +54,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('materias/{materia}/editar', 'MateriaController@edit')->name('materias.edit');
         Route::put('materias/{materia}', 'MateriaController@update')->name('materias.update');
         Route::put('materias/{materia}/change-status', 'MateriaController@changeStatus');
+        Route::delete('materias/{materia}/archive', 'MateriaController@archive');
         Route::delete('materias/{materia}', 'MateriaController@destroy')->name('materias.destroy');
 
         Route::get('materias/{materia}/alumnos', 'AlumnoController@index')->name('alumnos.index');

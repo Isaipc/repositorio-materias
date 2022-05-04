@@ -5,12 +5,264 @@
 @section('primary-title')
     <i class="bi bi-collection-fill"></i>
     {{ __('Materias') }}
+    <span class="float-end">
+        <button id="addMateria" class="btn btn-md btn-primary" data-bs-toggle="tooltip" data-bs-placement="top"
+            title="Crear nuevo">
+            <i class="bi bi-plus"></i>
+        </button>
+        <a href="{{ route('materias.trash') }}" class="btn btn-md btn-secondary position-relative" data-bs-toggle="tooltip"
+            data-bs-placement="top" title="Mostrar eliminados">
+            <i class="bi bi-trash-fill"></i>
+            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                {{ $archived->count() }}
+                <span class="visually-hidden"></span>
+            </span>
+        </a>
+    </span>
 @endsection
 
 @section('primary-content')
-    {{-- @include('materias.list') --}}
+    <!-- Save Modal -->
+    <div class="modal fade" id="materiaModal" tabindex="-1" role="dialog" aria-labelledby="modelTitleId"
+        aria-hidden="true">
+        <form id="materiaForm" action="javascript:void(0)" method="POST">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Agregar unidad</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <input id="materiaId" type="hidden" name="id" value="0">
+                        <div class="mb-3">
+                            <label for="nombre" class="form-label text-md-right">Nombre</label>
+                            <input id="nombre" type="text" class="form-control" name="nombre" maxlength="100" required
+                                value="{{ old('nombre') }}">
+                        </div>
+                        <div class="mb-3">
+                            <div class="form-check form-switch">
+                                <input id="estatus" class="form-check-input" name="estatus" type="checkbox" role="switch"
+                                    id="est">
+                                <label class="form-check-label" for="estatus">Habilitado para los alumnos</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-md btn-primary">Guardar</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    @datatable(['id' => 'dtMateria'])
+    @slot('thead')
+        <tr>
+            <th>Materia</th>
+            <th>Habilitado</th>
+            <th></th>
+        </tr>
+    @endslot
+    @enddatatable
 @endsection
 
-@section('secondary-content')
-    @include('materias.list')
+@section('scripts')
+    <script>
+        const materiaModalElement = document.getElementById('materiaModal');
+        const confirmationModalElement = document.getElementById('confirmationModal');
+
+        const materiaModal = new bootstrap.Modal(materiaModalElement, {
+            keyboard: true
+        });
+
+        const confirmationModal = new bootstrap.Modal(confirmationModalElement, {
+            keyboard: true
+        });
+
+        let materiasDtOverrideGlobals = {
+            language: dtLanguageOptions,
+            paginate: true,
+            processing: true,
+            stateSave: true,
+            ajax: {
+                url: '/materias/list',
+                dataSrc: 'data',
+            },
+            columns: [{
+                    data: null
+                },
+                {
+                    data: null
+                },
+                {
+                    data: null
+                },
+            ],
+            columnDefs: [{
+                    targets: 0,
+                    render: function(data, type, row, meta) {
+                        renderHTML =
+                            `<a href="/materias/${data.id}" class="btn btn-link has-tooltip" data-bs-toggle="tooltip"
+                          data-bs-placement="top" title="Mostrar detalles">
+                                <i class="bi bi-box-arrow-up-right"></i>
+                        </a>
+                        ${data.nombre}`
+                        return renderHTML;
+                    }
+                },
+                {
+                    targets: -1,
+                    render: function(data, type, row, meta) {
+                        renderHTML = `<button class="btn btn-sm btn-primary edit-item has-tooltip" 
+                        data-bs-toggle="tooltip" data-bs-placement="top" title="Editar">
+                        <i class="bi bi-pencil-fill"></i>
+                    </button>
+                    <button class="btn btn-sm btn-danger delete-item has-tooltip" 
+                        data-bs-toggle="tooltip" data-url="materias" data-bs-placement="top" title="Eliminar">
+                        <i class="bi bi-trash-fill"></i>
+                    </button>
+                    <a href="/materias/${data.id}/archivos" class="btn btn-sm btn-light has-tooltip" data-bs-toggle="tooltip"
+                        data-bs-placement="top" title="Mostrar contenido">
+                        <i class="bi bi-file-earmark-fill"></i> Contenido
+                    </a>
+                    <a href="/materias/${data.id}/alumnos" class="btn btn-sm btn-light has-tooltip" data-bs-toggle="tooltip"
+                        data-bs-placement="top" title="Mostrar alumnos">
+                        <i class="bi bi-people-fill"></i> Alumnos
+                    </a>`;
+                        return renderHTML;
+                    }
+                },
+                {
+                    targets: 1,
+                    render: function(data, type, row, meta) {
+                        return `<div class="form-check form-switch">
+                    <input class="form-check-input change-status" ${data.estatus == 1 ? 'checked' : ''} type="checkbox" role="switch"
+                    data-url="materias">
+                    </div>`;
+                    }
+                }
+            ],
+
+        };
+        const dtMateria = $('#dtMateria').DataTable(materiasDtOverrideGlobals);
+
+        $('#addMateria').on('click', function() {
+            materiaModal.show();
+            $('#materiaForm')[0].reset();
+            $('#materiaId').val(0);
+            materiaModalElement.querySelector('.modal-title').textContent = 'Agregar materia';
+        });
+
+        $('#materiaForm').on('submit', function(e) {
+            var form = $('#materiaForm');
+            var data = form.serialize();
+            var id = $('#materiaId');
+
+            if (id.val() == 0) {
+                url = '/materias'
+                type = 'POST';
+            } else {
+                url = `/materias/${id.val()}`
+                type = 'PUT';
+            }
+
+            $.ajax({
+                type: type,
+                url: url,
+                dataType: 'json',
+                data: data,
+                success: (data) => {
+                    showToast(data.success, TOAST_SUCCESS_TYPE);
+                    materiaModal.hide();
+                    form[0].reset();
+                    dtMateria.ajax.reload();
+                },
+                error: (jqXHR, textStatus, errorThrown) => {
+                    console.log(jqXHR.responseJSON);
+                    showToast(jqXHR.responseJSON.errors.nombre, TOAST_ERROR_TYPE);
+                }
+            });
+        });
+
+        $('#dtMateria').on('click', 'tbody .edit-item', function() {
+
+            var tr = $(this).closest('tr');
+            var data = dtMateria.row(tr).data();
+
+            materiaModal.show();
+
+            $('#materiaId').val(data.id);
+            $('#nombre').val(data.nombre);
+            $('#estatus').prop('checked', getSwitchStatus(data.estatus));
+
+            materiaModalElement.querySelector('.modal-title').textContent = 'Editar materia';
+        });
+
+        $('#confirmationDeleteButton').on('click', function() {
+            const ITEM_URL = this.dataset.url;
+            const ITEM_TYPE = this.dataset.type;
+
+            $.ajax({
+                type: ITEM_TYPE,
+                url: ITEM_URL,
+                success: (data) => {
+                    confirmationModal.hide();
+                    showToast(data.success, TOAST_SUCCESS_TYPE);
+                    dtMateria.ajax.reload();
+                },
+                error: (jqXHR, textStatus, errorThrown) => {
+                    showToast(jqXHR.responseJSON.error, TOAST_ERROR_TYPE);
+                }
+            });
+
+        });
+
+        $('#dtMateria').on('click', 'tbody .delete-item', function() {
+
+            const ITEM_URL = this.dataset.url;
+
+            var tr = $(this).closest('tr');
+            var data = dtMateria.row(tr).data();
+            var confirmationDeleteButton = document.getElementById('confirmationDeleteButton');
+
+            confirmationModalElement.querySelector('.modal-title').textContent = 'Eliminar';
+            confirmationModalElement.querySelector('.modal-body').innerHTML =
+                `<div>
+            <i class="bi bi-exclamation-diamond-fill" style="font-size: 2.5rem; color: orange;"></i>
+        </div>
+        ¿Desea eliminar <span class='text-danger'>${data.nombre}</span>?`;
+
+            confirmationModal.show();
+
+            confirmationDeleteButton.dataset.url = `/${ITEM_URL}/${data.id}/archive`;
+            confirmationDeleteButton.dataset.type = 'DELETE'
+        });
+        
+        $('#dtMateria tbody').on('change', '.change-status', function() {
+
+            var data = dtMateria.row($(this).parents('tr')).data();
+
+            const ITEM_URL = this.dataset.url;
+            const ITEM_STATUS = this.checked;
+
+            $.ajax({
+                type: 'PUT',
+                url: `/${ITEM_URL}/${data.id}/change-status`,
+                dataType: 'json',
+                data: {
+                    id: data.id,
+                    estatus: ITEM_STATUS
+                },
+                success: (data) => {
+                    showToast(data.success, TOAST_SUCCESS_TYPE);
+                    dtMateria.ajax.reload();
+                },
+                error: (jqXHR, textStatus, errorThrown) => {
+                    showToast(jqXHR.responseJSON.error, TOAST_ERROR_TYPE);
+                }
+            });
+
+        });
+    </script>
 @endsection
