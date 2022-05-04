@@ -49,6 +49,11 @@ Breadcrumbs::for("archivos.index", function ($trail, $model) {
     $trail->push('Contenido', route('archivos.index', $model));
 });
 
+Breadcrumbs::for("alumnos.index", function ($trail, $model) {
+    $trail->parent('materias.show', $model);
+    $trail->push('Alumnos', route('alumnos.index', $model));
+});
+
 Breadcrumbs::for("archivos.create", function ($trail, $model) {
     $trail->parent('archivos.index', $model);
     $trail->push('Subir archivo', route('archivos.create', $model));

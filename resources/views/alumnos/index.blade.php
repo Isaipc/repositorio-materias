@@ -1,6 +1,6 @@
 @extends('layouts.dashboard')
 
-{{-- @section('breadcrumbs', Breadcrumbs::render('alumnos.index')) --}}
+@section('breadcrumbs', Breadcrumbs::render('alumnos.index', $item))
 
 @section('primary-title')
     <i class="bi bi-people-fill"></i>
