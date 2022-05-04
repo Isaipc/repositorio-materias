@@ -45,24 +45,6 @@ new bootstrap.Tooltip(document.body, { selector: '.has-tooltip' });
 $(function () {
 
     // DataTables SETUP
-    let dtButtons = $.extend(true, [], $.fn.DataTable.defaults.buttons);
-    let dtLanguageOptions = {
-        emptyTable: "No hay datos disponibles",
-        zeroRecords: "No se encontraron resultados",
-        infoFiltered: "(filtrado de _MAX_ registros totales)",
-        infoEmpty: "Mostrando 0 registros",
-        search: 'Buscar',
-        info: "Mostrando pagina _PAGE_ de _PAGES_",
-        paginate: {
-            first: "Primero",
-            last: "Ultimo",
-            next: "Siguiente",
-            previous: "Anterior"
-        },
-        lengthMenu: "Mostrar _MENU_ filas",
-        processing: 'Procesando ...'
-    };
-
     let materiasDtOverrideGlobals = {
         language: dtLanguageOptions,
         paginate: true,
