@@ -25,6 +25,9 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('materias/{materia}/archivos', 'ArchivoController@index')->name('archivos.index');
 
         Route::get('unidades/{materia}/list', 'UnidadController@list');
+        Route::post('alumnos/materias', 'AlumnoEnMateriaController@store');
+        Route::get('alumnos/materias', 'AlumnoEnMateriaController@index');
+        Route::delete('alumnos/materias/{materia}', 'AlumnoEnMateriaController@destroy');
     });
 
     Route::group(['middleware' => ['role:Administrador']], function () {

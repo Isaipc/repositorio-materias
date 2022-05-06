@@ -5,9 +5,10 @@
 @section('primary-title')
     <i class="bi bi-collection-fill"></i>
     {{ $item->nombre }}
-    @hasrole('Administrador')
-        <span class="float-end">
-            <button class="btn btn-md btn-light add-item" title="Crear nuevo" data-bs-toggle="modal" data-bs-target="#itemModal">
+    <span class="float-end">
+        @hasrole('Administrador')
+            <button class="btn btn-md btn-primary add-item" title="Crear nuevo" data-bs-toggle="modal"
+                data-bs-target="#itemModal">
                 <i class="bi bi-plus"></i>
             </button>
             <a href="{{ route('materias.trash') }}" class="btn btn-md btn-secondary position-relative" data-bs-toggle="tooltip"
@@ -18,14 +19,22 @@
                     <span class="visually-hidden"></span>
                 </span>
             </a>
-        </span>
-    @endhasrole
+        @endhasrole
+        @hasrole('Alumno')
+            <button id="detachMateria" class="btn btn-md btn-outline-danger" data-url="alumnos/materias">
+                Darse de baja
+                <i class="bi bi-x-lg ms-2"></i>
+            </button>
+        @endhasrole
+    </span>
+
 @endsection
 
 @section('primary-content')
     @hasrole('Administrador')
         <!-- Save Modal -->
-        <div class="modal fade" id="itemModal" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+        <div class="modal fade" id="itemModal" tabindex="-1" role="dialog" aria-labelledby="modelTitleId"
+            aria-hidden="true">
             <form id="unidadForm" action="javascript:void(0)" method="POST">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
@@ -152,6 +161,31 @@
                     },
                 ]
             });
+
+            var confirmationModalElement = document.getElementById('confirmationModal');
+
+            var confirmationModal = new bootstrap.Modal(confirmationModalElement, {
+                keyboard: true
+            });
+
+            $('#detachMateria').on('click', function() {
+                const ITEM_URL = this.dataset.url;
+
+                var confirmationDeleteButton = document.getElementById('confirmationDeleteButton');
+
+                confirmationModalElement.querySelector('.modal-title').textContent = 'Dar de baja';
+                confirmationModalElement.querySelector('.modal-body').innerHTML =
+                    `<div>
+                    <i class="bi bi-exclamation-circle-fill" style="font-size: 2.5rem; color: red;"></i>
+                </div>
+                ¿Desea darse de baja en <span class='text-danger'>{{ $item->nombre }}</span>?`;
+
+                confirmationModal.show();
+
+                confirmationDeleteButton.dataset.url = `/${ITEM_URL}/{{ $item->id }}`;
+                confirmationDeleteButton.dataset.type = 'DELETE'
+            });
+
             $('#dtContenidoAlumno').on('requestChild.dt', function(e, row) {
                 var data = row.data();
                 row.child(format(data)).show();
@@ -166,6 +200,26 @@
                 else {
                     row.child(format(row.data())).show();
                 }
+            });
+
+            $('#confirmationDeleteButton').on('click', function() {
+                const ITEM_URL = this.dataset.url;
+                const ITEM_TYPE = this.dataset.type;
+
+                $.ajax({
+                    type: ITEM_TYPE,
+                    url: ITEM_URL,
+                    success: (data) => {
+                        confirmationModal.hide();
+                        showToast(data.success, TOAST_SUCCESS_TYPE);
+                        setTimeout(function() {
+                            window.location.href = "/";
+                        }, 5000);
+                    },
+                    error: (jqXHR, textStatus, errorThrown) => {
+                        showToast(jqXHR.responseJSON.error, TOAST_ERROR_TYPE);
+                    }
+                });
             });
 
             function format(data) {
@@ -264,8 +318,8 @@
                     },
                 ],
             };
-            var dtContenido = $('#dtContenido').DataTable(dtOverrideGlobals);
 
+            var dtContenido = $('#dtContenido').DataTable(dtOverrideGlobals);
 
             var itemModalElement = document.getElementById('itemModal');
             var confirmationModalElement = document.getElementById('confirmationModal');
