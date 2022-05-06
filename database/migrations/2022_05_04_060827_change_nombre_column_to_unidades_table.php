@@ -26,7 +26,7 @@ class ChangeNombreColumnToUnidadesTable extends Migration
     public function down()
     {
         Schema::table('unidades', function (Blueprint $table) {
-            $table->string('nombre')->change();
+            $table->dropUnique(['nombre']);
         });
     }
 }

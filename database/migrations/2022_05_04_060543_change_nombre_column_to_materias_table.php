@@ -26,7 +26,7 @@ class ChangeNombreColumnToMateriasTable extends Migration
     public function down()
     {
         Schema::table('materias', function (Blueprint $table) {
-            $table->string('nombre')->change();
+            $table->dropUnique(['nombre']);
         });
     }
 }
