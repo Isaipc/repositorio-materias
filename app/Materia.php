@@ -15,6 +15,7 @@ class Materia extends Model
         'nombre',
         'descripcion',
         'estatus',
+        'clave'
     ];
 
 
