@@ -46,6 +46,14 @@
                                 <label class="form-check-label" for="estatus">Habilitado para los alumnos</label>
                             </div>
                         </div>
+                        <label for="clave" class="form-label text-md-right">Clave</label>
+                        <div class="input-group mb-3">
+                            <input id="clave" type="text" class="form-control" name="clave" maxlength="100"
+                                aria-label="Example text with button addon" value="{{ old('clave') }}"
+                                aria-describedby="buttonRandomKey">
+                            <button class="btn btn-outline-secondary" type="button" id="buttonRandomKey">Generar
+                                clave</button>
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancelar</button>
@@ -61,6 +69,7 @@
         <tr>
             <th>Materia</th>
             <th>Habilitado</th>
+            <th>Clave de acceso</th>
             <th></th>
         </tr>
     @endslot
@@ -96,8 +105,11 @@
                     data: null
                 },
                 {
-                    data: null
+                    data: 'clave'
                 },
+                {
+                    data: null
+                }
             ],
             columnDefs: [{
                     targets: 0,
@@ -109,6 +121,22 @@
                         </a>
                         ${data.nombre}`
                         return renderHTML;
+                    }
+                },
+                {
+                    targets: 1,
+                    render: function(data, type, row, meta) {
+                        return `<div class="form-check form-switch">
+                    <input class="form-check-input change-status" ${data.estatus == 1 ? 'checked' : ''} type="checkbox" role="switch"
+                    data-url="materias">
+                    </div>`;
+                    }
+                },
+                {
+                    targets: 2,
+                    render: (data,type,row,meta) => {
+                        return `<span class="alert alert-primary px-2 py-0">${data}</span>`;
+
                     }
                 },
                 {
@@ -133,15 +161,6 @@
                         return renderHTML;
                     }
                 },
-                {
-                    targets: 1,
-                    render: function(data, type, row, meta) {
-                        return `<div class="form-check form-switch">
-                    <input class="form-check-input change-status" ${data.estatus == 1 ? 'checked' : ''} type="checkbox" role="switch"
-                    data-url="materias">
-                    </div>`;
-                    }
-                }
             ],
 
         };
@@ -151,6 +170,7 @@
             materiaModal.show();
             $('#materiaForm')[0].reset();
             $('#materiaId').val(0);
+            $('#clave').val(generateRandomKey());
             materiaModalElement.querySelector('.modal-title').textContent = 'Agregar materia';
         });
 
@@ -179,8 +199,7 @@
                     dtMateria.ajax.reload();
                 },
                 error: (jqXHR, textStatus, errorThrown) => {
-                    console.log(jqXHR.responseJSON);
-                    showToast(jqXHR.responseJSON.errors.nombre, TOAST_ERROR_TYPE);
+                    showToast(jqXHR.responseJSON.message, TOAST_ERROR_TYPE);
                 }
             });
         });
@@ -195,6 +214,7 @@
             $('#materiaId').val(data.id);
             $('#nombre').val(data.nombre);
             $('#estatus').prop('checked', getSwitchStatus(data.estatus));
+            $('#clave').val(data.clave);
 
             materiaModalElement.querySelector('.modal-title').textContent = 'Editar materia';
         });
@@ -238,7 +258,12 @@
             confirmationDeleteButton.dataset.url = `/${ITEM_URL}/${data.id}/archive`;
             confirmationDeleteButton.dataset.type = 'DELETE'
         });
-        
+
+        $('#buttonRandomKey').on('click', function() {
+            $('#clave').val(generateRandomKey());
+
+        });
+
         $('#dtMateria tbody').on('change', '.change-status', function() {
 
             var data = dtMateria.row($(this).parents('tr')).data();

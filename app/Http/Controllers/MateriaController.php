@@ -90,7 +90,10 @@ class MateriaController extends Controller
      */
     public function store(Request $request)
     {
-        $validated = $request->validate(['nombre' => 'required|unique:materias',]);
+        $validated = $request->validate([
+            'nombre' => 'required|unique:materias',
+            'clave' => 'required'
+        ]);
         return $this->save(new Materia, $request);
     }
 
@@ -129,7 +132,10 @@ class MateriaController extends Controller
      */
     public function update(Request $request, Materia $materia)
     {
-        $validated = $request->validate(['nombre' => 'required',]);
+        $validated = $request->validate([
+            'nombre' => 'required',
+            'clave' => 'required'
+        ]);
         return $this->save($materia, $request);
     }
 
@@ -166,6 +172,7 @@ class MateriaController extends Controller
         $materia->nombre = $request->nombre;
         $materia->descripcion = $request->descripcion;
         $materia->estatus =  isset($request->estatus) ? 1 : 2;
+        $materia->clave = $request->clave;
         $materia->save();
 
         $response = response()->json(['success' => 'Se ha guardado ' . $materia->nombre]);
@@ -196,6 +203,22 @@ class MateriaController extends Controller
             $response = response()->json(['error' => 'No se ha podido completar la operacion: ' . $e->getMessage()], 404);
         }
 
+        return $response;
+    }
+
+    /**
+     * Change the key.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Materia  $materia
+     * @return \Illuminate\Http\Response
+     */
+    public function changeClave(Materia $materia, Request $request)
+    {
+        $materia->clave =  $request->clave;
+        $materia->save();
+
+        $response = response()->json(['success' => 'Se ha guardado la clave ' . $materia->clave]);
         return $response;
     }
 }
