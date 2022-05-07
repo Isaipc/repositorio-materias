@@ -64,13 +64,15 @@
         @endhasrole
 
     </div>
-    <div id="misMaterias" class="d-flex flex-wrap justify-content-center"></div>
-    <div id="misMateriasAlert" class="alert alert-light text-center" role="alert" style="display: none;">
-        <div>
-            <i class="bi bi-info-circle-fill" style="font-size: 3rem; color: orange;"></i>
+    @hasrole('Alumno')
+        <div id="misMaterias" class="d-flex flex-wrap justify-content-center"></div>
+        <div id="misMateriasAlert" class="alert alert-light text-center" role="alert" style="display: none;">
+            <div>
+                <i class="bi bi-info-circle-fill" style="font-size: 3rem; color: orange;"></i>
+            </div>
+            <span class="text-muted"> Todavía no estas registrado en alguna materia. </span>
         </div>
-        <span class="text-muted"> Todavía no estas registrado en alguna materia. </span>
-    </div>
+    @endhasrole
 @endsection
 
 @section('scripts')
