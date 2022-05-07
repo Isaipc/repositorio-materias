@@ -64,7 +64,12 @@
         @endhasrole
 
     </div>
-    <div id="misMaterias" class="d-flex flex-wrap justify-content-center">
+    <div id="misMaterias" class="d-flex flex-wrap justify-content-center"></div>
+    <div id="misMateriasAlert" class="alert alert-light text-center" role="alert" style="display: none;">
+        <div>
+            <i class="bi bi-info-circle-fill" style="font-size: 3rem; color: orange;"></i>
+        </div>
+        <span class="text-muted"> Todavía no estas registrado en alguna materia. </span>
     </div>
 @endsection
 
@@ -74,6 +79,7 @@
         const claveModal = new bootstrap.Modal(claveModalElement, {
             keyboard: true
         });
+        const containerAlert = $('#misMateriasAlert');
 
         $(() => {
             getMaterias();
@@ -113,10 +119,16 @@
                 success: (data) => {
                     let container = $('#misMaterias');
                     let htmlResult = '';
-                    data.materias.forEach(e => {
-                        htmlResult += renderMateriaItem(e);
-                    });
-                    container.html(htmlResult);
+
+                    if (data.materias.length == 0) {
+                        containerAlert.show();
+                    } else {
+                        containerAlert.hide();
+                        data.materias.forEach(e => {
+                            htmlResult += renderMateriaItem(e);
+                        });
+                        container.html(htmlResult);
+                    }
                 },
                 error: (jqXHR, textStatus, errorThrown) => {
                     showToast(jqXHR.responseJSON.message, TOAST_ERROR_TYPE);
