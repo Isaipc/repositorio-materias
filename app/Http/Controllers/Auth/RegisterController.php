@@ -55,7 +55,6 @@ class RegisterController extends Controller
             'username' => ['required', 'string', 'max:50'],
             'email' => ['required', 'string', 'email', 'max:50', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
-            'materias' => ['required', 'array'],
         ]);
     }
 
@@ -75,15 +74,6 @@ class RegisterController extends Controller
             'password' => Hash::make($data['password']),
         ]);
 
-        $materias = $data['materias'];
-
-        foreach ($materias as $key => $m) {
-            AlumnoEnMateria::create([
-                'usuario_id' => $user->id,
-                'materia_id' => $m,
-            ]);
-        }
-
         $user->assignRole('Alumno');
         return $user;
     }
@@ -91,6 +81,6 @@ class RegisterController extends Controller
     public function showRegistrationForm()
     {
         $materias = Materia::where('estatus', '!=', 0)->orderBy('nombre', 'ASC')->get();
-        return view('auth.register', ['materias' => $materias]);
+        return view('auth.register');
     }
 }
