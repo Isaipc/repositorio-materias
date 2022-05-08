@@ -22,7 +22,9 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/inicio', 'HomeController@index')->name('home');
         Route::get('/', 'HomeController@index');
 
-        Route::get('materias/{materia}/archivos', 'ArchivoController@index')->name('archivos.index');
+        Route::middleware(['alumno_en_materia'])->group(function () {
+            Route::get('materias/{materia}/archivos', 'ArchivoController@index')->name('archivos.index');
+        });
 
         Route::get('unidades/{materia}/list', 'UnidadController@list');
         Route::post('alumnos/materias', 'AlumnoEnMateriaController@store');
