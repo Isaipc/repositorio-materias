@@ -5,41 +5,49 @@
 @section('primary-title', $item->nombre)
 
 @section('primary-content')
-<div class="row">
-    <div class="col-md-8">
-        <table class="table table-borderless table-responsive">
-            <tbody>
-                <tr>
-                    <th class="text-end">Nombre</th>
-                    <td> {{ $item->nombre }} </td>
-                </tr>
-                <tr>
-                    <th class="text-end">Estatus</th>
-                    <td> {{ $item->getEstatusName() }} </td>
-                </tr>
-                <tr>
-                    <th class="text-end">Creado</th>
-                    <td> {{ $item->created_at }} </td>
-                </tr>
-                <tr>
-                    <th class="text-end">Actualizado</th>
-                    <td> {{ $item->updated_at }} </td>
-                </tr>
-                <tr>
-                    <th class="text-end">Tipo de usuario</th>
-                    <td>
-                        @foreach ($item->roles as $r)
-                        {{ $r->name }}
-                        @endforeach
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+    <div class="row">
+        <div class="col-md-8">
+            <table class="table table-borderless table-responsive">
+                <tbody>
+                    <tr>
+                        <th class="text-end">Nombre</th>
+                        <td> {{ $item->nombre }} </td>
+                    </tr>
+                    <tr>
+                        <th class="text-end">Estatus</th>
+                        <td> {{ $item->getEstatusName() }} </td>
+                    </tr>
+                    <tr>
+                        <th class="text-end">Creado</th>
+                        <td> {{ $item->created_at }} </td>
+                    </tr>
+                    <tr>
+                        <th class="text-end">Actualizado</th>
+                        <td> {{ $item->updated_at }} </td>
+                    </tr>
+                    <tr>
+                        <th class="text-end">Tipo de usuario</th>
+                        <td>
+                            @foreach ($item->roles as $r)
+                                {{ $r->name }}
+                            @endforeach
+                        </td>
+                    </tr>
+                    <tr>
+                        <th class="text-end">Materias</th>
+                        <td>
+                            @foreach ($item->materias as $r)
+                                <li>
+                                    <a href="{{ route('materias.show', $r->id) }}" class="btn btn-link">
+                                        {{ $r->nombre }}
+                                    </a>
+                                </li>
+                            @endforeach
+                        </td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>
     </div>
-</div>
-@endsection
-@section('secondary-content')
-
-@include('usuarios.list')
-
 @endsection

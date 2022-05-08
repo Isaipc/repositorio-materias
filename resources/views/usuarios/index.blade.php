@@ -125,6 +125,7 @@
             <th>Nombre</th>
             <th class="d-none d-md-table-cell">Correo electronico</th>
             <th>Usuario</th>
+            <th>Materia</th>
             <th></th>
         </tr>
     @endslot
@@ -164,8 +165,11 @@
                     data: 'username'
                 },
                 {
-                    data: null
+                    data: 'materias'
                 },
+                {
+                    data: null
+                }
             ],
             columnDefs: [{
                     targets: 0,
@@ -176,6 +180,21 @@
                                 <i class="bi bi-box-arrow-up-right"></i>
                         </a>
                         ${data.nombre}`
+                        return renderHTML;
+                    }
+                },
+                {
+                    targets: 3,
+                    render: function(data, type, row, meta) {
+                        renderHTML = '';
+
+                        data.forEach(e => {
+                            renderHTML +=
+                                `<li>
+                                    <a href="/materias/${e.id}" class="btn btn-link text-decoration-none"> ${e.nombre} </a>
+                                </li>
+                                `
+                        });
                         return renderHTML;
                     }
                 },
@@ -212,7 +231,7 @@
             var form = $('#userForm');
             var data = form.serialize();
             var id = $('#userId');
-            
+
             if (id.val() == 0) {
                 url = '/usuarios'
                 type = 'POST';
