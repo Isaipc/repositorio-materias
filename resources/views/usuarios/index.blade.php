@@ -122,6 +122,7 @@
     @datatable(['id' => 'dtUsers'])
     @slot('thead')
         <tr>
+            <th></th>
             <th>Nombre</th>
             <th class="d-none d-md-table-cell">Correo electronico</th>
             <th>Usuario</th>
@@ -159,6 +160,9 @@
                     data: null
                 },
                 {
+                    data: 'nombre'
+                },
+                {
                     data: 'email'
                 },
                 {
@@ -174,19 +178,18 @@
             columnDefs: [{
                     targets: 0,
                     render: function(data, type, row, meta) {
-                        renderHTML =
+                        let renderHTML =
                             `<a href="/usuarios/${data.id}" class="btn btn-link" data-bs-toggle="tooltip"
                           data-bs-placement="top" title="Mostrar detalles">
                                 <i class="bi bi-box-arrow-up-right"></i>
-                        </a>
-                        ${data.nombre}`
+                        </a>`
                         return renderHTML;
                     }
                 },
                 {
-                    targets: 3,
+                    targets: 4,
                     render: function(data, type, row, meta) {
-                        renderHTML = '';
+                        let renderHTML = '';
 
                         data.forEach(e => {
                             renderHTML +=
@@ -201,16 +204,23 @@
                 {
                     targets: -1,
                     render: function(data, type, row, meta) {
+                        let renderHTML = '';
 
-                        renderHTML = `
-                        <a href="/usuarios/${data.id}/editar" class="btn btn-sm btn-primary has-tooltip" data-bs-toggle="tooltip"
-                        data-bs-placement="top" title="Editar">
-                            <i class="bi bi-pencil-fill"></i>
-                        </a>
-                        <button class="btn btn-sm btn-danger delete-item has-tooltip" 
-                        data-bs-toggle="tooltip" data-bs-placement="top" title="Eliminar">
-                            <i class="bi bi-trash-fill"></i>
-                        </button>`;
+                        if (data.roles.filter(r => r.name == 'Administrador').length > 0) {
+
+                            renderHTML =
+                                `<button class="btn btn-sm btn-primary" disabled><i class="bi bi-pencil-fill"></i> </button>
+                            <button class="btn btn-sm btn-danger" disabled> <i class="bi bi-trash-fill"></i> </button>`;
+
+                        } else {
+                            renderHTML = `<a href="/usuarios/${data.id}/editar" class="btn btn-sm btn-primary has-tooltip" data-bs-toggle="tooltip"
+                                data-bs-placement="top" title="Editar"> <i class="bi bi-pencil-fill"></i> </a>
+                                <button class="btn btn-sm btn-danger delete-item has-tooltip" 
+                    data-bs-toggle="tooltip" data-bs-placement="top" title="Eliminar">
+                    <i class="bi bi-trash-fill"></i>
+                    </button>`;
+                        }
+
                         return renderHTML;
                     }
                 },

@@ -23,7 +23,7 @@ class User extends Authenticatable
         'nombre', 'username', 'email', 'password',
     ];
 
-    protected $with = ['materias'];
+    protected $with = ['materias', 'roles'];
 
     /**
      * The attributes that should be hidden for arrays.

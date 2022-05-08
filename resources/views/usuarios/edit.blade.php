@@ -76,7 +76,3 @@
     </div>
 </form>
 @endsection
-
-@section('secondary-content')
-@include('usuarios.list')
-@endsection
