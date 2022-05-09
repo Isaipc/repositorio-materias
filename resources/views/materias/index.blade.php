@@ -95,7 +95,7 @@
             processing: true,
             stateSave: true,
             ajax: {
-                url: '/materias/list',
+                url: '/materias-ajax',
                 dataSrc: 'data',
             },
             columns: [{
@@ -128,7 +128,7 @@
                     render: function(data, type, row, meta) {
                         return `<div class="form-check form-switch">
                     <input class="form-check-input change-status" ${data.estatus == 1 ? 'checked' : ''} type="checkbox" role="switch"
-                    data-url="materias">
+                    data-url="materias-ajax">
                     </div>`;
                     }
                 },
@@ -147,10 +147,10 @@
                         <i class="bi bi-pencil-fill"></i>
                     </button>
                     <button class="btn btn-sm btn-danger delete-item has-tooltip" 
-                        data-bs-toggle="tooltip" data-url="materias" data-bs-placement="top" title="Eliminar">
+                        data-bs-toggle="tooltip" data-url="materias-ajax" data-bs-placement="top" title="Eliminar">
                         <i class="bi bi-trash-fill"></i>
                     </button>
-                    <a href="/materias/${data.id}/archivos" class="btn btn-sm btn-light has-tooltip" data-bs-toggle="tooltip"
+                    <a href="/materias/${data.id}/contenido" class="btn btn-sm btn-light has-tooltip" data-bs-toggle="tooltip"
                         data-bs-placement="top" title="Mostrar contenido">
                         <i class="bi bi-file-earmark-fill"></i> Contenido
                     </a>
@@ -180,10 +180,10 @@
             var id = $('#materiaId');
 
             if (id.val() == 0) {
-                url = '/materias'
+                url = '/materias-ajax'
                 type = 'POST';
             } else {
-                url = `/materias/${id.val()}`
+                url = `/materias-ajax/${id.val()}`
                 type = 'PUT';
             }
 

@@ -33,7 +33,7 @@
             processing: true,
             stateSave: true,
             ajax: {
-                url: '/materias/trash/list',
+                url: '/materias-ajax/trash',
                 dataSrc: 'data',
             },
             columns: [{
@@ -60,11 +60,11 @@
                     render: function(data, type, row, meta) {
                         renderHTML =
                             `<button type="button" class="btn btn-sm btn-success restore-item has-tooltip" data-bs-toggle="tooltip"
-                        data-url="materias" data-bs-placement="top" title="Restaurar">
+                             data-bs-placement="top" title="Restaurar">
                         <i class="bi bi-arrow-clockwise"></i>
                         </button>
                         <button class="btn btn-sm btn-danger delete-item has-tooltip" 
-                        data-bs-toggle="tooltip" data-url="materias" data-bs-placement="top" title="Eliminar permanentemente">
+                        data-bs-toggle="tooltip" data-bs-placement="top" title="Eliminar permanentemente">
                         <i class="bi bi-x"></i>
                         </button>
                         `;
@@ -78,7 +78,6 @@
 
         $('#dtMateriaTrash tbody').on('click', '.restore-item', function() {
 
-            const ITEM_URL = this.dataset.url;
             const tr = $(this).closest('tr');
             const data = dtMateriaTrash.row(tr).data();
 
@@ -93,7 +92,7 @@
 
             confirmationModal.show();
 
-            confirmationDeleteButton.dataset.url = `/${ITEM_URL}/${data.id}/restaurar`;
+            confirmationDeleteButton.dataset.url = `/materias-ajax/${data.id}/restore`;
             confirmationDeleteButton.dataset.type = 'PUT'
         });
 
@@ -112,7 +111,7 @@
 
             confirmationModal.show();
 
-            confirmationDeleteButton.dataset.url = `/${ITEM_URL}/${data.id}`;
+            confirmationDeleteButton.dataset.url = `/materias-ajax/${data.id}`;
             confirmationDeleteButton.dataset.type = 'DELETE'
         });
 

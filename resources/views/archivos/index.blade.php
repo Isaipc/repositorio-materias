@@ -11,8 +11,8 @@
                 data-bs-target="#itemModal">
                 <i class="bi bi-plus"></i>
             </button>
-            <a href="{{ route('materias.trash') }}" class="btn btn-md btn-secondary position-relative" data-bs-toggle="tooltip"
-                data-bs-placement="top" title="Mostrar eliminados">
+            <a href="{{ route('archivos.trash', $item) }}" class="btn btn-md btn-secondary position-relative"
+                data-bs-toggle="tooltip" data-bs-placement="top" title="Mostrar eliminados">
                 <i class="bi bi-trash-fill"></i>
                 <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
                     {{ $archived->count() }}
@@ -135,10 +135,6 @@
     @endhasrole
 @endsection
 
-@section('secondary-content')
-    @include('materias.list')
-@endsection
-
 @section('scripts')
 
     @hasrole('Alumno')
@@ -147,7 +143,7 @@
                 language: dtLanguageOptions,
                 paginate: true,
                 ajax: {
-                    url: `/unidades/{{ $item->id }}/list`,
+                    url: `/unidades-ajax/{{ $item->id }}/list`,
                     dataSrc: 'data',
                 },
                 columns: [{
@@ -253,7 +249,7 @@
                 language: dtLanguageOptions,
                 paginate: true,
                 ajax: {
-                    url: `/unidades/{{ $item->id }}/list`,
+                    url: `/unidades-ajax/{{ $item->id }}`,
                     dataSrc: 'data',
                 },
                 columns: [{
@@ -263,7 +259,7 @@
                         defaultContent: ``
                     },
                     {
-                        data: null
+                        data: 'nombre' 
                     },
                     {
                         data: null
@@ -273,19 +269,6 @@
                     },
                 ],
                 columnDefs: [{
-                        targets: 1,
-                        render: function(data, type, row, meta) {
-                            renderHTML =
-                                `<a href="/materias/${data.id}" class="btn btn-link has-tooltip" 
-                                data-bs-toggle="tooltip"
-                                data-bs-placement="top" title="Mostrar detalles">
-                            <i class="bi bi-box-arrow-up-right"></i>
-                    </a>
-                    ${data.nombre}`
-                            return renderHTML;
-                        }
-                    },
-                    {
                         targets: 2,
                         render: function(data, type, row, meta) {
                             return `<div class="form-check form-switch">
@@ -304,7 +287,7 @@
                                 <i class="bi bi-pencil-fill"></i>
                             </button>
                             <button class="btn btn-sm btn-danger delete-item has-tooltip" 
-                                data-bs-toggle="tooltip" data-url="unidades"
+                                data-bs-toggle="tooltip" data-url="unidades-ajax"
                                 data-bs-placement="top" title="Eliminar">
                                 <i class="bi bi-trash-fill"></i>
                             </button>
@@ -391,7 +374,7 @@
 
                 confirmationModal.show();
 
-                confirmationDeleteButton.dataset.url = `/${ITEM_URL}/${data.id}`;
+                confirmationDeleteButton.dataset.url = `/${ITEM_URL}/${data.id}/archive`;
                 confirmationDeleteButton.dataset.type = 'DELETE'
             });
 
@@ -432,10 +415,10 @@
                 var id = $('#id');
 
                 if (id.val() == 0) {
-                    url = '/unidades'
+                    url = '/unidades-ajax'
                     type = 'POST';
                 } else {
-                    url = `/unidades/${id.val()}`
+                    url = `/unidades-ajax/${id.val()}`
                     type = 'PUT';
                 }
 
