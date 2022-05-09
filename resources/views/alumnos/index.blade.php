@@ -19,10 +19,6 @@
     @enddatatable
 @endsection
 
-@section('secondary-content')
-    @include('materias.list')
-@endsection
-
 @section('scripts')
     <script>
         let dtOverrideGlobals = {

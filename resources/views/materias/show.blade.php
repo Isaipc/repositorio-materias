@@ -41,8 +41,3 @@
         </div>
     @endhasrole
 @endsection
-
-
-@section('secondary-content')
-    @include('materias.list')
-@endsection
