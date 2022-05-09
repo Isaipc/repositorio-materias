@@ -20,7 +20,7 @@
 </head>
 
 <body class="d-flex align-items-center bg-secondary">
-    <div class="my-auto w-100">
+    <div class="my-auto w-100 px-3">
         <div class="mx-auto card col-xl-3 col-lg-4 col-md-6 shadow-lg">
             <div class="card-body">
                 @yield('content')
