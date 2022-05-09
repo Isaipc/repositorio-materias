@@ -15,16 +15,15 @@ use Illuminate\Support\Facades\Auth;
 |
 */
 
-Auth::routes();
+Auth::routes(['verify' => true]);
 Route::group(['middleware' => 'auth'], function () {
 
     Route::group(['middleware' => ['role:Alumno|Administrador']], function () {
-        Route::get('/', 'HomeController@index')->name('home');
+        Route::get('/', 'HomeController@index')->name('home')->middleware('verified');
 
         Route::middleware(['alumno_en_materia'])->group(function () {
             Route::get('materias/{materia}/contenido', 'ArchivoController@index')->name('archivos.index');
             Route::get('unidades/{materia}/list', 'UnidadController@list');
-            Route::get('unidades/{materia}/trash/list', 'UnidadController@trashList');
         });
 
         Route::post('alumnos/materias', 'AlumnoEnMateriaController@store');
@@ -91,5 +90,6 @@ Route::group(['middleware' => 'auth'], function () {
         });
 
         Route::get('materias/{materia}/contenido/eliminados', 'ArchivoController@trash')->name('archivos.trash');
+        Route::get('unidades/{materia}/trash/list', 'UnidadController@trashList');
     });
 });
