@@ -126,7 +126,7 @@
             <th>Nombre</th>
             <th class="d-none d-md-table-cell">Correo electronico</th>
             <th>Usuario</th>
-            <th>Materia</th>
+            <th>Materias</th>
             <th></th>
         </tr>
     @endslot
@@ -191,13 +191,18 @@
                     render: function(data, type, row, meta) {
                         let renderHTML = '';
 
-                        data.forEach(e => {
-                            renderHTML +=
-                                `<li>
-                                    <a href="/materias/${e.id}" class="btn btn-link text-decoration-none"> ${e.nombre} </a>
-                                </li>
-                                `
-                        });
+                        if (data.length > 0) {
+                            data.forEach(e => {
+                                renderHTML +=
+                                    `<li>
+                                    <a href="/materias/${e.id}" class="btn btn-link text-decoration-none"> 
+                                            ${e.nombre}
+                                            </a>
+                                            </li>`
+                            });
+                        } else {
+                            renderHTML = `<span class="text-muted">Sin materias</span>`;
+                        }
                         return renderHTML;
                     }
                 },

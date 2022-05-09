@@ -36,6 +36,9 @@
                     <tr>
                         <th class="text-end">Materias</th>
                         <td>
+                            @if ($item->materias->count() == 0)
+                                <span class="text-muted">Sin materias</span>
+                            @endif
                             @foreach ($item->materias as $r)
                                 <li>
                                     <a href="{{ route('materias.show', $r->id) }}" class="btn btn-link">
