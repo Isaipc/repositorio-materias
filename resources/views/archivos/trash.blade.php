@@ -134,12 +134,8 @@
         });
 
         $('#dtContenido').on('click', 'tbody .delete-item', function() {
-
-            const ITEM_URL = this.dataset.url;
-
-            var tr = $(this).closest('tr');
-            var data = dtContenido.row(tr).data();
-            var confirmationDeleteButton = document.getElementById('confirmationDeleteButton');
+            const tr = $(this).closest('tr');
+            const data = dtContenido.row(tr).data();
 
             confirmationModalElement.querySelector('.modal-title').textContent = 'Eliminar';
             confirmationModalElement.querySelector('.modal-body').innerHTML =
@@ -150,7 +146,7 @@
 
             confirmationModal.show();
 
-            confirmationDeleteButton.dataset.url = `/${ITEM_URL}/${data.id}`;
+            confirmationDeleteButton.dataset.url = `/unidades-ajax/${data.id}`;
             confirmationDeleteButton.dataset.type = 'DELETE'
         });
 
