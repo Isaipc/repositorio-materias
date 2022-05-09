@@ -45,19 +45,31 @@
     <div class="d-flex flex-wrap justify-content-center">
         @hasrole('Administrador')
             @foreach ($materias_rep as $m)
-                <div class="card card-primary col-md-4 ms-2 mt-2">
-                    <div class="card-body text-center">
-                        <h5 class="card-title"> {{ $m->nombre }} </h5>
+                <div class="card bg-light col-md-4 ms-2 mt-2">
+                    <div class="card-header text-center">
+                        <h5 class="card-title">
+                            <a href="{{ route('materias.show', $m) }}" class="btn btn-sm btn-link has-tooltip float-start"
+                                data-bs-toggle="tooltip" data-bs-placement="top" title="Mostrar detalles">
+                                <i class="bi bi-box-arrow-up-right"></i>
+                            </a>
+                            {{ $m->nombre }}
+                        </h5>
+
+                    </div>
+                    <div class="card-body">
                         <div class="d-flex justify-content-around mt-2">
-                            <a href="{{ route('archivos.index', $m) }}" class="btn btn-md btn-light">
+                            <a href="{{ route('archivos.index', $m) }}" class="btn btn-md btn-primary">
                                 <i class="bi bi-files"></i>
                                 Mostrar contenido
                             </a>
-                            <a href="{{ route('alumnos.index', $m) }}" class="btn btn-md btn-light">
+                            <a href="{{ route('alumnos.index', $m) }}" class="btn btn-md btn-primary">
                                 <i class="bi bi-people-fill"></i>
-                                Alumnos
+                                Alumnos ({{ $m->alumnos->count() }})
                             </a>
                         </div>
+                    </div>
+                    <div class="card-footer">
+                        <small class="text-muted">Last updated 3 mins ago</small>
                     </div>
                 </div>
             @endforeach
@@ -145,7 +157,7 @@
 
 
             html += data.estatus == 1 ?
-                `<a href="/materias/${data.id}/archivos" class="btn btn-md btn-primary">
+                `<a href="/materias/${data.id}/contenido" class="btn btn-md btn-primary">
                             <i class="bi bi-files"></i>Mostrar contenido
                             </a>` : `<p class="text-muted mt-3"> Esta materia no se encuentra disponible. </p>`;
 
