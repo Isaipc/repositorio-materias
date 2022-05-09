@@ -19,14 +19,14 @@ Auth::routes();
 Route::group(['middleware' => 'auth'], function () {
 
     Route::group(['middleware' => ['role:Alumno|Administrador']], function () {
-        Route::get('/inicio', 'HomeController@index')->name('home');
-        Route::get('/', 'HomeController@index');
+        Route::get('/', 'HomeController@index')->name('home');
 
         Route::middleware(['alumno_en_materia'])->group(function () {
-            Route::get('materias/{materia}/archivos', 'ArchivoController@index')->name('archivos.index');
+            Route::get('materias/{materia}/contenido', 'ArchivoController@index')->name('archivos.index');
+            Route::get('unidades/{materia}/list', 'UnidadController@list');
+            Route::get('unidades/{materia}/trash/list', 'UnidadController@trashList');
         });
 
-        Route::get('unidades/{materia}/list', 'UnidadController@list');
         Route::post('alumnos/materias', 'AlumnoEnMateriaController@store');
         Route::get('alumnos/materias', 'AlumnoEnMateriaController@index');
         Route::delete('alumnos/materias/{materia}', 'AlumnoEnMateriaController@destroy');
@@ -50,21 +50,21 @@ Route::group(['middleware' => 'auth'], function () {
             Route::delete('{user}', 'UsuarioController@destroy')->name('usuarios.destroy');
         });
 
+        Route::prefix('materias-ajax')->group(function () {
+            Route::get('', 'MateriaAJAXController@index');
+            Route::get('trash', 'MateriaAJAXController@trash');
+            Route::post('', 'MateriaAJAXController@store');
+            Route::put('{materia}', 'MateriaAJAXController@update');
+            Route::put('{materia}/change-status', 'MateriaAJAXController@changeStatus');
+            Route::delete('{materia}/archive', 'MateriaAJAXController@archive');
+            Route::put('{materia}/restore', 'MateriaAJAXController@restore');
+            Route::delete('{materia}', 'MateriaAJAXController@destroy');
+        });
+
         Route::prefix('materias')->group(function () {
             Route::get('', 'MateriaController@index')->name('materias.index');
-            Route::get('list', 'MateriaController@list');
             Route::get('eliminados', 'MateriaController@trash')->name('materias.trash');
-            Route::get('trash/list', 'MateriaController@trashList');
-            Route::get('list', 'MateriaController@list')->name('materias.list');
-            Route::put('{materia}/restaurar', 'MateriaController@restore')->name('materias.restore');
-            Route::get('nuevo', 'MateriaController@create')->name('materias.create');
-            Route::post('', 'MateriaController@store')->name('materias.store');
             Route::get('{materia}', 'MateriaController@show')->name('materias.show');
-            Route::get('{materia}/editar', 'MateriaController@edit')->name('materias.edit');
-            Route::put('{materia}', 'MateriaController@update')->name('materias.update');
-            Route::put('{materia}/change-status', 'MateriaController@changeStatus');
-            Route::delete('{materia}/archive', 'MateriaController@archive');
-            Route::delete('{materia}', 'MateriaController@destroy')->name('materias.destroy');
         });
 
         Route::get('materias/{materia}/alumnos', 'AlumnoController@index')->name('alumnos.index');
@@ -76,13 +76,20 @@ Route::group(['middleware' => 'auth'], function () {
         });
 
         Route::prefix('unidades')->group(function () {
-            Route::get('eliminados', 'UnidadController@trash')->name('unidades.trash');
-            Route::get('trash/list', 'UnidadController@trashList');
-            Route::put('{unidad}/restaurar', 'UnidadController@restore')->name('unidades.restore');
-            Route::post('', 'UnidadController@store')->name('unidades.store');
-            Route::get('{unidad}', 'UnidadController@show')->name('unidades.show');
-            Route::put('{unidad}', 'UnidadController@update')->name('unidades.update');
-            Route::delete('{unidad}', 'UnidadController@destroy')->name('unidades.destroy');
+            // Route::get('', 'UnidadAJAXController@index')->name('unidades.index');
+            // Route::get('eliminados', 'UnidadAJAXController@trash')->name('unidades.trash');
+            Route::get('{unidad}', 'UnidadController@show');
         });
+        Route::prefix('unidades-ajax')->group(function () {
+            Route::get('{materia}', 'UnidadAJAXController@index');
+            Route::get('{materia}/trash', 'UnidadAJAXController@trash');
+            Route::post('', 'UnidadAJAXController@store');
+            Route::put('{unidad}', 'UnidadAJAXController@update');
+            Route::delete('{unidad}/archive', 'UnidadAJAXController@archive');
+            Route::put('{unidad}/restore', 'UnidadAJAXController@restore');
+            Route::delete('{unidad}', 'UnidadAJAXController@destroy');
+        });
+
+        Route::get('materias/{materia}/contenido/eliminados', 'ArchivoController@trash')->name('archivos.trash');
     });
 });

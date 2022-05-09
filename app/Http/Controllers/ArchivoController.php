@@ -38,6 +38,18 @@ class ArchivoController extends Controller implements Constants
     }
 
     /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function trash(Materia $materia)
+    {
+        return view('archivos.trash', [
+            'item' => $materia
+        ]);
+    }
+
+    /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
@@ -47,19 +59,6 @@ class ArchivoController extends Controller implements Constants
         return view('archivos.create', [
             'materia' => $materia,
             'rows' => Archivo::actives()->get(),
-        ]);
-    }
-
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function trash(Materia $materia)
-    {
-        return view('archivos.trash', [
-            'materia' => $materia,
-            'rows' => Archivo::archived()->get()
         ]);
     }
 
