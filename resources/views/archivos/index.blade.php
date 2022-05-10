@@ -143,7 +143,7 @@
                 language: dtLanguageOptions,
                 paginate: true,
                 ajax: {
-                    url: `/unidades-ajax/{{ $item->id }}/list`,
+                    url: `/unidades-ajax/{{ $item->id }}`,
                     dataSrc: 'data',
                 },
                 columns: [{
