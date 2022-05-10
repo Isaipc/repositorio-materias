@@ -19,7 +19,7 @@ Auth::routes(['verify' => true]);
 Route::group(['middleware' => 'auth'], function () {
 
     Route::group(['middleware' => ['role:Alumno|Administrador']], function () {
-        Route::get('/', 'HomeController@index')->name('home')->middleware('verified');
+        Route::get('/', 'HomeController@index')->name('home');
 
         Route::middleware(['alumno_en_materia'])->group(function () {
             Route::get('materias/{materia}/contenido', 'ArchivoController@index')->name('archivos.index');
@@ -80,7 +80,6 @@ Route::group(['middleware' => 'auth'], function () {
             Route::get('{unidad}', 'UnidadController@show');
         });
         Route::prefix('unidades-ajax')->group(function () {
-            Route::get('{materia}', 'UnidadAJAXController@index');
             Route::get('{materia}/trash', 'UnidadAJAXController@trash');
             Route::post('', 'UnidadAJAXController@store');
             Route::put('{unidad}', 'UnidadAJAXController@update');
