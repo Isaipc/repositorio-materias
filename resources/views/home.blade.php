@@ -42,41 +42,48 @@
         </form>
     </div>
 
-    <div class="d-flex flex-wrap justify-content-center">
-        @hasrole('Administrador')
-            @foreach ($materias_rep as $m)
-                <div class="card bg-light col-md-4 ms-2 mt-2">
-                    <div class="card-header text-center">
-                        <h5 class="card-title">
-                            <a href="{{ route('materias.show', $m) }}" class="btn btn-sm btn-link has-tooltip float-start"
-                                data-bs-toggle="tooltip" data-bs-placement="top" title="Mostrar detalles">
-                                <i class="bi bi-box-arrow-up-right"></i>
-                            </a>
-                            {{ $m->nombre }}
-                        </h5>
-
-                    </div>
-                    <div class="card-body">
-                        <div class="d-flex justify-content-around mt-2">
-                            <a href="{{ route('archivos.index', $m) }}" class="btn btn-md btn-primary">
-                                <i class="bi bi-files"></i>
-                                Mostrar contenido
-                            </a>
-                            <a href="{{ route('alumnos.index', $m) }}" class="btn btn-md btn-primary">
-                                <i class="bi bi-people-fill"></i>
-                                Alumnos ({{ $m->alumnos->count() }})
-                            </a>
+    <div class="container">
+        <div class="row row-cols-lg-4 row-cols-md-2 row-cols-sm-1 row-cols-1 g-2 g-lg-3">
+            @hasrole('Administrador')
+                @foreach ($materias_rep as $m)
+                    <div class="col p-2">
+                        <div class="card bg-light">
+                            <div class="card-header">
+                                <h5 class="card-title">
+                                    <a href="{{ route('materias.show', $m) }}"
+                                        class="btn btn-sm btn-link has-tooltip float-start" data-bs-toggle="tooltip"
+                                        data-bs-placement="top" title="Mostrar detalles">
+                                        <i class="bi bi-box-arrow-up-right"></i>
+                                    </a>
+                                    {{ $m->nombre }}
+                                </h5>
+                            </div>
+                            <div class="card-body">
+                                {{-- <div class="d-lg-flex justify-content-around gap-2 mt-2"> --}}
+                                <div class="d-grid gap-2 mt-2">
+                                    <a href="{{ route('archivos.index', $m) }}" class="btn btn-md btn-primary">
+                                        <i class="bi bi-files"></i>
+                                        Mostrar contenido
+                                    </a>
+                                    <a href="{{ route('alumnos.index', $m) }}" class="btn btn-md btn-primary">
+                                        <i class="bi bi-people-fill"></i>
+                                        Alumnos
+                                        <span class="badge bg-light text-dark">
+                                            {{ $m->alumnos->count() }}
+                                        </span>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                                <small class="text-muted"> Actualizado
+                                    {{ Carbon\Carbon::parse($m->updated_at)->diffForHumans() }}
+                                </small>
+                            </div>
                         </div>
                     </div>
-                    <div class="card-footer">
-                        <small class="text-muted"> Actualizado
-                            {{ Carbon\Carbon::parse($m->updated_at)->diffForHumans() }}
-                        </small>
-                    </div>
-                </div>
-            @endforeach
-        @endhasrole
-
+                @endforeach
+            @endhasrole
+        </div>
     </div>
     @hasrole('Alumno')
         <div id="misMaterias" class="d-flex flex-wrap justify-content-center"></div>
