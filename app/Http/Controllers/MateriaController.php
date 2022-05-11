@@ -29,7 +29,7 @@ class MateriaController extends Controller
     {
         return view('materias.trash');
     }
-    
+
     /**
      * Display the specified resource.
      *
@@ -38,6 +38,17 @@ class MateriaController extends Controller
      */
     public function show(Materia $materia)
     {
-        return view('materias.show', [ 'item' => $materia ]);
+        return view('materias.show', ['item' => $materia]);
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  \App\Materia  $materia
+     * @return \Illuminate\Http\Response
+     */
+    public function edit(Materia $materia)
+    {
+        return view('materias.edit', ['item' => $materia]);
     }
 }

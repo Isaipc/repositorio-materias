@@ -64,6 +64,7 @@ Route::group(['middleware' => 'auth'], function () {
             Route::get('', 'MateriaController@index')->name('materias.index');
             Route::get('eliminados', 'MateriaController@trash')->name('materias.trash');
             Route::get('{materia}', 'MateriaController@show')->name('materias.show');
+            Route::get('{materia}/editar', 'MateriaController@edit')->name('materias.edit');
         });
 
         Route::get('materias/{materia}/alumnos', 'AlumnoController@index')->name('alumnos.index');
