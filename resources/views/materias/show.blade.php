@@ -68,7 +68,7 @@
                     showToast(data.success, TOAST_SUCCESS_TYPE);
                     setTimeout(function() {
                         window.location.href = "/";
-                    }, 5000);
+                    }, 2500);
                 },
                 error: (jqXHR, textStatus, errorThrown) => {
                     showToast(jqXHR.responseJSON.error, TOAST_ERROR_TYPE);
