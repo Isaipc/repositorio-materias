@@ -69,7 +69,9 @@
                         </div>
                     </div>
                     <div class="card-footer">
-                        <small class="text-muted">Last updated 3 mins ago</small>
+                        <small class="text-muted"> Actualizado
+                            {{ Carbon\Carbon::parse($m->updated_at)->diffForHumans() }}
+                        </small>
                     </div>
                 </div>
             @endforeach

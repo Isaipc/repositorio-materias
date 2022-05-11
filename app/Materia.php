@@ -6,9 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Materia extends Model 
+class Materia extends Model
 {
-    use Common; 
+    use Common;
 
     protected $table = 'materias';
     protected $fillable = [
@@ -18,6 +18,16 @@ class Materia extends Model
         'clave'
     ];
 
+
+    public function getCreatedAtAttribute($value)
+    {
+        return $value;
+    }
+
+    public function getUpdatedAtAttribute($value)
+    {
+        return $value;
+    }
 
     /**
      * Get all of the comments for the Materia
