@@ -56,6 +56,6 @@ class Materia extends Model
      */
     public function alumnos(): BelongsToMany
     {
-        return $this->belongsToMany(User::class, 'usuario_materias', 'materia_id', 'usuario_id');
+        return $this->belongsToMany(User::class, 'usuario_materias', 'materia_id', 'usuario_id')->withTimestamps();
     }
 }

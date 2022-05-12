@@ -70,6 +70,6 @@ class User extends Authenticatable implements MustVerifyEmail
      */
     public function materias(): BelongsToMany
     {
-        return $this->belongsToMany(Materia::class, 'usuario_materias', 'usuario_id', 'materia_id');
+        return $this->belongsToMany(Materia::class, 'usuario_materias', 'usuario_id', 'materia_id')->withTimestamps();
     }
 }
