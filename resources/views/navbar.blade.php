@@ -13,6 +13,12 @@
             <ul class="navbar-nav mr-auto">
                 @guest
                 @else
+                    <li class="nav-item">
+                        <a class="nav-link @if (request()->routeIs('home')) active @endif" href="{{ route('home') }}"
+                            aria-haspopup="true" aria-expanded="false">
+                            <i class="bi @if (request()->routeIs('home')) bi-house-fill @else bi-house @endif"></i>
+                            {{ __('Inicio') }} </a>
+                    </li>
                     @can('catalogos-menu')
                         <li class="nav-item">
                             @if (request()->routeIs('materias.*'))
