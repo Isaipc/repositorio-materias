@@ -14,6 +14,7 @@
         <tr>
             <th>Alumno</th>
             <th>Correo</th>
+            <th>Registro</th>
         </tr>
     @endslot
     @enddatatable
@@ -33,21 +34,31 @@
                 },
                 {
                     data: 'email'
+                },
+                {
+                    data: 'pivot.created_at'
                 }
             ],
             columnDefs: [{
-                targets: 0,
-                render: function(data, type, row, meta) {
-                    renderHTML =
-                        `<a href="/usuarios/${data.id}" class="btn btn-link has-tooltip" 
+                    targets: 0,
+                    render: function(data, type, row, meta) {
+                        renderHTML =
+                            `<a href="/usuarios/${data.id}" class="btn btn-link has-tooltip" 
                                 data-bs-toggle="tooltip"
                                 data-bs-placement="top" title="Mostrar detalles">
                             <i class="bi bi-box-arrow-up-right"></i>
                     </a>
                     ${data.nombre}`
-                    return renderHTML;
+                        return renderHTML;
+                    }
+                },
+                {
+                    targets: 2,
+                    render: function(data, type, row, meta) {
+                        return `${moment(data).fromNow()}`;
+                    }
                 }
-            }]
+            ]
         };
 
         var dtAlumnos = $('#dtAlumnos').DataTable(dtOverrideGlobals);
