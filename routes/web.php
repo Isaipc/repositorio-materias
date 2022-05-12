@@ -19,7 +19,8 @@ Auth::routes(['verify' => true]);
 Route::group(['middleware' => 'auth'], function () {
 
     Route::group(['middleware' => ['role:Alumno|Administrador']], function () {
-        Route::get('/', 'HomeController@index')->name('home');
+        Route::get('/', 'HomeController@index');
+        Route::get('/inicio', 'HomeController@index')->name('home');
 
         Route::middleware(['alumno_en_materia'])->group(function () {
             Route::get('materias/{materia}/contenido', 'ArchivoController@index')->name('archivos.index');
@@ -65,10 +66,10 @@ Route::group(['middleware' => 'auth'], function () {
             Route::get('eliminados', 'MateriaController@trash')->name('materias.trash');
             Route::get('{materia}', 'MateriaController@show')->name('materias.show');
             Route::get('{materia}/editar', 'MateriaController@edit')->name('materias.edit');
+            Route::get('{materia}/alumnos', 'AlumnoController@index')->name('alumnos.index');
         });
-
-        Route::get('materias/{materia}/alumnos', 'AlumnoController@index')->name('alumnos.index');
         Route::get('alumnos/{materia}/list', 'AlumnoController@list');
+
 
         Route::prefix('archivos')->group(function () {
             Route::get('{unidad}/list', 'ArchivoController@list');
