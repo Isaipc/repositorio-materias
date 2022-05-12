@@ -8,8 +8,9 @@ require('jquery-validation');
 require('./bootstrap');
 require('bootstrap-select');
 require('bootstrap-icons/font/bootstrap-icons');
+var _moment = require('moment');
 
-require('datatables.net-bs5')
+require('datatables.net-bs5');
 
 const dateFormat = 'DD/MM/YYYY';
 var today = new Date();
@@ -38,5 +39,8 @@ var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
 
 new bootstrap.Tooltip(document.body, { selector: '.has-tooltip' });
 
-$(function () { });
+$(function () {
+    _moment.locale('es');
+    moment = _moment;
+});
 

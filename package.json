@@ -28,6 +28,7 @@
     "dependencies": {
         "bootstrap-select": "^1.14.0-beta2",
         "datatables.net-bs5": "^1.11.5",
-        "jquery-validation": "^1.19.3"
+        "jquery-validation": "^1.19.3",
+        "moment": "^2.29.3"
     }
 }
