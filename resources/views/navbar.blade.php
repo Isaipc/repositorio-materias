@@ -21,29 +21,17 @@
                     </li>
                     @can('catalogos-menu')
                         <li class="nav-item">
-                            @if (request()->routeIs('materias.*'))
-                                <a class="nav-link active" href="{{ route('materias.index') }}" aria-haspopup="true"
-                                    aria-expanded="false">
-                                    <i class="bi bi-collection-fill"></i>
-                                    {{ __('Materias') }} </a>
-                            @else
-                                <a class="nav-link" href="{{ route('materias.index') }}" aria-haspopup="true"
-                                    aria-expanded="false">
-                                    <i class="bi bi-collection"></i>
-                                    {{ __('Materias') }} </a>
-                            @endif
+                            <a class="nav-link @if (request()->routeIs('materias.*')) active @endif"
+                                href="{{ route('materias.index') }}" aria-haspopup="true" aria-expanded="false">
+                                <i class="bi @if (request()->routeIs('materias.index')) bi-collection-fill @else bi-collection @endif"></i>
+                                {{ __('Materias') }} </a>
                         </li>
 
                         <li class="nav-item">
-                            @if (request()->routeIs('usuarios.*'))
-                                <a class="nav-link active" href="{{ route('usuarios.index') }}" aria-haspopup="true"
-                                    aria-expanded="false">
-                                    <i class="bi bi-people-fill"></i> {{ __('Usuarios') }} </a>
-                            @else
-                                <a class="nav-link" href="{{ route('usuarios.index') }}" aria-haspopup="true"
-                                    aria-expanded="false">
-                                    <i class="bi bi-people"></i> {{ __('Usuarios') }} </a>
-                            @endif
+                            <a class="nav-link @if (request()->routeIs('usuarios.*')) active @endif"
+                                href="{{ route('usuarios.index') }}" aria-haspopup="true" aria-expanded="false">
+                                <i class="bi @if (request()->routeIs('usuarios.index')) bi-people-fill @else bi-people @endif"></i>
+                                {{ __('Usuarios') }} </a>
                         </li>
                     @endcan
                 @endguest
