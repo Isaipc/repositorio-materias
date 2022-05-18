@@ -13,16 +13,6 @@ class TestUserSeeder extends Seeder
      */
     public function run()
     {
-
-        $user = new User;
-        $user->fill([
-            'nombre' => 'Administrador',
-            'username' => 'admin',
-            'email' => 'admin@mail.com',
-            'password' => bcrypt('1Q2w3e4r5T'),
-        ])->save();
-        $user->assignRole('Administrador');
-
         $user = new User;
         $user->fill([
             'nombre' => 'Gustavo Eslava',
