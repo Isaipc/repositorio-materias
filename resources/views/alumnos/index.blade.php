@@ -14,7 +14,7 @@
         <tr>
             <th>Alumno</th>
             <th>Correo</th>
-            <th>Registro</th>
+            <th>Registrado</th>
         </tr>
     @endslot
     @enddatatable
