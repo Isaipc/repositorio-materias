@@ -62,17 +62,10 @@ class UsuarioController extends Controller
      */
     public function restore(User $user)
     {
-        try {
-            $user->estatus = 2;
-            $r = $user->save();
+        $user->estatus = 2;
+        $user->save();
 
-            if ($r)
-                $response = response()->json(['success' => 'Se ha restaurado ' . $user->nombre]);
-            else
-                $response = response()->json(['error' => 'No se ha podido completar la operación']);
-        } catch (ErrorException $e) {
-            $response = response()->json(['error' => 'No se ha podido completar la operacion: ' . $e->getMessage()], 404);
-        }
+        $response = response()->json(['success' => 'Se ha restaurado ' . $user->nombre]);
         return $response;
     }
 
