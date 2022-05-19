@@ -12,16 +12,6 @@ trait Common
         return $this->estatus == 0;
     }
 
-    public function getCreatedAtAttribute($value)
-    {
-        return Carbon::parse($value)->format(config('constants.timestamps_format'));
-    }
-
-    public function getUpdatedAtAttribute($value)
-    {
-        return Carbon::parse($value)->format(config('constants.timestamps_format'));
-    }
-
     public function getEstatusName()
     {
         switch ($this->estatus) {
