@@ -41,7 +41,7 @@ Breadcrumbs::macro('resource', function ($parent, $name, $title) {
     });
 });
 
-Breadcrumbs::resource('home', 'usuarios', 'Usuarios');
+Breadcrumbs::resource('home', 'usuarios', 'Alumnos');
 Breadcrumbs::resource('home', 'materias', 'Materias');
 
 Breadcrumbs::for("archivos.index", function ($trail, $model) {
