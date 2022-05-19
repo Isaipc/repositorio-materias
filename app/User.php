@@ -78,7 +78,7 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return self::whereHas('roles', function (Builder $query) {
             $query->where('name', 'Alumno');
-        })->where('estatus', config('constants.status_enabled'));
+        })->where('estatus', '!=', config('constants.status_archived'));
     }
 
     public static function archived()
