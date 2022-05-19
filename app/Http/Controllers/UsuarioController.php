@@ -178,7 +178,7 @@ class UsuarioController extends Controller
     {
         $user->delete();
 
-        $response = response()->json(['success' => 'Se ha eliminado ' . $user->nombre]);
+        $response = response()->json(['success' => 'Se ha eliminado ' . $user->nombre . ' de forma permanente.']);
         return $response;
     }
 
