@@ -31,7 +31,7 @@
                             <a class="nav-link @if (request()->routeIs('usuarios.*')) active @endif"
                                 href="{{ route('usuarios.index') }}" aria-haspopup="true" aria-expanded="false">
                                 <i class="bi @if (request()->routeIs('usuarios.index')) bi-people-fill @else bi-people @endif"></i>
-                                {{ __('Usuarios') }} </a>
+                                {{ __('Alumnos') }} </a>
                         </li>
                     @endcan
                 @endguest

@@ -4,7 +4,7 @@
 
 @section('primary-title')
     <i class="bi bi-person-x-fill"></i>
-    {{ __('Usuarios eliminados') }}
+    {{ __('Alumnos eliminados') }}
 @endsection
 
 @section('primary-content')
