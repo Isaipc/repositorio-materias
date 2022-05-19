@@ -222,15 +222,4 @@ class UsuarioController extends Controller
             'password' => ['required', 'string', 'min:8', 'confirmed'],
         ]);
     }
-
-    public function actives()
-    {
-        return User::where('estatus', '!=', 0)->orderBy('nombre', 'ASC')->get();
-    }
-
-    public function deleted()
-    {
-
-        return User::where('estatus', 0)->orderBy('nombre', 'ASC')->get();
-    }
 }
