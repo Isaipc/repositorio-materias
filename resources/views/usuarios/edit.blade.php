@@ -4,7 +4,7 @@
 
 @section('primary-title')
 <i class="bi bi-person-check-fill"></i>
-{{__('Editar usuario')}}
+{{__('Editar alumno')}}
 @endsection
 
 @section('primary-content')
