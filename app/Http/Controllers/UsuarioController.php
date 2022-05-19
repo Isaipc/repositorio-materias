@@ -7,6 +7,7 @@ use Carbon\Carbon;
 use Spatie\Permission\Models\Role;
 use App\Http\Controllers\Controller;
 use ErrorException;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;

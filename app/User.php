@@ -5,6 +5,7 @@ namespace App;
 use Carbon\Carbon;
 use \Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -71,5 +72,19 @@ class User extends Authenticatable implements MustVerifyEmail
     public function materias(): BelongsToMany
     {
         return $this->belongsToMany(Materia::class, 'usuario_materias', 'usuario_id', 'materia_id')->withTimestamps();
+    }
+
+    public static function actives()
+    {
+        return self::whereHas('roles', function (Builder $query) {
+            $query->where('name', 'Alumno');
+        })->where('estatus', config('constants.status_enabled'));
+    }
+
+    public static function archived()
+    {
+        return self::whereHas('roles', function (Builder $query) {
+            $query->where('name', 'Alumno');
+        })->where('estatus', config('constants.status_archived'));
     }
 }
