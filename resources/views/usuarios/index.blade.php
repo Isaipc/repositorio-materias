@@ -148,77 +148,76 @@
         });
 
         let dtOverrideGlobals = {
-                language: dtLanguageOptions,
-                paginate: true,
-                stateSave: true,
-                processing: true,
-                ajax: {
-                    url: '/usuarios/list',
-                    dataSrc: 'data',
+            language: dtLanguageOptions,
+            paginate: true,
+            stateSave: true,
+            processing: true,
+            ajax: {
+                url: '/usuarios/list',
+                dataSrc: 'data',
+            },
+            columns: [{
+                    data: null
                 },
-                columns: [{
-                        data: null
-                    },
-                    {
-                        data: 'nombre'
-                    },
-                    {
-                        data: 'email'
-                    },
-                    {
-                        data: 'username'
-                    },
-                    {
-                        data: 'materias'
-                    },
-                    {
-                        data: null
-                    }
-                ],
-                columnDefs: [{
-                        targets: 0,
-                        render: function(data, type, row, meta) {
-                            let renderHTML =
-                                `<a href="/usuarios/${data.id}" class="btn btn-link" data-bs-toggle="tooltip"
+                {
+                    data: 'nombre'
+                },
+                {
+                    data: 'email'
+                },
+                {
+                    data: 'username'
+                },
+                {
+                    data: 'materias'
+                },
+                {
+                    data: null
+                }
+            ],
+            columnDefs: [{
+                    targets: 0,
+                    render: function(data, type, row, meta) {
+                        let renderHTML =
+                            `<a href="/usuarios/${data.id}" class="btn btn-link" data-bs-toggle="tooltip"
                           data-bs-placement="top" title="Mostrar detalles">
                                 <i class="bi bi-box-arrow-up-right"></i>
                         </a>`
-                            return renderHTML;
-                        }
-                    },
-                    {
-                        targets: 4,
-                        render: function(data, type, row, meta) {
-                            let renderHTML = '';
+                        return renderHTML;
+                    }
+                },
+                {
+                    targets: 4,
+                    render: function(data, type, row, meta) {
+                        let renderHTML = '';
 
-                            if (data.length > 0) {
-                                data.forEach(e => {
-                                    renderHTML +=
-                                        `<li>
+                        if (data.length > 0) {
+                            data.forEach(e => {
+                                renderHTML +=
+                                    `<li>
                                     <a href="/materias/${e.id}" class="btn btn-link text-decoration-none"> 
                                             ${e.nombre}
                                             </a>
                                             </li>`
-                                });
-                            } else {
-                                renderHTML = `<span class="text-muted">Sin materias</span>`;
-                            }
-                            return renderHTML;
+                            });
+                        } else {
+                            renderHTML = `<span class="text-muted">Sin materias</span>`;
                         }
-                    },
-                    {
-                        targets: -1,
-                        render: function(data, type, row, meta) {
-                            let renderHTML = '';
-                            renderHTML =
-                                `<a href="/usuarios/${data.id}/editar" class="btn btn-sm btn-primary has-tooltip" 
+                        return renderHTML;
+                    }
+                },
+                {
+                    targets: -1,
+                    render: function(data, type, row, meta) {
+                        let renderHTML = '';
+                        renderHTML =
+                            `<a href="/usuarios/${data.id}/editar" class="btn btn-sm btn-primary has-tooltip" 
                                 data-bs-toggle="tooltip"
                                 data-bs-placement="top" title="Editar"> 
                                 <i class="bi bi-pencil-fill"></i> </a>
                                 <button class="btn btn-sm btn-danger delete-item has-tooltip" 
                                 data-bs-toggle="tooltip" data-bs-placement="top" title="Eliminar">
                                 <i class="bi bi-trash-fill"></i></button>`;
-                        }
                         return renderHTML;
                     }
                 },
