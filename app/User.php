@@ -44,16 +44,6 @@ class User extends Authenticatable implements MustVerifyEmail
         'email_verified_at' => 'datetime',
     ];
 
-    public function getCreatedAtAttribute($value)
-    {
-        return Carbon::parse($value)->format(config('constants.timestamps_format'));
-    }
-
-    public function getUpdatedAtAttribute($value)
-    {
-        return Carbon::parse($value)->format(config('constants.timestamps_format'));
-    }
-
     /**
      * Get all of the alumnoEnMateria for the Materia
      *
