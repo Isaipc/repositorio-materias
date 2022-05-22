@@ -40,6 +40,7 @@
             </div>
         </div>
         <button type="submit" class="btn btn-md btn-primary">Guardar</button>
+        <a href="{{ url()->previous() }}" class="btn btn-light">Cancelar</a>
     </form>
 @endsection
 
