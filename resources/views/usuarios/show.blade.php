@@ -3,7 +3,7 @@
 @section('breadcrumbs', Breadcrumbs::render('usuarios.show', $item))
 
 @section('primary-title')
-    <i class="bi bi-collection-fill"></i>
+    <i class="bi bi-person-fill"></i>
     {{ $item->nombre }}
 
     <span class="float-end">
@@ -104,4 +104,3 @@
         });
     </script>
 @endsection
-
