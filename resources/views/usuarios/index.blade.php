@@ -231,7 +231,7 @@
             userModal.show();
             $('#userForm')[0].reset();
             $('#userId').val(0);
-            userModalElement.querySelector('.modal-title').textContent = 'Nuevo usuario';
+            userModalElement.querySelector('.modal-title').textContent = 'Nuevo alumno';
         });
 
         $('#userForm').on('submit', function(e) {
