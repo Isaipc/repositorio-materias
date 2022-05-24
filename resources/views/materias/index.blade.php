@@ -94,6 +94,7 @@
             paginate: true,
             processing: true,
             stateSave: true,
+            responsive: true,
             ajax: {
                 url: '/materias-ajax',
                 dataSrc: 'data',
@@ -134,7 +135,7 @@
                 },
                 {
                     targets: 2,
-                    render: (data,type,row,meta) => {
+                    render: (data, type, row, meta) => {
                         return `<span class="alert alert-primary px-2 py-0">${data}</span>`;
 
                     }

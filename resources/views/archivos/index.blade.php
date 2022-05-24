@@ -224,7 +224,7 @@
                     return `<span class="text-muted">No hay archivos disponibles</span>`
 
                 data.archivos.forEach(e => {
-                    rowItems += `<tr class=>
+                    rowItems += `<tr>
                             <td></td>    
                             <td>    
                                 <a href="${e.url}" class="text-decoration-none has-tooltip" 
@@ -259,7 +259,7 @@
                         defaultContent: ``
                     },
                     {
-                        data: 'nombre' 
+                        data: 'nombre'
                     },
                     {
                         data: null
@@ -474,7 +474,7 @@
                     return `<span class="text-muted">No hay archivos disponibles</span>`
 
                 data.archivos.forEach(e => {
-                    rowItems += `<tr class=>
+                    rowItems += `<tr>
                             <td></td>    
                             <td>    
                                 <a href="${e.url}" class="text-decoration-none has-tooltip" 
@@ -491,8 +491,13 @@
                                 </div>
                             </td>
                             <td>
+                                <button class="btn btn-sm btn-primary edit-item has-tooltip" 
+                                    data-bs-toggle="tooltip" 
+                                    data-bs-placement="top" title="Editar">
+                                    <i class="bi bi-pencil-fill"></i>
+                                </button>
                                 <button class="btn btn-sm btn-danger delete-item has-tooltip" 
-                                    data-bs-toggle="tooltip" data-url="materias"
+                                    data-bs-toggle="tooltip" data-url="unidades-ajax"
                                     data-bs-placement="top" title="Eliminar">
                                     <i class="bi bi-trash-fill"></i>
                                 </button>

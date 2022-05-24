@@ -32,6 +32,7 @@
             paginate: true,
             processing: true,
             stateSave: true,
+            responsive: true,
             ajax: {
                 url: '/materias-ajax/trash',
                 dataSrc: 'data',

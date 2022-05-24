@@ -124,7 +124,7 @@
         <tr>
             <th></th>
             <th>Nombre</th>
-            <th class="d-none d-md-table-cell">Correo electronico</th>
+            <th>Correo electronico</th>
             <th>Usuario</th>
             <th>Materias</th>
             <th></th>
@@ -152,6 +152,7 @@
             paginate: true,
             stateSave: true,
             processing: true,
+            responsive: true,
             ajax: {
                 url: '/usuarios/list',
                 dataSrc: 'data',

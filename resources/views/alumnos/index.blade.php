@@ -25,6 +25,7 @@
         let dtOverrideGlobals = {
             language: dtLanguageOptions,
             paginate: true,
+            responsive: true,
             ajax: {
                 url: `/alumnos/{{ $item->id }}/list`,
                 dataSrc: 'data'

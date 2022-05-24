@@ -13,7 +13,7 @@
     @slot('thead')
         <tr>
             <th>Nombre</th>
-            <th class="d-none d-md-table-cell">Correo electronico</th>
+            <th>Correo electronico</th>
             <th>Usuario</th>
             <th></th>
         </tr>
@@ -36,6 +36,7 @@
             paginate: true,
             processing: true,
             stateSave: true,
+            responsive: true,
             ajax: {
                 url: '/usuarios/trash/list',
                 dataSrc: 'data',
