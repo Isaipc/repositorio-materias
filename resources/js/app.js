@@ -11,6 +11,7 @@ require('bootstrap-icons/font/bootstrap-icons');
 var _moment = require('moment');
 
 require('datatables.net-bs5');
+require('datatables.net-responsive-bs5');
 
 const dateFormat = 'DD/MM/YYYY';
 var today = new Date();
