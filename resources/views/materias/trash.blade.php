@@ -60,15 +60,17 @@
                     targets: -1,
                     render: function(data, type, row, meta) {
                         renderHTML =
-                            `<button type="button" class="btn btn-sm btn-success restore-item has-tooltip" data-bs-toggle="tooltip"
-                             data-bs-placement="top" title="Restaurar">
-                        <i class="bi bi-arrow-clockwise"></i>
-                        </button>
-                        <button class="btn btn-sm btn-danger delete-item has-tooltip" 
-                        data-bs-toggle="tooltip" data-bs-placement="top" title="Eliminar permanentemente">
-                        <i class="bi bi-x"></i>
-                        </button>
-                        `;
+                            `<button type="button" class="btn btn-sm btn-success restore-item has-tooltip" 
+                                data-bs-toggle="tooltip"
+                                data-row="${meta.row}"
+                                data-bs-placement="top" title="Restaurar">
+                                <i class="bi bi-arrow-clockwise"></i>
+                            </button>
+                            <button class="btn btn-sm btn-danger delete-item has-tooltip" 
+                                data-row="${meta.row}"
+                                data-bs-toggle="tooltip" data-bs-placement="top" title="Eliminar permanentemente">
+                                <i class="bi bi-x"></i>
+                            </button>`;
                         return renderHTML;
                     }
                 },
@@ -78,9 +80,7 @@
         const dtMateriaTrash = $('#dtMateriaTrash').DataTable(dtOverrideGlobals);
 
         $('#dtMateriaTrash tbody').on('click', '.restore-item', function() {
-
-            const tr = $(this).closest('tr');
-            const data = dtMateriaTrash.row(tr).data();
+            const data = dtMateriaTrash.row(this.dataset.row).data();
 
             confirmationModalElement.querySelector('.modal-title').textContent = 'Restaurar';
             confirmationModalElement.querySelector('.modal-body').innerHTML =
@@ -88,9 +88,6 @@
                 <i class="bi bi-exclamation-diamond-fill" style="font-size: 2.5rem; color: orange;"></i>
                 </div>
                 ¿Estas seguro que desea restaurar <span class='text-danger'>${data.nombre}</span>?`;
-
-
-
             confirmationModal.show();
 
             confirmationDeleteButton.dataset.url = `/materias-ajax/${data.id}/restore`;
@@ -98,10 +95,8 @@
         });
 
         $('#dtMateriaTrash').on('click', 'tbody .delete-item', function() {
-
+            const data = dtMateriaTrash.row(this.dataset.row).data();
             const ITEM_URL = this.dataset.url;
-            const tr = $(this).closest('tr');
-            const data = dtMateriaTrash.row(tr).data();
 
             confirmationModalElement.querySelector('.modal-title').textContent = 'Eliminar permanentemente';
             confirmationModalElement.querySelector('.modal-body').innerHTML =

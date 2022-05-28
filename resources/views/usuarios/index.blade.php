@@ -217,6 +217,7 @@
                                 data-bs-placement="top" title="Editar"> 
                                 <i class="bi bi-pencil-fill"></i> </a>
                                 <button class="btn btn-sm btn-danger delete-item has-tooltip" 
+                                data-row="${meta.row}"
                                 data-bs-toggle="tooltip" data-bs-placement="top" title="Eliminar">
                                 <i class="bi bi-trash-fill"></i></button>`;
                         return renderHTML;
@@ -265,10 +266,7 @@
         });
 
         $('#dtUsers').on('click', 'tbody .edit-item', function() {
-
-            var tr = $(this).closest('tr');
-            var data = dtUsers.row(tr).data();
-
+            const data = dtUsers.row(this.dataset.row).data();
             userModal.show();
 
             $('#userId').val(data.id);
@@ -299,10 +297,9 @@
 
         $('#dtUsers').on('click', 'tbody .delete-item', function() {
 
+            const data = dtUsers.row(this.dataset.row).data();
             const ITEM_URL = this.dataset.url;
 
-            var tr = $(this).closest('tr');
-            var data = dtUsers.row(tr).data();
             var confirmationDeleteButton = document.getElementById('confirmationDeleteButton');
             console.log(data);
 

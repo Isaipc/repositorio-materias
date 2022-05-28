@@ -93,8 +93,9 @@
             language: dtLanguageOptions,
             paginate: true,
             processing: true,
-            stateSave: true,
-            responsive: true,
+            responsive: {
+                details: true
+            },
             ajax: {
                 url: '/materias-ajax',
                 dataSrc: 'data',
@@ -128,9 +129,10 @@
                     targets: 1,
                     render: function(data, type, row, meta) {
                         return `<div class="form-check form-switch">
-                    <input class="form-check-input change-status" ${data.estatus == 1 ? 'checked' : ''} type="checkbox" role="switch"
-                    data-url="materias-ajax">
-                    </div>`;
+                                    <input class="form-check-input change-status" ${data.estatus == 1 ? 'checked' : ''} type="checkbox" role="switch"
+                                    data-row="${meta.row}"
+                                    data-url="materias-ajax">
+                                </div>`;
                     }
                 },
                 {
@@ -144,21 +146,23 @@
                     targets: -1,
                     render: function(data, type, row, meta) {
                         renderHTML = `<button class="btn btn-sm btn-primary edit-item has-tooltip" 
-                        data-bs-toggle="tooltip" data-bs-placement="top" title="Editar">
-                        <i class="bi bi-pencil-fill"></i>
-                    </button>
-                    <button class="btn btn-sm btn-danger delete-item has-tooltip" 
-                        data-bs-toggle="tooltip" data-url="materias-ajax" data-bs-placement="top" title="Eliminar">
-                        <i class="bi bi-trash-fill"></i>
-                    </button>
-                    <a href="/materias/${data.id}/contenido" class="btn btn-sm btn-light has-tooltip" data-bs-toggle="tooltip"
-                        data-bs-placement="top" title="Mostrar contenido">
-                        <i class="bi bi-file-earmark-fill"></i> Contenido
-                    </a>
-                    <a href="/materias/${data.id}/alumnos" class="btn btn-sm btn-light has-tooltip" data-bs-toggle="tooltip"
-                        data-bs-placement="top" title="Mostrar alumnos">
-                        <i class="bi bi-people-fill"></i> Alumnos
-                    </a>`;
+                                        data-row="${meta.row}"
+                                        data-bs-toggle="tooltip" data-bs-placement="top" title="Editar">
+                                        <i class="bi bi-pencil-fill"></i>
+                                    </button>
+                                    <button class="btn btn-sm btn-danger delete-item has-tooltip" 
+                                        data-row="${meta.row}"
+                                        data-bs-toggle="tooltip" data-url="materias-ajax" data-bs-placement="top" title="Eliminar">
+                                        <i class="bi bi-trash-fill"></i>
+                                    </button>
+                                    <a href="/materias/${data.id}/contenido" class="btn btn-sm btn-light has-tooltip" data-bs-toggle="tooltip"
+                                        data-bs-placement="top" title="Mostrar contenido">
+                                        <i class="bi bi-file-earmark-fill"></i> Contenido
+                                    </a>
+                                    <a href="/materias/${data.id}/alumnos" class="btn btn-sm btn-light has-tooltip" data-bs-toggle="tooltip"
+                                        data-bs-placement="top" title="Mostrar alumnos">
+                                        <i class="bi bi-people-fill"></i> Alumnos
+                                    </a>`;
                         return renderHTML;
                     }
                 },
@@ -206,10 +210,7 @@
         });
 
         $('#dtMateria').on('click', 'tbody .edit-item', function() {
-
-            var tr = $(this).closest('tr');
-            var data = dtMateria.row(tr).data();
-
+            const data = dtMateria.row(this.dataset.row).data();
             materiaModal.show();
 
             $('#materiaId').val(data.id);
@@ -241,10 +242,9 @@
 
         $('#dtMateria').on('click', 'tbody .delete-item', function() {
 
+            const data = dtMateria.row(this.dataset.row).data();
             const ITEM_URL = this.dataset.url;
 
-            var tr = $(this).closest('tr');
-            var data = dtMateria.row(tr).data();
             var confirmationDeleteButton = document.getElementById('confirmationDeleteButton');
 
             confirmationModalElement.querySelector('.modal-title').textContent = 'Eliminar';
@@ -266,9 +266,7 @@
         });
 
         $('#dtMateria tbody').on('change', '.change-status', function() {
-
-            var data = dtMateria.row($(this).parents('tr')).data();
-
+            const data = dtMateria.row(this.dataset.row).data();
             const ITEM_URL = this.dataset.url;
             const ITEM_STATUS = this.checked;
 

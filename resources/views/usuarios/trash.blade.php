@@ -71,10 +71,12 @@
                     render: function(data, type, row, meta) {
                         renderHTML =
                             `<button type="button" class="btn btn-sm btn-success restore-item has-tooltip" data-bs-toggle="tooltip"
+                             data-row="${meta.row}"
                              data-bs-placement="top" title="Restaurar">
                                 <i class="bi bi-arrow-clockwise"></i>
                             </button>
                             <button class="btn btn-sm btn-danger delete-item has-tooltip" 
+                             data-row="${meta.row}"
                             data-bs-toggle="tooltip" data-bs-placement="top" title="Eliminar permanentemente">
                                 <i class="bi bi-x"></i>
                             </button>`;
@@ -88,9 +90,7 @@
         const ITEM_URL = 'usuarios';
 
         $('#dtUsersTrash tbody').on('click', '.restore-item', function() {
-
-            const tr = $(this).closest('tr');
-            const data = dtUsersTrash.row(tr).data();
+            const data = dtUsersTrash.row(this.dataset.row).data();
 
             confirmationModalElement.querySelector('.modal-title').textContent = 'Restaurar';
             confirmationModalElement.querySelector('.modal-body').innerHTML =
@@ -106,9 +106,7 @@
         });
 
         $('#dtUsersTrash').on('click', 'tbody .delete-item', function() {
-
-            const tr = $(this).closest('tr');
-            const data = dtUsersTrash.row(tr).data();
+            const data = dtUsersTrash.row(this.dataset.row).data();
 
             confirmationModalElement.querySelector('.modal-title').textContent = 'Eliminar permanentemente';
             confirmationModalElement.querySelector('.modal-body').innerHTML =
