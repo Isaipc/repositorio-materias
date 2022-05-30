@@ -21,16 +21,16 @@
                     </li>
                     @can('catalogos-menu')
                         <li class="nav-item">
-                            <a class="nav-link @if (request()->routeIs('materias.*')) active @endif"
+                            <a class="nav-link @if (request()->is('materias*')) active @endif"
                                 href="{{ route('materias.index') }}" aria-haspopup="true" aria-expanded="false">
-                                <i class="bi @if (request()->routeIs('materias.index')) bi-collection-fill @else bi-collection @endif"></i>
+                                <i class="bi @if (request()->is('materias*')) bi-collection-fill @else bi-collection @endif"></i>
                                 {{ __('Materias') }} </a>
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link @if (request()->routeIs('usuarios.*')) active @endif"
+                            <a class="nav-link @if (request()->is('usuarios*')) active @endif"
                                 href="{{ route('usuarios.index') }}" aria-haspopup="true" aria-expanded="false">
-                                <i class="bi @if (request()->routeIs('usuarios.index')) bi-people-fill @else bi-people @endif"></i>
+                                <i class="bi @if (request()->is('usuarios*')) bi-people-fill @else bi-people @endif"></i>
                                 {{ __('Alumnos') }} </a>
                         </li>
                     @endcan
