@@ -19,8 +19,7 @@ Auth::routes(['verify' => true]);
 Route::group(['middleware' => 'auth'], function () {
 
     Route::group(['middleware' => ['role:Alumno|Administrador']], function () {
-        Route::get('/', 'HomeController@index');
-        Route::get('/inicio', 'HomeController@index')->name('home');
+        Route::get('/', 'HomeController@index')->name('home');
 
         Route::middleware(['alumno_en_materia'])->group(function () {
             Route::get('materias/{materia}/contenido', 'ArchivoController@index')->name('archivos.index');
