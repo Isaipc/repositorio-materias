@@ -23,7 +23,8 @@
                         <li class="nav-item">
                             <a class="nav-link @if (request()->is('materias*')) active @endif"
                                 href="{{ route('materias.index') }}" aria-haspopup="true" aria-expanded="false">
-                                <i class="bi @if (request()->is('materias*')) bi-collection-fill @else bi-collection @endif"></i>
+                                <i
+                                    class="bi @if (request()->is('materias*')) bi-collection-fill @else bi-collection @endif"></i>
                                 {{ __('Materias') }} </a>
                         </li>
 
@@ -62,14 +63,15 @@
                         </li>
                     @endif
                 @else
+                    {{-- <li class="nav-item dropdown"> --}}
                     <li class="nav-item dropdown">
                         <a id="navbarDropdown" class="btn btn-primary dropdown-toggle text-uppercase" href="#" role="button"
-                            data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                            data-bs-display="static" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="bi bi-person-circle"></i>
                             {{ Auth::user()->nombre }}
                             <span class="caret"></span>
                         </a>
-                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <ul class="dropdown-menu dropdown-menu-sm-end" aria-labelledby="navbarDropdown">
                             <li>
                                 <a class="dropdown-item">
                                     <i class="bi bi-envelope-fill"></i>
