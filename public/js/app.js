@@ -5388,11 +5388,9 @@ var _moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js
 
 __webpack_require__(/*! datatables.net-bs5 */ "./node_modules/datatables.net-bs5/js/dataTables.bootstrap5.js");
 
-__webpack_require__(/*! datatables.net-responsive-bs5 */ "./node_modules/datatables.net-responsive-bs5/js/responsive.bootstrap5.js");
-
-var dateFormat = 'DD/MM/YYYY';
-var today = new Date(); // INIT BOOTSTRAP COMPONENTS
+__webpack_require__(/*! datatables.net-responsive-bs5 */ "./node_modules/datatables.net-responsive-bs5/js/responsive.bootstrap5.js"); // INIT BOOTSTRAP COMPONENTS
 // initialize all toast 
+
 
 var option = [];
 var toastElementList = [].slice.call(document.querySelectorAll('.toast'));
@@ -5413,11 +5411,40 @@ var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
 new bootstrap.Tooltip(document.body, {
   selector: '.has-tooltip'
 });
+var HUMAN_FORMAT = null;
+var TIMESTAMP_FORMAT = 'DD/MM/YYYY h:m A';
+var OUTPUT_DATE_FORMAT = 'dddd DD/MMM/YYYY';
+var DEFAULT_FORMAT = 'YYYY-MM-DD hh:mm:ss A';
+var dateFormats = [HUMAN_FORMAT, TIMESTAMP_FORMAT, OUTPUT_DATE_FORMAT, DEFAULT_FORMAT];
+var currentDateFormat = 0;
 $(function () {
   _moment.locale('es');
 
   moment = _moment;
+  $('.toggle-date-format').on('click', function () {
+    currentDateFormat = currentDateFormat >= dateFormats.length ? 0 : currentDateFormat;
+
+    if (dateFormats[currentDateFormat] === null) {
+      $('.date-formatted').filter(function (index) {
+        this.textContent = formatDateForHumans(this.dataset.value);
+      });
+    } else {
+      $('.date-formatted').filter(function (index) {
+        this.textContent = formatDateTo(this.dataset.value);
+      });
+    }
+
+    currentDateFormat++;
+  });
 });
+
+function formatDateForHumans(date) {
+  return moment(date).fromNow();
+}
+
+function formatDateTo(date) {
+  return moment(date).format(dateFormats[currentDateFormat]);
+}
 
 /***/ }),
 

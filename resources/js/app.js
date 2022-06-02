@@ -13,8 +13,6 @@ var _moment = require('moment');
 require('datatables.net-bs5');
 require('datatables.net-responsive-bs5');
 
-const dateFormat = 'DD/MM/YYYY';
-var today = new Date();
 
 // INIT BOOTSTRAP COMPONENTS
 
@@ -40,8 +38,48 @@ var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
 
 new bootstrap.Tooltip(document.body, { selector: '.has-tooltip' });
 
+const HUMAN_FORMAT = null;
+const TIMESTAMP_FORMAT = 'DD/MM/YYYY h:m A'
+const OUTPUT_DATE_FORMAT = 'dddd DD/MMM/YYYY'
+const DEFAULT_FORMAT = 'YYYY-MM-DD hh:mm:ss A';
+
+var dateFormats = [
+    HUMAN_FORMAT,
+    TIMESTAMP_FORMAT,
+    OUTPUT_DATE_FORMAT,
+    DEFAULT_FORMAT
+];
+var currentDateFormat = 0;
+
+
 $(function () {
     _moment.locale('es');
     moment = _moment;
+
+    $('.toggle-date-format').on('click', () => {
+        currentDateFormat = currentDateFormat >= dateFormats.length ? 0 : currentDateFormat;
+
+        if (dateFormats[currentDateFormat] === null) {
+            $('.date-formatted').filter(function (index) {
+                this.textContent = formatDateForHumans(this.dataset.value)
+            })
+        } else {
+
+            $('.date-formatted').filter(function (index) {
+                this.textContent = formatDateTo(this.dataset.value)
+            })
+
+        }
+        currentDateFormat++;
+
+    })
+
 });
 
+function formatDateForHumans(date) {
+    return moment(date).fromNow();
+}
+
+function formatDateTo(date) {
+    return moment(date).format(dateFormats[currentDateFormat]);
+}

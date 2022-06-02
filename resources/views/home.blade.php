@@ -75,8 +75,12 @@
                                 </div>
                             </div>
                             <div class="card-footer">
+                                <button class="btn btn-sm btn-link toggle-date-format">
+                                    <i class="bi bi-clock"></i>
+                                </button>
                                 <small class="text-muted"> Actualizado
-                                    {{ Carbon\Carbon::parse($m->updated_at)->diffForHumans() }}
+                                    <span class="date-formatted" data-value="{{ $m->updated_at }}">{{ $m->updated_at }}
+                                    </span>
                                 </small>
                             </div>
                         </div>
