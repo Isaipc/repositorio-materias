@@ -145,7 +145,8 @@
                 {
                     targets: -1,
                     render: function(data, type, row, meta) {
-                        renderHTML = `<button class="btn btn-sm btn-primary edit-item has-tooltip" 
+                        return `<div>
+                                    <button class="btn btn-sm btn-primary edit-item has-tooltip" 
                                         data-row="${meta.row}"
                                         data-bs-toggle="tooltip" data-bs-placement="top" title="Editar">
                                         <i class="bi bi-pencil-fill"></i>
@@ -162,8 +163,8 @@
                                     <a href="/materias/${data.id}/alumnos" class="btn btn-sm btn-light has-tooltip" data-bs-toggle="tooltip"
                                         data-bs-placement="top" title="Mostrar alumnos">
                                         <i class="bi bi-people-fill"></i> Alumnos
-                                    </a>`;
-                        return renderHTML;
+                                    </a>
+                                </div>`;
                     }
                 },
             ],
