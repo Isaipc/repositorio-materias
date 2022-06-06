@@ -49,13 +49,18 @@ var dateFormats = [
     OUTPUT_DATE_FORMAT,
     DEFAULT_FORMAT
 ];
+
 var currentDateFormat = 0;
 
 
 $(function () {
     _moment.locale('es');
     moment = _moment;
-
+    
+    $('.date-formatted').filter(function (index) {
+        this.textContent = formatDateForHumans(this.dataset.value)
+    })
+    
     $('.toggle-date-format').on('click', () => {
         currentDateFormat = currentDateFormat >= dateFormats.length ? 0 : currentDateFormat;
 
@@ -71,7 +76,6 @@ $(function () {
 
         }
         currentDateFormat++;
-
     })
 
 });

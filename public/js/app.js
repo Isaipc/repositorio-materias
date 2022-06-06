@@ -5421,6 +5421,9 @@ $(function () {
   _moment.locale('es');
 
   moment = _moment;
+  $('.date-formatted').filter(function (index) {
+    this.textContent = formatDateForHumans(this.dataset.value);
+  });
   $('.toggle-date-format').on('click', function () {
     currentDateFormat = currentDateFormat >= dateFormats.length ? 0 : currentDateFormat;
 
