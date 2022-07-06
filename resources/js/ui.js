@@ -25,7 +25,7 @@ const confirmation_type = {
 }
 
 const getConfirmBody = (confirmType, item) => {
-    return confirmation_type[confirmType]?.(item) ?? 'olv no pude encontrar esa función.'
+    return confirmation_type[confirmType]?.(item) ?? 'Función no encontrada'
 }
 
 const confirmationModalElement = document.getElementById('confirmationModal')

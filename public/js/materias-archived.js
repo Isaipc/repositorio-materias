@@ -85,7 +85,7 @@ var confirmation_type = {
 var getConfirmBody = function getConfirmBody(confirmType, item) {
   var _confirmation_type$co, _confirmation_type$co2;
 
-  return (_confirmation_type$co = (_confirmation_type$co2 = confirmation_type[confirmType]) === null || _confirmation_type$co2 === void 0 ? void 0 : _confirmation_type$co2.call(confirmation_type, item)) !== null && _confirmation_type$co !== void 0 ? _confirmation_type$co : 'olv no pude encontrar esa función.';
+  return (_confirmation_type$co = (_confirmation_type$co2 = confirmation_type[confirmType]) === null || _confirmation_type$co2 === void 0 ? void 0 : _confirmation_type$co2.call(confirmation_type, item)) !== null && _confirmation_type$co !== void 0 ? _confirmation_type$co : 'Función no encontrada';
 };
 
 var confirmationModalElement = document.getElementById('confirmationModal');
