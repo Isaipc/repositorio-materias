@@ -42,7 +42,7 @@
         </div>
     </div>
 
-    {{-- toast elements --}}
+    {{-- Toast elements --}}
     <div id="toast-msg-container" class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 11">
         <div id="toast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
             <div class="toast-header text-white">
@@ -56,6 +56,7 @@
         </div>
     </div>
 
+    {{-- Loading widget --}}
     <div id="loading-container" class="d-flex justify-content-center align-items-center d-none">
         <div class="spinner-border text-success" role="status">
             <span class="visually-hidden">Loading...</span>
