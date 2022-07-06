@@ -29,6 +29,8 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('alumnos/materias', 'AlumnoEnMateriaController@store');
         Route::get('alumnos/materias', 'AlumnoEnMateriaController@index');
         Route::delete('alumnos/materias/{materia}', 'AlumnoEnMateriaController@destroy');
+
+        Route::get('archivos/{archivo}', 'ArchivoController@show');
     });
 
     Route::group(['middleware' => ['role:Administrador']], function () {
@@ -72,7 +74,12 @@ Route::group(['middleware' => 'auth'], function () {
 
         Route::prefix('archivos')->group(function () {
             Route::get('{unidad}/list', 'ArchivoController@list');
+            Route::get('{unidad}/trash', 'ArchivoController@trash');
             Route::post('{unidad}', 'ArchivoController@store');
+            Route::put('{archivo}', 'ArchivoController@update');
+            Route::delete('{archivo}/archive', 'ArchivoController@archive');
+            Route::put('{archivo}/restore', 'ArchivoController@restore');
+            Route::delete('{archivo}', 'ArchivoController@destroy');
         });
 
         Route::prefix('unidades')->group(function () {

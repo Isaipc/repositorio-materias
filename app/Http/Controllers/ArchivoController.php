@@ -81,7 +81,6 @@ class ArchivoController extends Controller implements Constants
     {
         return $request->validate([
             'nombre' => 'required',
-            'file' => 'max:4096',
         ]);
     }
 
@@ -94,28 +93,7 @@ class ArchivoController extends Controller implements Constants
     public function store(Unidad $unidad, Request $request)
     {
         $this->validator($request);
-
-        $archivo = new Archivo;
-        $archivo->nombre = $request->nombre;
-        $archivo->estatus =  isset($request->estatus) ? 1 : 2;
-
-        if (!$request->hasFile('file'))
-            abort(500, 'Could not upload image :(');
-
-        if (!$request->file('file')->isValid())
-            abort(500, 'Could not upload image :(');
-
-        $file = $request->file('file');
-        $fileName = $request->nombre;
-
-        $path = $file->storeAs(
-            'public',
-            $fileName
-        );
-
-        $archivo->extension = $file->getClientOriginalExtension();
-        $archivo->url = $path;
-        $unidad->archivos()->save($archivo);
+        $this->save($unidad, new Archivo, $request);
 
         return  response()->json(['success' => 'Se ha subido el archivo']);
     }
@@ -126,28 +104,11 @@ class ArchivoController extends Controller implements Constants
      * @param  \App\Archivo  $archivo
      * @return \Illuminate\Http\Response
      */
-    public function show(Materia $materia, Archivo $archivo)
+    public function show(Archivo $archivo)
     {
-        return view('archivos.show', [
-            'materia' => $materia,
-            'item' => $archivo,
-            'rows' => Archivo::actives()->get(),
-        ]);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\archivo  $archivo
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Materia $materia, Archivo $archivo)
-    {
-        return view('archivos.edit', [
-            'materia' => $materia,
-            'rows' => Archivo::actives()->get(),
-            'item' => $archivo
-        ]);
+        return response()->file(str_replace("/", "\\", storage_path("app/{$archivo->path}")));
+        // abort_if(!Storage::disk('files')->exists($path), 404, "The file doesn't exist. Check the path.");
+        // return Storage::disk('files')->response($path);
     }
 
     /**
@@ -157,25 +118,14 @@ class ArchivoController extends Controller implements Constants
      * @param  \App\Archivo  $archivo
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Archivo $archivo)
+    public function update(Archivo $archivo, Request $request)
     {
         $this->validator($request);
 
-        $archivo->nombre = $request->nombre;
-        $archivo->estatus = $request->estatus;
+        $unidad = $archivo->unidad;
+        $this->save($unidad, $archivo, $request);
 
-        if ($request->hasFile('file')) {
-            if (!$request->file('file')->isValid())
-                abort(500, 'No se ha podido subir el archivo :(');
-            // $url = Archivo::store($request->file);
-            // Archivo::destroy($archivo->url);
-        }
-
-        $archivo->url = $url;
-        $archivo->save();
-
-
-        return redirect()->route('archivos.index', $archivo->materia);
+        return  response()->json(['success' => 'Se ha subido el archivo']);
     }
 
     /**
@@ -184,11 +134,36 @@ class ArchivoController extends Controller implements Constants
      * @param  \App\Archivo  $archivo
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Archivo $archivo)
+    public function archive(Archivo $archivo)
     {
         $archivo->estatus = 0;
         $archivo->save();
 
-        return redirect()->route('archivos.index', $archivo->materia);
+        $response = response()->json(['success' => 'Se ha eliminado ' . $archivo->nombre]);
+        return $response;
+    }
+
+    protected function save(Unidad $unidad, Archivo $archivo, $request)
+    {
+        $archivo->nombre = $request->nombre;
+        $archivo->estatus =  isset($request->estatus) ? 1 : 2;
+
+        if (!$request->hasFile('file'))
+            abort(500, 'Archivo no encontrado');
+
+        if (!$request->file('file')->isValid())
+            abort(500, 'No se pudo subir el archivo. Formato invalido');
+
+        $file = $request->file('file');
+        $fileName = $request->nombre;
+
+        $path = $file->storeAs(
+            "private",
+            "{$unidad->materia->nombre}/{$unidad->nombre}/{$fileName}"
+        );
+
+        $archivo->extension = $file->getClientOriginalExtension();
+        $archivo->path = $path;
+        $unidad->archivos()->save($archivo);
     }
 }
