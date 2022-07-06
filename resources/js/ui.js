@@ -29,8 +29,10 @@ const getConfirmBody = (confirmType, item) => {
 }
 
 const confirmationModalElement = document.getElementById('confirmationModal')
-let confirmationTitle = confirmationModalElement.querySelector('.modal-title')
-let confirmationBody = confirmationModalElement.querySelector('.modal-body')
+const confirmationTitle = confirmationModalElement.querySelector('.modal-title')
+const confirmationBody = confirmationModalElement.querySelector('.modal-body')
+const okButton = document.getElementById('okBtn')
+const cancelButton = document.getElementById('cancelBtn')
 
 const confirmationModal = new bootstrap.Modal(confirmationModalElement, {
     keyboard: true
@@ -43,14 +45,17 @@ const confirmDialog = (title, item, type, callback) => {
     confirmationBody.innerHTML = getConfirmBody(type, item)
 
     confirmationModal.show()
-    $('#cancelBtn').on('click', () => {
+    cancelButton.addEventListener('click', () => {
         callback(false)
         confirmationModal.hide()
     })
-    $('#okBtn').on('click', () => {
+
+    okButton.addEventListener('click', () => {
         callback(true)
         confirmationModal.hide()
     })
+
+    confirmationModalElement.addEventListener('hide.bs.modal', event => callback(false))
 }
 
 const showToast = (msg, type) => {
