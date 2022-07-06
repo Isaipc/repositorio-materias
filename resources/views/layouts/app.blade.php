@@ -35,15 +35,15 @@
                 </div>
                 <div class="modal-body text-center"></div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancelar</button>
-                    <button id="confirmationDeleteButton" type="button" class="btn btn-primary">Aceptar</button>
+                    <button id="cancelBtn" type="button" class="btn btn-light" data-bs-dismiss="modal">Cancelar</button>
+                    <button id="okBtn" type="button" class="btn btn-primary">Aceptar</button>
                 </div>
             </div>
         </div>
     </div>
 
     {{-- toast elements --}}
-    <div id="toast-msg-container" class="toast-container position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+    <div id="toast-msg-container" class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 11">
         <div id="toast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
             <div class="toast-header text-white">
                 <strong class="me-auto toast-title">
@@ -56,8 +56,13 @@
         </div>
     </div>
 
+    <div id="loading-container" class="d-flex justify-content-center align-items-center d-none">
+        <div class="spinner-border text-success" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
+
     <!-- Scripts -->
-    <script src="{{ asset('js/functions.js') }}"></script>
     <script src="{{ asset('js/app.js') }}"></script>
     @yield('scripts')
 </body>
