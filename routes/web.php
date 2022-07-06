@@ -39,7 +39,7 @@ Route::group(['middleware' => 'auth'], function () {
             Route::get('list', 'UsuarioController@list');
             Route::get('eliminados', 'UsuarioController@trash')->name('usuarios.trash');
             Route::get('trash/list', 'UsuarioController@trashList');
-            Route::put('{user}/restaurar', 'UsuarioController@restore')->name('usuarios.restore');
+            Route::put('{user}/restore', 'UsuarioController@restore')->name('usuarios.restore');
             Route::get('{user}/restablecer-contrasena', 'UsuarioController@editPassword')->name('usuarios.password-edit');
             Route::put('{user}/contrasena/restablecer', 'UsuarioController@resetPassword')->name('usuarios.password-reset');
             Route::get('nuevo', 'UsuarioController@new')->name('usuarios.create');
