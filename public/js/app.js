@@ -5369,8 +5369,11 @@ module.exports = {
 /*!*****************************!*\
   !*** ./resources/js/app.js ***!
   \*****************************/
-/***/ ((__unused_webpack_module, __unused_webpack_exports, __webpack_require__) => {
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./constants */ "./resources/js/constants.js");
 /**
  * First we will load all of this project's JavaScript dependencies which
  * includes Vue and other libraries. It is a great starting point when
@@ -5388,9 +5391,10 @@ var _moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js
 
 __webpack_require__(/*! datatables.net-bs5 */ "./node_modules/datatables.net-bs5/js/dataTables.bootstrap5.js");
 
-__webpack_require__(/*! datatables.net-responsive-bs5 */ "./node_modules/datatables.net-responsive-bs5/js/responsive.bootstrap5.js"); // INIT BOOTSTRAP COMPONENTS
-// initialize all toast 
+__webpack_require__(/*! datatables.net-responsive-bs5 */ "./node_modules/datatables.net-responsive-bs5/js/responsive.bootstrap5.js");
 
+ // INIT BOOTSTRAP COMPONENTS
+// initialize all toast 
 
 var option = [];
 var toastElementList = [].slice.call(document.querySelectorAll('.toast'));
@@ -5400,7 +5404,7 @@ var toastList = toastElementList.map(function (toastE) {
 
 var dropdownElementList = [].slice.call(document.querySelectorAll('.dropdown-toggle'));
 var dropdownList = dropdownElementList.map(function (dropdownToggleEl) {
-  dropdown = new bootstrap.Dropdown(dropdownToggleEl);
+  var dropdown = new bootstrap.Dropdown(dropdownToggleEl);
   return dropdown;
 }); // initialize all tooltips
 
@@ -5411,16 +5415,12 @@ var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
 new bootstrap.Tooltip(document.body, {
   selector: '.has-tooltip'
 });
-var HUMAN_FORMAT = null;
-var TIMESTAMP_FORMAT = 'DD/MM/YYYY h:m A';
-var OUTPUT_DATE_FORMAT = 'dddd DD/MMM/YYYY';
-var DEFAULT_FORMAT = 'YYYY-MM-DD hh:mm:ss A';
-var dateFormats = [HUMAN_FORMAT, TIMESTAMP_FORMAT, OUTPUT_DATE_FORMAT, DEFAULT_FORMAT];
+var dateFormats = [_constants__WEBPACK_IMPORTED_MODULE_0__.HUMAN_FORMAT, _constants__WEBPACK_IMPORTED_MODULE_0__.TIMESTAMP_FORMAT, _constants__WEBPACK_IMPORTED_MODULE_0__.OUTPUT_DATE_FORMAT, _constants__WEBPACK_IMPORTED_MODULE_0__.DEFAULT_FORMAT];
 var currentDateFormat = 0;
 $(function () {
   _moment.locale('es');
 
-  moment = _moment;
+  var moment = _moment;
   $('.date-formatted').filter(function (index) {
     this.textContent = formatDateForHumans(this.dataset.value);
   });
@@ -5496,6 +5496,51 @@ $.ajaxSetup({
 //     cluster: process.env.MIX_PUSHER_APP_CLUSTER,
 //     encrypted: true
 // });
+
+/***/ }),
+
+/***/ "./resources/js/constants.js":
+/*!***********************************!*\
+  !*** ./resources/js/constants.js ***!
+  \***********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "DEFAULT_FORMAT": () => (/* binding */ DEFAULT_FORMAT),
+/* harmony export */   "HUMAN_FORMAT": () => (/* binding */ HUMAN_FORMAT),
+/* harmony export */   "OUTPUT_DATE_FORMAT": () => (/* binding */ OUTPUT_DATE_FORMAT),
+/* harmony export */   "TIMESTAMP_FORMAT": () => (/* binding */ TIMESTAMP_FORMAT),
+/* harmony export */   "dtLanguageOptions": () => (/* binding */ dtLanguageOptions),
+/* harmony export */   "dtOverrideGlobals": () => (/* binding */ dtOverrideGlobals)
+/* harmony export */ });
+var HUMAN_FORMAT = null;
+var TIMESTAMP_FORMAT = 'DD/MM/YYYY h:m A';
+var OUTPUT_DATE_FORMAT = 'dddd DD/MMM/YYYY';
+var DEFAULT_FORMAT = 'YYYY-MM-DD hh:mm:ss A';
+var dtLanguageOptions = {
+  emptyTable: "No hay datos disponibles",
+  zeroRecords: "No se encontraron resultados",
+  infoFiltered: "(filtrado de _MAX_ registros totales)",
+  infoEmpty: "Mostrando 0 registros",
+  search: 'Buscar',
+  info: "Mostrando pagina _PAGE_ de _PAGES_",
+  paginate: {
+    first: "Primero",
+    last: "Ultimo",
+    next: "Siguiente",
+    previous: "Anterior"
+  },
+  lengthMenu: "Mostrar _MENU_ filas",
+  processing: 'Procesando ...'
+};
+var dtOverrideGlobals = {
+  language: dtLanguageOptions,
+  paginate: true,
+  processing: true
+};
+
 
 /***/ }),
 

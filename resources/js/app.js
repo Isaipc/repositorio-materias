@@ -13,6 +13,14 @@ var _moment = require('moment');
 require('datatables.net-bs5');
 require('datatables.net-responsive-bs5');
 
+import {
+    HUMAN_FORMAT,
+    TIMESTAMP_FORMAT,
+    OUTPUT_DATE_FORMAT,
+    DEFAULT_FORMAT,
+    dtLanguageOptions,
+    dtOverrideGlobals
+} from './constants'
 
 // INIT BOOTSTRAP COMPONENTS
 
@@ -26,7 +34,7 @@ var toastList = toastElementList.map(function (toastE) {
 // initialize all dropdowns 
 var dropdownElementList = [].slice.call(document.querySelectorAll('.dropdown-toggle'))
 var dropdownList = dropdownElementList.map(function (dropdownToggleEl) {
-    dropdown = new bootstrap.Dropdown(dropdownToggleEl)
+    const dropdown = new bootstrap.Dropdown(dropdownToggleEl)
     return dropdown;
 });
 
@@ -37,11 +45,6 @@ var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
 });
 
 new bootstrap.Tooltip(document.body, { selector: '.has-tooltip' });
-
-const HUMAN_FORMAT = null;
-const TIMESTAMP_FORMAT = 'DD/MM/YYYY h:m A'
-const OUTPUT_DATE_FORMAT = 'dddd DD/MMM/YYYY'
-const DEFAULT_FORMAT = 'YYYY-MM-DD hh:mm:ss A';
 
 var dateFormats = [
     HUMAN_FORMAT,
@@ -55,12 +58,12 @@ var currentDateFormat = 0;
 
 $(function () {
     _moment.locale('es');
-    moment = _moment;
-    
+    const moment = _moment;
+
     $('.date-formatted').filter(function (index) {
         this.textContent = formatDateForHumans(this.dataset.value)
     })
-    
+
     $('.toggle-date-format').on('click', () => {
         currentDateFormat = currentDateFormat >= dateFormats.length ? 0 : currentDateFormat;
 
