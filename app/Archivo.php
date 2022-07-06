@@ -12,11 +12,6 @@ class Archivo extends Model
     use Common;
 
     protected $table = 'archivos';
-    protected $fillable = [
-        'nombre',
-        'url',
-        'estatus',
-    ];
 
     /**
      * all of the relationships to be touched.
@@ -38,5 +33,9 @@ class Archivo extends Model
     public function unidad(): BelongsTo
     {
         return $this->belongsTo(Unidad::class);
+    }
+
+    public function getUrlPath(){
+        return Storage::url($this->url);
     }
 }
