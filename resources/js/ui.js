@@ -21,7 +21,12 @@ const confirmation_type = {
             <i class="bi bi-exclamation-circle-fill" style="font-size: 2.5rem; color: red;"></i>
         </div>
         ¿Desea eliminar permanentemente <span class='text-danger'>${itemName}</span>? 
-        Esta acción no se puede deshacer.`
+        Esta acción no se puede deshacer.`,
+    confirmDetach: (itemName) =>
+        `<div>
+            <i class="bi bi-exclamation-circle-fill" style="font-size: 2.5rem; color: red;"></i>
+        </div>
+        ¿Desea darse de baja en <span class='text-danger'>${itemName}</span>?`
 }
 
 const getConfirmBody = (confirmType, item) => {
