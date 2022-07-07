@@ -9,6 +9,7 @@ import {
     confirmDialog
 } from './ui';
 
+const base_url = 'usuarios'
 const userModalElement = document.getElementById('userModal');
 const userModal = new bootstrap.Modal(userModalElement, {
     keyboard: true
@@ -17,11 +18,10 @@ const userModal = new bootstrap.Modal(userModalElement, {
 let dtOverrideGlobals = {
     language: dtLanguageOptions,
     paginate: true,
-    stateSave: true,
     processing: true,
     responsive: true,
     ajax: {
-        url: '/usuarios/list',
+        url: `/${base_url}/list`,
         dataSrc: 'data',
     },
     columns: [
@@ -123,7 +123,7 @@ $('#table').on('click', 'tbody .edit-item', function () {
 
 $('#table').on('click', 'tbody .delete-item', function () {
     const data = table.row(this.dataset.row).data();
-    const request_url = `/usuarios/${data.id}/archive`
+    const request_url = `/${base_url}/${data.id}/archive`
     const request_type = 'DELETE'
     const title = 'Archivar'
     const item = data.nombre

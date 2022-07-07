@@ -91,22 +91,26 @@ var getConfirmBody = function getConfirmBody(confirmType, item) {
 var confirmationModalElement = document.getElementById('confirmationModal');
 var confirmationTitle = confirmationModalElement.querySelector('.modal-title');
 var confirmationBody = confirmationModalElement.querySelector('.modal-body');
-var confirmationModal = new bootstrap.Modal(confirmationModalElement, {
-  keyboard: true
-});
+var confirmationModal = new bootstrap.Modal(confirmationModalElement);
 var toastElement = document.getElementById('toast');
 
 var confirmDialog = function confirmDialog(title, item, type, callback) {
+  var okButton = document.getElementById('okBtn');
+  var cancelButton = document.getElementById('cancelBtn');
   confirmationTitle.textContent = title;
   confirmationBody.innerHTML = getConfirmBody(type, item);
   confirmationModal.show();
-  $('#cancelBtn').on('click', function () {
+  cancelButton.addEventListener('click', function () {
     callback(false);
     confirmationModal.hide();
   });
-  $('#okBtn').on('click', function () {
+  okButton.addEventListener('click', function () {
     callback(true);
     confirmationModal.hide();
+  });
+  confirmationModalElement.addEventListener('hide.bs.modal', function (event) {
+    $('#okBtn').replaceWith($('#okBtn').clone());
+    $('#cancelBtn').replaceWith($('#cancelBtn').clone());
   });
 };
 
@@ -222,6 +226,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _ui__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ui */ "./resources/js/ui.js");
 
 
+var base_url = 'materias-ajax';
 var dtOverrideGlobals = {
   language: _constants__WEBPACK_IMPORTED_MODULE_0__.dtLanguageOptions,
   paginate: true,
@@ -229,7 +234,7 @@ var dtOverrideGlobals = {
   stateSave: true,
   responsive: true,
   ajax: {
-    url: '/materias-ajax/trash',
+    url: "/".concat(base_url, "/trash"),
     dataSrc: 'data'
   },
   columns: [{
@@ -252,7 +257,7 @@ var dtOverrideGlobals = {
 var table = $('#table').DataTable(dtOverrideGlobals);
 $('#table tbody').on('click', '.restore-item', function () {
   var data = table.row(this.dataset.row).data();
-  var request_url = "/materias-ajax/".concat(data.id, "/restore");
+  var request_url = "/".concat(base_url, "/").concat(data.id, "/restore");
   var request_type = 'PUT';
   var title = 'Restaurar';
   var item = data.nombre;
@@ -272,7 +277,7 @@ $('#table tbody').on('click', '.restore-item', function () {
 });
 $('#table').on('click', 'tbody .delete-item', function () {
   var data = table.row(this.dataset.row).data();
-  var request_url = "/materias-ajax/".concat(data.id);
+  var request_url = "/".concat(base_url, "/").concat(data.id);
   var request_type = 'DELETE';
   var title = 'Eliminar';
   var item = data.nombre;

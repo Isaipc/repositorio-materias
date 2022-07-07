@@ -7,7 +7,6 @@ import {
     confirmDialog
 } from './ui';
 
-
 const base_url = 'usuarios'
 const confirmationModalElement = document.getElementById('confirmationModal');
 
@@ -64,7 +63,7 @@ $('#table tbody').on('click', '.restore-item', function () {
     const title = 'Restaurar'
     const item = data.nombre
 
-    confirmDialog(title, item, 'confirmRestore', (confirm) => {
+    confirmDialog(title, item, 'confirmRestore', function (confirm) {
         if (confirm)
             $.ajax({
                 type: request_type,
@@ -87,7 +86,7 @@ $('#table').on('click', 'tbody .delete-item', function () {
     const title = 'Eliminar'
     const item = data.nombre
 
-    confirmDialog(title, item, 'confirmDelete', (confirm) => {
+    confirmDialog(title, item, 'confirmDelete', function (confirm) {
         if (confirm)
             $.ajax({
                 type: request_type,
@@ -102,5 +101,3 @@ $('#table').on('click', 'tbody .delete-item', function () {
             })
     })
 })
-
-

@@ -91,22 +91,26 @@ var getConfirmBody = function getConfirmBody(confirmType, item) {
 var confirmationModalElement = document.getElementById('confirmationModal');
 var confirmationTitle = confirmationModalElement.querySelector('.modal-title');
 var confirmationBody = confirmationModalElement.querySelector('.modal-body');
-var confirmationModal = new bootstrap.Modal(confirmationModalElement, {
-  keyboard: true
-});
+var confirmationModal = new bootstrap.Modal(confirmationModalElement);
 var toastElement = document.getElementById('toast');
 
 var confirmDialog = function confirmDialog(title, item, type, callback) {
+  var okButton = document.getElementById('okBtn');
+  var cancelButton = document.getElementById('cancelBtn');
   confirmationTitle.textContent = title;
   confirmationBody.innerHTML = getConfirmBody(type, item);
   confirmationModal.show();
-  $('#cancelBtn').on('click', function () {
+  cancelButton.addEventListener('click', function () {
     callback(false);
     confirmationModal.hide();
   });
-  $('#okBtn').on('click', function () {
+  okButton.addEventListener('click', function () {
     callback(true);
     confirmationModal.hide();
+  });
+  confirmationModalElement.addEventListener('hide.bs.modal', function (event) {
+    $('#okBtn').replaceWith($('#okBtn').clone());
+    $('#cancelBtn').replaceWith($('#cancelBtn').clone());
   });
 };
 

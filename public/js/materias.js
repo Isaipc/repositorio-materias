@@ -91,22 +91,26 @@ var getConfirmBody = function getConfirmBody(confirmType, item) {
 var confirmationModalElement = document.getElementById('confirmationModal');
 var confirmationTitle = confirmationModalElement.querySelector('.modal-title');
 var confirmationBody = confirmationModalElement.querySelector('.modal-body');
-var confirmationModal = new bootstrap.Modal(confirmationModalElement, {
-  keyboard: true
-});
+var confirmationModal = new bootstrap.Modal(confirmationModalElement);
 var toastElement = document.getElementById('toast');
 
 var confirmDialog = function confirmDialog(title, item, type, callback) {
+  var okButton = document.getElementById('okBtn');
+  var cancelButton = document.getElementById('cancelBtn');
   confirmationTitle.textContent = title;
   confirmationBody.innerHTML = getConfirmBody(type, item);
   confirmationModal.show();
-  $('#cancelBtn').on('click', function () {
+  cancelButton.addEventListener('click', function () {
     callback(false);
     confirmationModal.hide();
   });
-  $('#okBtn').on('click', function () {
+  okButton.addEventListener('click', function () {
     callback(true);
     confirmationModal.hide();
+  });
+  confirmationModalElement.addEventListener('hide.bs.modal', function (event) {
+    $('#okBtn').replaceWith($('#okBtn').clone());
+    $('#cancelBtn').replaceWith($('#cancelBtn').clone());
   });
 };
 
@@ -222,12 +226,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _ui__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ui */ "./resources/js/ui.js");
 
 
+var base_url = 'materias-ajax';
 var materiaModalElement = document.getElementById('materiaModal');
-var confirmationModalElement = document.getElementById('confirmationModal');
 var materiaModal = new bootstrap.Modal(materiaModalElement, {
-  keyboard: true
-});
-var confirmationModal = new bootstrap.Modal(confirmationModalElement, {
   keyboard: true
 });
 var dtOverrideGlobals = {
@@ -238,7 +239,7 @@ var dtOverrideGlobals = {
     details: true
   },
   ajax: {
-    url: '/materias-ajax',
+    url: "/".concat(base_url),
     dataSrc: 'data'
   },
   columns: [{
@@ -258,7 +259,7 @@ var dtOverrideGlobals = {
   }, {
     targets: 1,
     render: function render(data, type, row, meta) {
-      return "<div class=\"form-check form-switch\">\n                <input class=\"form-check-input change-status\" ".concat(data.estatus == 1 ? 'checked' : '', " type=\"checkbox\" role=\"switch\"\n                    data-row=\"").concat(meta.row, "\" data-url=\"materias-ajax\">\n            </div>");
+      return "<div class=\"form-check form-switch\">\n                <input class=\"form-check-input change-status\" ".concat(data.estatus == 1 ? 'checked' : '', " type=\"checkbox\" role=\"switch\"\n                    data-row=\"").concat(meta.row, "\">\n            </div>");
     }
   }, {
     targets: 2,
@@ -268,7 +269,7 @@ var dtOverrideGlobals = {
   }, {
     targets: -1,
     render: function render(data, type, row, meta) {
-      return "<div>\n                <button class=\"btn btn-sm btn-primary edit-item has-tooltip\"\n                    data-row=\"".concat(meta.row, "\"\n                    data-bs-toggle=\"tooltip\" data-bs-placement=\"top\" title=\"Editar\">\n                    <i class=\"bi bi-pencil-fill\"></i>\n                </button>\n                <button class=\"btn btn-sm btn-danger delete-item has-tooltip\"\n                    data-row=\"").concat(meta.row, "\"\n                    data-bs-toggle=\"tooltip\" data-url=\"materias-ajax\" data-bs-placement=\"top\" title=\"Eliminar\">\n                    <i class=\"bi bi-trash-fill\"></i>\n                </button>\n                <a href=\"/materias/").concat(data.id, "/contenido\" class=\"btn btn-sm btn-light has-tooltip\" data-bs-toggle=\"tooltip\"\n                    data-bs-placement=\"top\" title=\"Mostrar contenido\">\n                    <i class=\"bi bi-file-earmark-fill\"></i> Contenido\n                </a>\n                <a href=\"/materias/").concat(data.id, "/alumnos\" class=\"btn btn-sm btn-light has-tooltip\" data-bs-toggle=\"tooltip\"\n                    data-bs-placement=\"top\" title=\"Mostrar alumnos\">\n                    <i class=\"bi bi-people-fill\"></i> Alumnos\n                </a>\n            </div>");
+      return "<div>\n                <button class=\"btn btn-sm btn-primary edit-item has-tooltip\"\n                    data-row=\"".concat(meta.row, "\"\n                    data-bs-toggle=\"tooltip\" data-bs-placement=\"top\" title=\"Editar\">\n                    <i class=\"bi bi-pencil-fill\"></i>\n                </button>\n                <button class=\"btn btn-sm btn-danger delete-item has-tooltip\"\n                    data-row=\"").concat(meta.row, "\"\n                    data-bs-toggle=\"tooltip\" data-bs-placement=\"top\" title=\"Eliminar\">\n                    <i class=\"bi bi-trash-fill\"></i>\n                </button>\n                <a href=\"/materias/").concat(data.id, "/contenido\" class=\"btn btn-sm btn-light has-tooltip\" data-bs-toggle=\"tooltip\"\n                    data-bs-placement=\"top\" title=\"Mostrar contenido\">\n                    <i class=\"bi bi-file-earmark-fill\"></i>\n                </a>\n                <a href=\"/materias/").concat(data.id, "/alumnos\" class=\"btn btn-sm btn-light has-tooltip\" data-bs-toggle=\"tooltip\"\n                    data-bs-placement=\"top\" title=\"Mostrar alumnos\">\n                    <i class=\"bi bi-people-fill\"></i>\n                </a>\n            </div>");
     }
   }]
 };
@@ -345,11 +346,10 @@ $('#buttonRandomKey').on('click', function () {
 });
 $('#table tbody').on('change', '.change-status', function () {
   var data = table.row(this.dataset.row).data();
-  var ITEM_URL = this.dataset.url;
   var ITEM_STATUS = this.checked;
   $.ajax({
     type: 'PUT',
-    url: "/".concat(ITEM_URL, "/").concat(data.id, "/change-status"),
+    url: "/".concat(base_url, "/").concat(data.id, "/change-status"),
     dataType: 'json',
     data: {
       id: data.id,

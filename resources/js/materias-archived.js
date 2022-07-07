@@ -2,13 +2,12 @@ import { dtLanguageOptions } from './constants'
 
 import {
     showToast,
-    generateRandomKey,
-    getSwitchStatus,
     TOAST_ERROR_TYPE,
     TOAST_SUCCESS_TYPE,
     confirmDialog
 } from './ui';
 
+const base_url = 'materias-ajax'
 let dtOverrideGlobals = {
     language: dtLanguageOptions,
     paginate: true,
@@ -16,7 +15,7 @@ let dtOverrideGlobals = {
     stateSave: true,
     responsive: true,
     ajax: {
-        url: '/materias-ajax/trash',
+        url: `/${base_url}/trash`,
         dataSrc: 'data',
     },
     columns: [
@@ -54,7 +53,7 @@ const table = $('#table').DataTable(dtOverrideGlobals);
 
 $('#table tbody').on('click', '.restore-item', function () {
     const data = table.row(this.dataset.row).data();
-    const request_url = `/materias-ajax/${data.id}/restore`
+    const request_url = `/${base_url}/${data.id}/restore`
     const request_type = 'PUT'
     const title = 'Restaurar'
     const item = data.nombre
@@ -77,7 +76,7 @@ $('#table tbody').on('click', '.restore-item', function () {
 
 $('#table').on('click', 'tbody .delete-item', function () {
     const data = table.row(this.dataset.row).data();
-    const request_url = `/materias-ajax/${data.id}`
+    const request_url = `/${base_url}/${data.id}`
     const request_type = 'DELETE'
     const title = 'Eliminar'
     const item = data.nombre

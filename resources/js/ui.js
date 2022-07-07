@@ -31,16 +31,13 @@ const getConfirmBody = (confirmType, item) => {
 const confirmationModalElement = document.getElementById('confirmationModal')
 const confirmationTitle = confirmationModalElement.querySelector('.modal-title')
 const confirmationBody = confirmationModalElement.querySelector('.modal-body')
-const okButton = document.getElementById('okBtn')
-const cancelButton = document.getElementById('cancelBtn')
-
-const confirmationModal = new bootstrap.Modal(confirmationModalElement, {
-    keyboard: true
-});
-
+const confirmationModal = new bootstrap.Modal(confirmationModalElement);
 const toastElement = document.getElementById('toast');
 
 const confirmDialog = (title, item, type, callback) => {
+    const okButton = document.getElementById('okBtn')
+    const cancelButton = document.getElementById('cancelBtn')
+
     confirmationTitle.textContent = title
     confirmationBody.innerHTML = getConfirmBody(type, item)
 
@@ -49,13 +46,15 @@ const confirmDialog = (title, item, type, callback) => {
         callback(false)
         confirmationModal.hide()
     })
-
     okButton.addEventListener('click', () => {
         callback(true)
         confirmationModal.hide()
     })
 
-    confirmationModalElement.addEventListener('hide.bs.modal', event => callback(false))
+    confirmationModalElement.addEventListener('hide.bs.modal', event => {
+        $('#okBtn').replaceWith($('#okBtn').clone());
+        $('#cancelBtn').replaceWith($('#cancelBtn').clone());
+    })
 }
 
 const showToast = (msg, type) => {

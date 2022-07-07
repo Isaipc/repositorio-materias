@@ -91,22 +91,26 @@ var getConfirmBody = function getConfirmBody(confirmType, item) {
 var confirmationModalElement = document.getElementById('confirmationModal');
 var confirmationTitle = confirmationModalElement.querySelector('.modal-title');
 var confirmationBody = confirmationModalElement.querySelector('.modal-body');
-var confirmationModal = new bootstrap.Modal(confirmationModalElement, {
-  keyboard: true
-});
+var confirmationModal = new bootstrap.Modal(confirmationModalElement);
 var toastElement = document.getElementById('toast');
 
 var confirmDialog = function confirmDialog(title, item, type, callback) {
+  var okButton = document.getElementById('okBtn');
+  var cancelButton = document.getElementById('cancelBtn');
   confirmationTitle.textContent = title;
   confirmationBody.innerHTML = getConfirmBody(type, item);
   confirmationModal.show();
-  $('#cancelBtn').on('click', function () {
+  cancelButton.addEventListener('click', function () {
     callback(false);
     confirmationModal.hide();
   });
-  $('#okBtn').on('click', function () {
+  okButton.addEventListener('click', function () {
     callback(true);
     confirmationModal.hide();
+  });
+  confirmationModalElement.addEventListener('hide.bs.modal', function (event) {
+    $('#okBtn').replaceWith($('#okBtn').clone());
+    $('#cancelBtn').replaceWith($('#cancelBtn').clone());
   });
 };
 
@@ -222,6 +226,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _ui__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ui */ "./resources/js/ui.js");
 
 
+var base_url = 'usuarios';
 var userModalElement = document.getElementById('userModal');
 var userModal = new bootstrap.Modal(userModalElement, {
   keyboard: true
@@ -229,11 +234,10 @@ var userModal = new bootstrap.Modal(userModalElement, {
 var dtOverrideGlobals = {
   language: _constants__WEBPACK_IMPORTED_MODULE_0__.dtLanguageOptions,
   paginate: true,
-  stateSave: true,
   processing: true,
   responsive: true,
   ajax: {
-    url: '/usuarios/list',
+    url: "/".concat(base_url, "/list"),
     dataSrc: 'data'
   },
   columns: [{
@@ -321,7 +325,7 @@ $('#table').on('click', 'tbody .edit-item', function () {
 });
 $('#table').on('click', 'tbody .delete-item', function () {
   var data = table.row(this.dataset.row).data();
-  var request_url = "/usuarios/".concat(data.id, "/archive");
+  var request_url = "/".concat(base_url, "/").concat(data.id, "/archive");
   var request_type = 'DELETE';
   var title = 'Archivar';
   var item = data.nombre;

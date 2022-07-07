@@ -11,11 +11,10 @@ import {
     confirmDialog
 } from './ui';
 
-const materiaModalElement = document.getElementById('materiaModal');
-const confirmationModalElement = document.getElementById('confirmationModal');
+const base_url = 'materias-ajax'
 
+const materiaModalElement = document.getElementById('materiaModal');
 const materiaModal = new bootstrap.Modal(materiaModalElement, { keyboard: true });
-const confirmationModal = new bootstrap.Modal(confirmationModalElement, { keyboard: true });
 
 let dtOverrideGlobals = {
     language: dtLanguageOptions,
@@ -25,7 +24,7 @@ let dtOverrideGlobals = {
         details: true
     },
     ajax: {
-        url: '/materias-ajax',
+        url: `/${base_url}`,
         dataSrc: 'data',
     },
     columns: [
@@ -46,7 +45,7 @@ let dtOverrideGlobals = {
         render: (data, type, row, meta) =>
             `<div class="form-check form-switch">
                 <input class="form-check-input change-status" ${data.estatus == 1 ? 'checked' : ''} type="checkbox" role="switch"
-                    data-row="${meta.row}" data-url="materias-ajax">
+                    data-row="${meta.row}">
             </div>`
     },
     {
@@ -65,16 +64,16 @@ let dtOverrideGlobals = {
                 </button>
                 <button class="btn btn-sm btn-danger delete-item has-tooltip"
                     data-row="${meta.row}"
-                    data-bs-toggle="tooltip" data-url="materias-ajax" data-bs-placement="top" title="Eliminar">
+                    data-bs-toggle="tooltip" data-bs-placement="top" title="Eliminar">
                     <i class="bi bi-trash-fill"></i>
                 </button>
                 <a href="/materias/${data.id}/contenido" class="btn btn-sm btn-light has-tooltip" data-bs-toggle="tooltip"
                     data-bs-placement="top" title="Mostrar contenido">
-                    <i class="bi bi-file-earmark-fill"></i> Contenido
+                    <i class="bi bi-file-earmark-fill"></i>
                 </a>
                 <a href="/materias/${data.id}/alumnos" class="btn btn-sm btn-light has-tooltip" data-bs-toggle="tooltip"
                     data-bs-placement="top" title="Mostrar alumnos">
-                    <i class="bi bi-people-fill"></i> Alumnos
+                    <i class="bi bi-people-fill"></i>
                 </a>
             </div>`
     },
@@ -165,12 +164,11 @@ $('#buttonRandomKey').on('click', function () {
 
 $('#table tbody').on('change', '.change-status', function () {
     const data = table.row(this.dataset.row).data();
-    const ITEM_URL = this.dataset.url;
     const ITEM_STATUS = this.checked;
 
     $.ajax({
         type: 'PUT',
-        url: `/${ITEM_URL}/${data.id}/change-status`,
+        url: `/${base_url}/${data.id}/change-status`,
         dataType: 'json',
         data: {
             id: data.id,
