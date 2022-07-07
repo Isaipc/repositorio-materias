@@ -91,6 +91,7 @@ Route::group(['middleware' => 'auth'], function () {
             Route::get('{materia}/trash', 'UnidadAJAXController@trash');
             Route::post('', 'UnidadAJAXController@store');
             Route::put('{unidad}', 'UnidadAJAXController@update');
+            Route::put('{unidad}/change-status', 'UnidadAJAXController@changeStatus');
             Route::delete('{unidad}/archive', 'UnidadAJAXController@archive');
             Route::put('{unidad}/restore', 'UnidadAJAXController@restore');
             Route::delete('{unidad}', 'UnidadAJAXController@destroy');
