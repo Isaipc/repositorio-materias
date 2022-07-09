@@ -8,8 +8,6 @@ require('jquery-validation');
 require('./bootstrap');
 require('bootstrap-select');
 require('bootstrap-icons/font/bootstrap-icons');
-var _moment = require('moment');
-
 require('datatables.net-bs5');
 require('datatables.net-responsive-bs5');
 
@@ -17,9 +15,7 @@ import {
     HUMAN_FORMAT,
     TIMESTAMP_FORMAT,
     OUTPUT_DATE_FORMAT,
-    DEFAULT_FORMAT,
-    dtLanguageOptions,
-    dtOverrideGlobals
+    DEFAULT_FORMAT
 } from './constants'
 
 // INIT BOOTSTRAP COMPONENTS
@@ -57,9 +53,6 @@ var currentDateFormat = 0;
 
 
 $(function () {
-    _moment.locale('es');
-    const moment = _moment;
-
     $('.date-formatted').filter(function (index) {
         this.textContent = formatDateForHumans(this.dataset.value)
     })
@@ -83,10 +76,5 @@ $(function () {
 
 });
 
-function formatDateForHumans(date) {
-    return moment(date).fromNow();
-}
-
-function formatDateTo(date) {
-    return moment(date).format(dateFormats[currentDateFormat]);
-}
+const formatDateForHumans = (date) => _moment(date).fromNow()
+const formatDateTo = (date) => _moment(date).format(dateFormats[currentDateFormat])

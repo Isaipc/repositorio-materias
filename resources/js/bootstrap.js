@@ -10,7 +10,10 @@ try {
     window.$ = window.jQuery = require('jquery');
     window.Popper = require('@popperjs/core');
     window.bootstrap = require('bootstrap');
-} catch (e) {}
+    window._moment = require('moment');
+
+    _moment.locale('es');
+} catch (e) { }
 
 /**
  * We'll load the axios HTTP library which allows us to easily issue requests

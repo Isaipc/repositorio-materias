@@ -5387,8 +5387,6 @@ __webpack_require__(/*! bootstrap-select */ "./node_modules/bootstrap-select/dis
 
 __webpack_require__(/*! bootstrap-icons/font/bootstrap-icons */ "./node_modules/bootstrap-icons/font/bootstrap-icons.json");
 
-var _moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
-
 __webpack_require__(/*! datatables.net-bs5 */ "./node_modules/datatables.net-bs5/js/dataTables.bootstrap5.js");
 
 __webpack_require__(/*! datatables.net-responsive-bs5 */ "./node_modules/datatables.net-responsive-bs5/js/responsive.bootstrap5.js");
@@ -5418,9 +5416,6 @@ new bootstrap.Tooltip(document.body, {
 var dateFormats = [_constants__WEBPACK_IMPORTED_MODULE_0__.HUMAN_FORMAT, _constants__WEBPACK_IMPORTED_MODULE_0__.TIMESTAMP_FORMAT, _constants__WEBPACK_IMPORTED_MODULE_0__.OUTPUT_DATE_FORMAT, _constants__WEBPACK_IMPORTED_MODULE_0__.DEFAULT_FORMAT];
 var currentDateFormat = 0;
 $(function () {
-  _moment.locale('es');
-
-  var moment = _moment;
   $('.date-formatted').filter(function (index) {
     this.textContent = formatDateForHumans(this.dataset.value);
   });
@@ -5441,13 +5436,13 @@ $(function () {
   });
 });
 
-function formatDateForHumans(date) {
-  return moment(date).fromNow();
-}
+var formatDateForHumans = function formatDateForHumans(date) {
+  return _moment(date).fromNow();
+};
 
-function formatDateTo(date) {
-  return moment(date).format(dateFormats[currentDateFormat]);
-}
+var formatDateTo = function formatDateTo(date) {
+  return _moment(date).format(dateFormats[currentDateFormat]);
+};
 
 /***/ }),
 
@@ -5468,6 +5463,9 @@ try {
   window.$ = window.jQuery = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
   window.Popper = __webpack_require__(/*! @popperjs/core */ "./node_modules/@popperjs/core/lib/index.js");
   window.bootstrap = __webpack_require__(/*! bootstrap */ "./node_modules/bootstrap/dist/js/bootstrap.esm.js");
+  window._moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
+
+  _moment.locale('es');
 } catch (e) {}
 /**
  * We'll load the axios HTTP library which allows us to easily issue requests
