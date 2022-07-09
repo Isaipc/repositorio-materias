@@ -1,6 +1,6 @@
 @extends('layouts.dashboard')
 
-@section('breadcrumbs', Breadcrumbs::render('archivos.trash', $parent, $item))
+@section('breadcrumbs', Breadcrumbs::render('unidades.trash', $item))
 
 @section('primary-title')
     <i class="bi bi-collection-fill"></i>

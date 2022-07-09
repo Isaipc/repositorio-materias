@@ -1,6 +1,6 @@
 @extends('layouts.dashboard')
 
-@section('breadcrumbs', Breadcrumbs::render('archivos.index', $item))
+@section('breadcrumbs', Breadcrumbs::render('unidades.index', $item))
 
 @section('primary-title')
     <i class="bi bi-collection-fill"></i>
@@ -11,7 +11,7 @@
                 data-bs-target="#itemModal">
                 <i class="bi bi-plus"></i>
             </button>
-            <a href="{{ route('archivos.trash', $item) }}" class="btn btn-md btn-secondary position-relative"
+            <a href="{{ route('unidades.trash', $item) }}" class="btn btn-md btn-secondary position-relative"
                 data-bs-toggle="tooltip" data-bs-placement="top" title="Mostrar eliminados">
                 <i class="bi bi-trash-fill"></i>
                 <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
