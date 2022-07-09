@@ -67,7 +67,7 @@ let dtOverrideGlobals = {
                     data-bs-toggle="tooltip" data-bs-placement="top" title="Eliminar">
                     <i class="bi bi-trash-fill"></i>
                 </button>
-                <a href="/materias/${data.id}/contenido" class="btn btn-sm btn-light has-tooltip" data-bs-toggle="tooltip"
+                <a href="/materias/${data.id}/unidades" class="btn btn-sm btn-light has-tooltip" data-bs-toggle="tooltip"
                     data-bs-placement="top" title="Mostrar contenido">
                     <i class="bi bi-file-earmark-fill"></i>
                 </a>
