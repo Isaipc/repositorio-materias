@@ -22,15 +22,17 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/', 'HomeController@index')->name('home');
 
         Route::middleware(['alumno_en_materia'])->group(function () {
-            Route::get('materias/{materia}/contenido', 'ArchivoController@index')->name('archivos.index');
+            Route::get('materias/{materia}/unidades', 'UnidadController@index')->name('unidades.index');
             Route::get('unidades-ajax/{materia}', 'UnidadAJAXController@index');
         });
 
-        Route::post('alumnos/materias', 'AlumnoEnMateriaController@store');
-        Route::get('alumnos/materias', 'AlumnoEnMateriaController@index');
-        Route::delete('alumnos/materias/{materia}', 'AlumnoEnMateriaController@destroy');
+        Route::prefix('alumnos/materias')->group(function () {
+            Route::post('', 'AlumnoEnMateriaController@store');
+            Route::get('', 'AlumnoEnMateriaController@index');
+            Route::delete('{materia}', 'AlumnoEnMateriaController@destroy');
+        });
 
-        Route::get('archivos/{archivo}', 'ArchivoController@show');
+        Route::get('archivos/{archivo}/show', 'ArchivoController@show')->name('archivos.show');
     });
 
     Route::group(['middleware' => ['role:Administrador']], function () {
@@ -38,9 +40,9 @@ Route::group(['middleware' => 'auth'], function () {
             Route::get('', 'UsuarioController@index')->name('usuarios.index');
             Route::get('list', 'UsuarioController@list');
             Route::get('eliminados', 'UsuarioController@trash')->name('usuarios.trash');
-            Route::get('trash/list', 'UsuarioController@trashList');
             Route::put('{user}/restore', 'UsuarioController@restore')->name('usuarios.restore');
             Route::get('{user}/restablecer-contrasena', 'UsuarioController@editPassword')->name('usuarios.password-edit');
+            Route::get('trash/list', 'UsuarioController@trashList');
             Route::put('{user}/contrasena/restablecer', 'UsuarioController@resetPassword')->name('usuarios.password-reset');
             Route::get('nuevo', 'UsuarioController@new')->name('usuarios.create');
             Route::post('', 'UsuarioController@register')->name('usuarios.store');
@@ -68,18 +70,23 @@ Route::group(['middleware' => 'auth'], function () {
             Route::get('{materia}', 'MateriaController@show')->name('materias.show');
             Route::get('{materia}/editar', 'MateriaController@edit')->name('materias.edit');
             Route::get('{materia}/alumnos', 'AlumnoController@index')->name('alumnos.index');
+            Route::get('{materia}/unidades/eliminados', 'UnidadController@trash')->name('unidades.trash');
         });
         Route::get('alumnos/{materia}/list', 'AlumnoController@list');
 
 
         Route::prefix('archivos')->group(function () {
-            Route::get('{unidad}/list', 'ArchivoController@list');
-            Route::get('{unidad}/trash', 'ArchivoController@trash');
-            Route::post('{unidad}', 'ArchivoController@store');
-            Route::put('{archivo}', 'ArchivoController@update');
-            Route::delete('{archivo}/archive', 'ArchivoController@archive');
-            Route::put('{archivo}/restore', 'ArchivoController@restore');
-            Route::delete('{archivo}', 'ArchivoController@destroy');
+            Route::get('{unidad}', 'ArchivoController@index')->name('archivos.index');
+            Route::get('{unidad}/trash', 'ArchivoController@trash')->name('archivos.trash');
+        });
+
+        Route::prefix('archivos-ajax')->group(function () {
+            Route::get('{unidad}', 'ArchivoAJAXController@index');
+            Route::post('{unidad}', 'ArchivoAJAXController@store');
+            Route::put('{archivo}', 'ArchivoAJAXController@update');
+            Route::delete('{archivo}/archive', 'ArchivoAJAXController@archive');
+            Route::put('{archivo}/restore', 'ArchivoAJAXController@restore');
+            Route::delete('{archivo}', 'ArchivoAJAXController@destroy');
         });
 
         Route::prefix('unidades')->group(function () {
@@ -97,7 +104,6 @@ Route::group(['middleware' => 'auth'], function () {
             Route::delete('{unidad}', 'UnidadAJAXController@destroy');
         });
 
-        Route::get('materias/{materia}/contenido/eliminados', 'ArchivoController@trash')->name('archivos.trash');
         Route::get('unidades/{materia}/trash/list', 'UnidadController@trashList');
     });
 });

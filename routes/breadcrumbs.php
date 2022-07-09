@@ -44,9 +44,9 @@ Breadcrumbs::macro('resource', function ($parent, $name, $title) {
 Breadcrumbs::resource('home', 'usuarios', 'Alumnos');
 Breadcrumbs::resource('home', 'materias', 'Materias');
 
-Breadcrumbs::for("archivos.index", function ($trail, $model) {
+Breadcrumbs::for("unidades.index", function ($trail, $model) {
     $trail->parent('materias.show', $model);
-    $trail->push('Contenido', route('archivos.index', $model));
+    $trail->push('Contenido', route('unidades.index', $model));
 });
 
 Breadcrumbs::for("alumnos.index", function ($trail, $model) {
@@ -54,39 +54,20 @@ Breadcrumbs::for("alumnos.index", function ($trail, $model) {
     $trail->push('Alumnos', route('alumnos.index', $model));
 });
 
-Breadcrumbs::for("archivos.create", function ($trail, $model) {
-    $trail->parent('archivos.index', $model);
-    $trail->push('Subir archivo', route('archivos.create', $model));
+Breadcrumbs::for("unidades.trash", function ($trail, $model) {
+    $trail->parent('unidades.index', $model);
+    $trail->push('Unidades eliminadas', route('unidades.trash', $model));
 });
 
-Breadcrumbs::for("archivos.trash", function ($trail, $model) {
-    $trail->parent('archivos.index', $model);
-    $trail->push('Eliminados', route('archivos.trash', $model));
+Breadcrumbs::for("archivos.index", function ($trail, $parentModel, $model) {
+    $trail->parent('unidades.index', $parentModel, $model);
+    $trail->push($model->nombre, route('archivos.index', [$parentModel, $model]));
 });
 
-Breadcrumbs::for("archivos.show", function ($trail, $parentModel, $model) {
+Breadcrumbs::for("archivos.trash", function ($trail, $parentModel, $model) {
     $trail->parent('archivos.index', $parentModel, $model);
-    $trail->push($model->nombre, route('archivos.show', [$parentModel, $model]));
+    $trail->push('Archivos eliminados', route('archivos.trash', [$parentModel, $model]));
 });
-
-Breadcrumbs::for("archivos.edit", function ($trail, $parentModel, $model) {
-    $trail->parent('archivos.show', $parentModel, $model);
-    $trail->push('Editar', route('archivos.edit', [$parentModel, $model]));
-});
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 // Home > Blog > Post 123
 Breadcrumbs::for("usuarios.password-edit", function ($trail, App\User $user) {
