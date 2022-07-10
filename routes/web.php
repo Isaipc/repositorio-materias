@@ -69,11 +69,10 @@ Route::group(['middleware' => 'auth'], function () {
             Route::get('eliminados', 'MateriaController@trash')->name('materias.trash');
             Route::get('{materia}', 'MateriaController@show')->name('materias.show');
             Route::get('{materia}/editar', 'MateriaController@edit')->name('materias.edit');
-            Route::get('{materia}/alumnos', 'AlumnoController@index')->name('alumnos.index');
+            Route::get('{materia}/alumnos', 'AlumnosEnMateriaController@index')->name('alumnos.index');
             Route::get('{materia}/unidades/eliminados', 'UnidadController@trash')->name('unidades.trash');
         });
-        Route::get('alumnos/{materia}/list', 'AlumnoController@list');
-
+        Route::get('alumnos-en-materia/{materia}', 'AlumnosEnMateriaAJAXController@index');
 
         Route::prefix('archivos')->group(function () {
             Route::get('{unidad}', 'ArchivoController@index')->name('archivos.index');
