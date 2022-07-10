@@ -6,8 +6,6 @@ import {
     showToast,
     generateRandomKey,
     getSwitchStatus,
-    TOAST_ERROR_TYPE,
-    TOAST_SUCCESS_TYPE,
     confirmDialog
 } from './ui';
 
@@ -111,13 +109,13 @@ $('#materiaForm').on('submit', function (e) {
         dataType: 'json',
         data: data,
         success: (data) => {
-            showToast(data.success, TOAST_SUCCESS_TYPE);
+            showToast(data.success, 'success');
             materiaModal.hide();
             form[0].reset();
             table.ajax.reload();
         },
         error: (jqXHR, textStatus, errorThrown) => {
-            showToast(jqXHR.responseJSON.message, TOAST_ERROR_TYPE);
+            showToast(jqXHR.responseJSON.message, 'error');
         }
     });
 });
@@ -147,11 +145,11 @@ $('#table').on('click', 'tbody .delete-item', function () {
                 type: request_type,
                 url: request_url,
                 success: (data) => {
-                    showToast(data.success, TOAST_SUCCESS_TYPE);
+                    showToast(data.success, 'success');
                     table.ajax.reload();
                 },
                 error: (jqXHR, textStatus, errorThrown) => {
-                    showToast(jqXHR.responseJSON.error, TOAST_ERROR_TYPE);
+                    showToast(jqXHR.responseJSON.error, 'error');
                 }
             })
     })
@@ -175,11 +173,11 @@ $('#table tbody').on('change', '.change-status', function () {
             estatus: ITEM_STATUS
         },
         success: (data) => {
-            showToast(data.success, TOAST_SUCCESS_TYPE);
+            showToast(data.success, 'success');
             table.ajax.reload();
         },
         error: (jqXHR, textStatus, errorThrown) => {
-            showToast(jqXHR.responseJSON.error, TOAST_ERROR_TYPE);
+            showToast(jqXHR.responseJSON.error, 'error');
         }
     });
 

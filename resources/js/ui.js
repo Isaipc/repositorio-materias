@@ -1,7 +1,5 @@
 const STATUS_ENABLED = 1;
 const STATUS_DISABLED = 2;
-const TOAST_ERROR_TYPE = 1;
-const TOAST_SUCCESS_TYPE = 0;
 const defaultButtons = ['Cancelar', 'Aceptar']
 const default_message = '¿Ejecutar acción?'
 const default_title = 'Acción'
@@ -29,15 +27,34 @@ const confirmation_type = {
         ¿Desea darse de baja en <span class='text-danger'>${itemName}</span>?`
 }
 
+const toast_type = {
+    success: () => {
+        toastElHeader.classList.add('bg-success')
+        toastElTitle.textContent = 'Completado'
+    },
+    error: () => {
+        toastElHeader.classList.add('bg-success')
+        toastElTitle.textContent = 'Error'
+    },
+    default: () => {
+        toastElHeader.classList.add('bg-primary')
+        toastElTitle.textContent = 'Aviso'
+    }
+}
+
 const getConfirmBody = (confirmType, item) => {
     return confirmation_type[confirmType]?.(item) ?? 'Función no encontrada'
 }
+const toastElement = document.getElementById('toast');
+const toastElHeader = toastElement.querySelector('.toast-header');
+const toastElTitle = toastElement.querySelector('.toast-title');
+const toastElBody = toastElement.querySelector('.toast-body');
+const toast = bootstrap.Toast.getInstance(toastElement);
 
 const confirmationModalElement = document.getElementById('confirmationModal')
 const confirmationTitle = confirmationModalElement.querySelector('.modal-title')
 const confirmationBody = confirmationModalElement.querySelector('.modal-body')
 const confirmationModal = new bootstrap.Modal(confirmationModalElement);
-const toastElement = document.getElementById('toast');
 
 const confirmDialog = (title, item, type, callback) => {
     const okButton = document.getElementById('okBtn')
@@ -62,26 +79,13 @@ const confirmDialog = (title, item, type, callback) => {
     })
 }
 
-const showToast = (msg, type) => {
-    const toastElHeader = toastElement.querySelector('.toast-header');
-    const toastElTitle = toastElement.querySelector('.toast-title');
-    const toastElBody = toastElement.querySelector('.toast-body');
-    switch (type) {
-        case TOAST_SUCCESS_TYPE:
-            toastElHeader.classList.remove('bg-danger');
-            toastElHeader.classList.add('bg-success');
-            toastElTitle.textContent = 'Completado';
-            break;
-        case TOAST_ERROR_TYPE:
-            toastElHeader.classList.remove('bg-success');
-            toastElHeader.classList.add('bg-danger');
-            toastElTitle.textContent = 'Error';
-            break;
-    }
-    toastElBody.textContent = msg;
-
-    const toast = bootstrap.Toast.getInstance(toastElement);
-    toast.show();
+const showToast = (msg, toastType = 'default') => {
+    toastElHeader.classList.remove('bg-primary')
+    toastElHeader.classList.remove('bg-success')
+    toastElHeader.classList.remove('bg-danger')
+    toast_type[toastType]?.()
+    toastElBody.textContent = msg
+    toast.show()
 }
 
 const getSwitchStatus = (status) => {
@@ -103,8 +107,6 @@ export {
     getSwitchStatus,
     generateRandomKey,
     showToast,
-    TOAST_ERROR_TYPE,
-    TOAST_SUCCESS_TYPE,
     STATUS_DISABLED,
     STATUS_ENABLED
 }

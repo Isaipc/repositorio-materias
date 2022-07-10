@@ -4,8 +4,6 @@ import {
 
 import {
     showToast,
-    TOAST_ERROR_TYPE,
-    TOAST_SUCCESS_TYPE,
     confirmDialog
 } from './ui';
 
@@ -41,13 +39,13 @@ $('#detachMateria').on('click', function () {
                 url: request_url,
                 type: request_type,
                 success: (data) => {
-                    showToast(data.success, TOAST_SUCCESS_TYPE);
+                    showToast(data.success, 'success');
                     setTimeout(function () {
                         window.location.href = "/";
                     }, 5000);
                 },
                 error: (jqXHR, textStatus, errorThrown) => {
-                    showToast(jqXHR.responseJSON.error, TOAST_ERROR_TYPE);
+                    showToast(jqXHR.responseJSON.error, 'error');
                 }
             })
     })

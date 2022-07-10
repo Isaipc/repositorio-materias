@@ -1,38 +1,37 @@
-import { dtLanguageOptions } from './constants'
+import {
+    dtLanguageOptions,
+} from './constants'
 
 import {
     showToast,
     confirmDialog
 } from './ui';
 
-const base_url = 'materias-ajax'
-let dtOverrideGlobals = {
+const base_url = 'unidades-ajax'
+const materia_id = document.getElementById('materiaId').value
+
+const dtOverrideGlobals = {
     language: dtLanguageOptions,
     paginate: true,
     processing: true,
     stateSave: true,
-    responsive: true,
+    responsive: {
+        details: true
+    },
     ajax: {
-        url: `/${base_url}/trash`,
+        url: `/${base_url}/${materia_id}/trash`,
         dataSrc: 'data',
     },
     columns: [
-        { data: null },
+        { data: 'nombre' },
+        { data: 'updated_at' },
         { data: null },
     ],
-    columnDefs: [{
-        targets: 0,
-        render: (data, type, row, meta) =>
-            `<a href="/materias/${data.id}" class="btn btn-link has-tooltip" data-bs-toggle="tooltip"
-                data-bs-placement="top" title="Mostrar detalles">
-                    <i class="bi bi-box-arrow-up-right"></i>
-            </a>
-            ${data.nombre}`
-    },
-    {
-        targets: -1,
-        render: (data, type, row, meta) =>
-            `<button type="button" class="btn btn-sm btn-success restore-item has-tooltip" 
+    columnDefs: [
+        {
+            targets: -1,
+            render: (data, type, row, meta) =>
+                `<button type="button" class="btn btn-sm btn-success restore-item has-tooltip" 
                     data-bs-toggle="tooltip"
                     data-row="${meta.row}"
                     data-bs-placement="top" title="Restaurar">
@@ -43,11 +42,10 @@ let dtOverrideGlobals = {
                     data-bs-toggle="tooltip" data-bs-placement="top" title="Eliminar permanentemente">
                     <i class="bi bi-x"></i>
                 </button>`
-    },
-    ],
-
-};
-const table = $('#table').DataTable(dtOverrideGlobals);
+        }
+    ]
+}
+const table = $('#table').DataTable(dtOverrideGlobals)
 
 $('#table tbody').on('click', '.restore-item', function () {
     const data = table.row(this.dataset.row).data();
@@ -95,4 +93,4 @@ $('#table').on('click', 'tbody .delete-item', function () {
     })
 })
 
-
+new bootstrap.Tooltip(document.body, { selector: '.has-tooltip' })

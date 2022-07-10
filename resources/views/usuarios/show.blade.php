@@ -82,13 +82,13 @@
                 url: `/usuarios/{{ $item->id }}/archive`,
                 success: (data) => {
                     confirmationModal.hide();
-                    showToast(data.success, TOAST_SUCCESS_TYPE);
+                    showToast(data.success, 'success');
                     setTimeout(function() {
                         window.location.href = "/usuarios";
                     }, 2500);
                 },
                 error: (jqXHR, textStatus, errorThrown) => {
-                    showToast(jqXHR.responseJSON.error, TOAST_ERROR_TYPE);
+                    showToast(jqXHR.responseJSON.error, 'error');
                 }
             });
         });

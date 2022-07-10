@@ -61,13 +61,13 @@
                 dataType: 'json',
                 data: data,
                 success: (data) => {
-                    showToast(data.success, TOAST_SUCCESS_TYPE);
+                    showToast(data.success, 'success');
                     setTimeout(function() {
                         window.location.href = "/";
                     }, 2500);
                 },
                 error: (jqXHR, textStatus, errorThrown) => {
-                    showToast(jqXHR.responseJSON.message, TOAST_ERROR_TYPE);
+                    showToast(jqXHR.responseJSON.message, 'error');
                 }
             });
         });

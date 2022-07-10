@@ -2,8 +2,6 @@ import { dtLanguageOptions } from './constants'
 
 import {
     showToast,
-    TOAST_ERROR_TYPE,
-    TOAST_SUCCESS_TYPE,
     confirmDialog
 } from './ui';
 
@@ -69,11 +67,11 @@ $('#table tbody').on('click', '.restore-item', function () {
                 type: request_type,
                 url: request_url,
                 success: (data) => {
-                    showToast(data.success, TOAST_SUCCESS_TYPE);
+                    showToast(data.success, 'success');
                     table.ajax.reload();
                 },
                 error: (jqXHR, textStatus, errorThrown) => {
-                    showToast(jqXHR.responseJSON.error, TOAST_ERROR_TYPE);
+                    showToast(jqXHR.responseJSON.error, 'error');
                 }
             })
     })
@@ -92,11 +90,11 @@ $('#table').on('click', 'tbody .delete-item', function () {
                 type: request_type,
                 url: request_url,
                 success: (data) => {
-                    showToast(data.success, TOAST_SUCCESS_TYPE);
+                    showToast(data.success, 'success');
                     table.ajax.reload();
                 },
                 error: (jqXHR, textStatus, errorThrown) => {
-                    showToast(jqXHR.responseJSON.error, TOAST_ERROR_TYPE);
+                    showToast(jqXHR.responseJSON.error, 'error');
                 }
             })
     })

@@ -56,6 +56,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "STATUS_DISABLED": () => (/* binding */ STATUS_DISABLED),
 /* harmony export */   "STATUS_ENABLED": () => (/* binding */ STATUS_ENABLED),
+/* harmony export */   "TOAST_ERROR_TYPE": () => (/* binding */ TOAST_ERROR_TYPE),
+/* harmony export */   "TOAST_SUCCESS_TYPE": () => (/* binding */ TOAST_SUCCESS_TYPE),
 /* harmony export */   "confirmDialog": () => (/* binding */ confirmDialog),
 /* harmony export */   "generateRandomKey": () => (/* binding */ generateRandomKey),
 /* harmony export */   "getSwitchStatus": () => (/* binding */ getSwitchStatus),
@@ -63,6 +65,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 var STATUS_ENABLED = 1;
 var STATUS_DISABLED = 2;
+var TOAST_ERROR_TYPE = 1;
+var TOAST_SUCCESS_TYPE = 0;
 var defaultButtons = ['Cancelar', 'Aceptar'];
 var default_message = '¿Ejecutar acción?';
 var default_title = 'Acción';
@@ -80,20 +84,6 @@ var confirmation_type = {
     return "<div>\n            <i class=\"bi bi-exclamation-circle-fill\" style=\"font-size: 2.5rem; color: red;\"></i>\n        </div>\n        \xBFDesea darse de baja en <span class='text-danger'>".concat(itemName, "</span>?");
   }
 };
-var toast_type = {
-  success: function success() {
-    toastElHeader.classList.add('bg-success');
-    toastElTitle.textContent = 'Completado';
-  },
-  error: function error() {
-    toastElHeader.classList.add('bg-success');
-    toastElTitle.textContent = 'Error';
-  },
-  "default": function _default() {
-    toastElHeader.classList.add('bg-primary');
-    toastElTitle.textContent = 'Aviso';
-  }
-};
 
 var getConfirmBody = function getConfirmBody(confirmType, item) {
   var _confirmation_type$co, _confirmation_type$co2;
@@ -101,15 +91,11 @@ var getConfirmBody = function getConfirmBody(confirmType, item) {
   return (_confirmation_type$co = (_confirmation_type$co2 = confirmation_type[confirmType]) === null || _confirmation_type$co2 === void 0 ? void 0 : _confirmation_type$co2.call(confirmation_type, item)) !== null && _confirmation_type$co !== void 0 ? _confirmation_type$co : 'Función no encontrada';
 };
 
-var toastElement = document.getElementById('toast');
-var toastElHeader = toastElement.querySelector('.toast-header');
-var toastElTitle = toastElement.querySelector('.toast-title');
-var toastElBody = toastElement.querySelector('.toast-body');
-var toast = bootstrap.Toast.getInstance(toastElement);
 var confirmationModalElement = document.getElementById('confirmationModal');
 var confirmationTitle = confirmationModalElement.querySelector('.modal-title');
 var confirmationBody = confirmationModalElement.querySelector('.modal-body');
 var confirmationModal = new bootstrap.Modal(confirmationModalElement);
+var toastElement = document.getElementById('toast');
 
 var confirmDialog = function confirmDialog(title, item, type, callback) {
   var okButton = document.getElementById('okBtn');
@@ -131,15 +117,27 @@ var confirmDialog = function confirmDialog(title, item, type, callback) {
   });
 };
 
-var showToast = function showToast(msg) {
-  var _toast_type$toastType;
+var showToast = function showToast(msg, type) {
+  var toastElHeader = toastElement.querySelector('.toast-header');
+  var toastElTitle = toastElement.querySelector('.toast-title');
+  var toastElBody = toastElement.querySelector('.toast-body');
 
-  var toastType = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'default';
-  toastElHeader.classList.remove('bg-primary');
-  toastElHeader.classList.remove('bg-success');
-  toastElHeader.classList.remove('bg-danger');
-  (_toast_type$toastType = toast_type[toastType]) === null || _toast_type$toastType === void 0 ? void 0 : _toast_type$toastType.call(toast_type);
+  switch (type) {
+    case TOAST_SUCCESS_TYPE:
+      toastElHeader.classList.remove('bg-danger');
+      toastElHeader.classList.add('bg-success');
+      toastElTitle.textContent = 'Completado';
+      break;
+
+    case TOAST_ERROR_TYPE:
+      toastElHeader.classList.remove('bg-success');
+      toastElHeader.classList.add('bg-danger');
+      toastElTitle.textContent = 'Error';
+      break;
+  }
+
   toastElBody.textContent = msg;
+  var toast = bootstrap.Toast.getInstance(toastElement);
   toast.show();
 };
 
@@ -223,47 +221,39 @@ var generateRandomKey = function generateRandomKey() {
 var __webpack_exports__ = {};
 // This entry need to be wrapped in an IIFE because it need to be isolated against other modules in the chunk.
 (() => {
-/*!******************************************!*\
-  !*** ./resources/js/alumnos-archived.js ***!
-  \******************************************/
+/*!********************************************!*\
+  !*** ./resources/js/contenido-archived.js ***!
+  \********************************************/
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./constants */ "./resources/js/constants.js");
 /* harmony import */ var _ui__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ui */ "./resources/js/ui.js");
 
 
-var base_url = 'usuarios';
-var confirmationModalElement = document.getElementById('confirmationModal');
-var confirmationModal = new bootstrap.Modal(confirmationModalElement, {
-  keyboard: true
-});
+var base_url = 'unidades-ajax';
+var materia_id = document.getElementById('materiaId').value;
 var dtOverrideGlobals = {
   language: _constants__WEBPACK_IMPORTED_MODULE_0__.dtLanguageOptions,
   paginate: true,
   processing: true,
   stateSave: true,
-  responsive: true,
+  responsive: {
+    details: true
+  },
   ajax: {
-    url: '/usuarios/trash/list',
+    url: "/".concat(base_url, "/").concat(materia_id, "/trash"),
     dataSrc: 'data'
   },
   columns: [{
-    data: null
+    data: 'nombre'
   }, {
-    data: 'email'
-  }, {
-    data: 'username'
+    data: 'updated_at'
   }, {
     data: null
   }],
   columnDefs: [{
-    targets: 0,
-    render: function render(data, type, row, meta) {
-      return "<a href=\"/usuarios/".concat(data.id, "\" class=\"btn btn-link has-tooltip\" data-bs-toggle=\"tooltip\" data-bs-placement=\"top\" title=\"Mostrar detalles\">\n                <i class=\"bi bi-box-arrow-up-right\"></i>\n            </a> ").concat(data.nombre);
-    }
-  }, {
     targets: -1,
     render: function render(data, type, row, meta) {
-      return "<button type=\"button\" class=\"btn btn-sm btn-success restore-item has-tooltip\" data-bs-toggle=\"tooltip\"\n            data-row=\"".concat(meta.row, "\"\n            data-bs-placement=\"top\" title=\"Restaurar\">\n            <i class=\"bi bi-arrow-clockwise\"></i>\n        </button>\n        <button class=\"btn btn-sm btn-danger delete-item has-tooltip\" \n            data-row=\"").concat(meta.row, "\"\n        data-bs-toggle=\"tooltip\" data-bs-placement=\"top\" title=\"Eliminar permanentemente\">\n            <i class=\"bi bi-x\"></i>\n        </button>");
+      return "<button type=\"button\" class=\"btn btn-sm btn-success restore-item has-tooltip\" \n                    data-bs-toggle=\"tooltip\"\n                    data-row=\"".concat(meta.row, "\"\n                    data-bs-placement=\"top\" title=\"Restaurar\">\n                    <i class=\"bi bi-arrow-clockwise\"></i>\n                </button>\n                <button class=\"btn btn-sm btn-danger delete-item has-tooltip\" \n                    data-row=\"").concat(meta.row, "\"\n                    data-bs-toggle=\"tooltip\" data-bs-placement=\"top\" title=\"Eliminar permanentemente\">\n                    <i class=\"bi bi-x\"></i>\n                </button>");
     }
   }]
 };
@@ -279,11 +269,11 @@ $('#table tbody').on('click', '.restore-item', function () {
       type: request_type,
       url: request_url,
       success: function success(data) {
-        (0,_ui__WEBPACK_IMPORTED_MODULE_1__.showToast)(data.success, 'success');
+        (0,_ui__WEBPACK_IMPORTED_MODULE_1__.showToast)(data.success, _ui__WEBPACK_IMPORTED_MODULE_1__.TOAST_SUCCESS_TYPE);
         table.ajax.reload();
       },
       error: function error(jqXHR, textStatus, errorThrown) {
-        (0,_ui__WEBPACK_IMPORTED_MODULE_1__.showToast)(jqXHR.responseJSON.error, 'error');
+        (0,_ui__WEBPACK_IMPORTED_MODULE_1__.showToast)(jqXHR.responseJSON.error, _ui__WEBPACK_IMPORTED_MODULE_1__.TOAST_ERROR_TYPE);
       }
     });
   });
@@ -299,14 +289,17 @@ $('#table').on('click', 'tbody .delete-item', function () {
       type: request_type,
       url: request_url,
       success: function success(data) {
-        (0,_ui__WEBPACK_IMPORTED_MODULE_1__.showToast)(data.success, 'success');
+        (0,_ui__WEBPACK_IMPORTED_MODULE_1__.showToast)(data.success, _ui__WEBPACK_IMPORTED_MODULE_1__.TOAST_SUCCESS_TYPE);
         table.ajax.reload();
       },
       error: function error(jqXHR, textStatus, errorThrown) {
-        (0,_ui__WEBPACK_IMPORTED_MODULE_1__.showToast)(jqXHR.responseJSON.error, 'error');
+        (0,_ui__WEBPACK_IMPORTED_MODULE_1__.showToast)(jqXHR.responseJSON.error, _ui__WEBPACK_IMPORTED_MODULE_1__.TOAST_ERROR_TYPE);
       }
     });
   });
+});
+new bootstrap.Tooltip(document.body, {
+  selector: '.has-tooltip'
 });
 })();
 

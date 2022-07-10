@@ -4,8 +4,6 @@ import {
 
 import {
     showToast,
-    TOAST_ERROR_TYPE,
-    TOAST_SUCCESS_TYPE,
     confirmDialog
 } from './ui';
 
@@ -98,14 +96,14 @@ $('#userForm').on('submit', function (e) {
         dataType: 'json',
         data: data,
         success: (data) => {
-            showToast(data.success, TOAST_SUCCESS_TYPE);
+            showToast(data.success, 'success');
             userModal.hide();
             form[0].reset();
             table.ajax.reload();
         },
         error: (jqXHR, textStatus, errorThrown) => {
             console.log(jqXHR.responseJSON);
-            showToast(jqXHR.responseJSON.errors.nombre, TOAST_ERROR_TYPE);
+            showToast(jqXHR.responseJSON.errors.nombre, 'error');
         }
     });
 });
@@ -134,11 +132,11 @@ $('#table').on('click', 'tbody .delete-item', function () {
                 type: request_type,
                 url: request_url,
                 success: (data) => {
-                    showToast(data.success, TOAST_SUCCESS_TYPE);
+                    showToast(data.success, 'success');
                     table.ajax.reload();
                 },
                 error: (jqXHR, textStatus, errorThrown) => {
-                    showToast(jqXHR.responseJSON.error, TOAST_ERROR_TYPE);
+                    showToast(jqXHR.responseJSON.error, 'error');
                 }
             })
     })

@@ -56,8 +56,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "STATUS_DISABLED": () => (/* binding */ STATUS_DISABLED),
 /* harmony export */   "STATUS_ENABLED": () => (/* binding */ STATUS_ENABLED),
-/* harmony export */   "TOAST_ERROR_TYPE": () => (/* binding */ TOAST_ERROR_TYPE),
-/* harmony export */   "TOAST_SUCCESS_TYPE": () => (/* binding */ TOAST_SUCCESS_TYPE),
 /* harmony export */   "confirmDialog": () => (/* binding */ confirmDialog),
 /* harmony export */   "generateRandomKey": () => (/* binding */ generateRandomKey),
 /* harmony export */   "getSwitchStatus": () => (/* binding */ getSwitchStatus),
@@ -65,8 +63,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 var STATUS_ENABLED = 1;
 var STATUS_DISABLED = 2;
-var TOAST_ERROR_TYPE = 1;
-var TOAST_SUCCESS_TYPE = 0;
 var defaultButtons = ['Cancelar', 'Aceptar'];
 var default_message = '¿Ejecutar acción?';
 var default_title = 'Acción';
@@ -84,6 +80,20 @@ var confirmation_type = {
     return "<div>\n            <i class=\"bi bi-exclamation-circle-fill\" style=\"font-size: 2.5rem; color: red;\"></i>\n        </div>\n        \xBFDesea darse de baja en <span class='text-danger'>".concat(itemName, "</span>?");
   }
 };
+var toast_type = {
+  success: function success() {
+    toastElHeader.classList.add('bg-success');
+    toastElTitle.textContent = 'Completado';
+  },
+  error: function error() {
+    toastElHeader.classList.add('bg-success');
+    toastElTitle.textContent = 'Error';
+  },
+  "default": function _default() {
+    toastElHeader.classList.add('bg-primary');
+    toastElTitle.textContent = 'Aviso';
+  }
+};
 
 var getConfirmBody = function getConfirmBody(confirmType, item) {
   var _confirmation_type$co, _confirmation_type$co2;
@@ -91,11 +101,15 @@ var getConfirmBody = function getConfirmBody(confirmType, item) {
   return (_confirmation_type$co = (_confirmation_type$co2 = confirmation_type[confirmType]) === null || _confirmation_type$co2 === void 0 ? void 0 : _confirmation_type$co2.call(confirmation_type, item)) !== null && _confirmation_type$co !== void 0 ? _confirmation_type$co : 'Función no encontrada';
 };
 
+var toastElement = document.getElementById('toast');
+var toastElHeader = toastElement.querySelector('.toast-header');
+var toastElTitle = toastElement.querySelector('.toast-title');
+var toastElBody = toastElement.querySelector('.toast-body');
+var toast = bootstrap.Toast.getInstance(toastElement);
 var confirmationModalElement = document.getElementById('confirmationModal');
 var confirmationTitle = confirmationModalElement.querySelector('.modal-title');
 var confirmationBody = confirmationModalElement.querySelector('.modal-body');
 var confirmationModal = new bootstrap.Modal(confirmationModalElement);
-var toastElement = document.getElementById('toast');
 
 var confirmDialog = function confirmDialog(title, item, type, callback) {
   var okButton = document.getElementById('okBtn');
@@ -117,27 +131,15 @@ var confirmDialog = function confirmDialog(title, item, type, callback) {
   });
 };
 
-var showToast = function showToast(msg, type) {
-  var toastElHeader = toastElement.querySelector('.toast-header');
-  var toastElTitle = toastElement.querySelector('.toast-title');
-  var toastElBody = toastElement.querySelector('.toast-body');
+var showToast = function showToast(msg) {
+  var _toast_type$toastType;
 
-  switch (type) {
-    case TOAST_SUCCESS_TYPE:
-      toastElHeader.classList.remove('bg-danger');
-      toastElHeader.classList.add('bg-success');
-      toastElTitle.textContent = 'Completado';
-      break;
-
-    case TOAST_ERROR_TYPE:
-      toastElHeader.classList.remove('bg-success');
-      toastElHeader.classList.add('bg-danger');
-      toastElTitle.textContent = 'Error';
-      break;
-  }
-
+  var toastType = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'default';
+  toastElHeader.classList.remove('bg-primary');
+  toastElHeader.classList.remove('bg-success');
+  toastElHeader.classList.remove('bg-danger');
+  (_toast_type$toastType = toast_type[toastType]) === null || _toast_type$toastType === void 0 ? void 0 : _toast_type$toastType.call(toast_type);
   toastElBody.textContent = msg;
-  var toast = bootstrap.Toast.getInstance(toastElement);
   toast.show();
 };
 
@@ -306,14 +308,14 @@ $('#userForm').on('submit', function (e) {
     dataType: 'json',
     data: data,
     success: function success(data) {
-      (0,_ui__WEBPACK_IMPORTED_MODULE_1__.showToast)(data.success, _ui__WEBPACK_IMPORTED_MODULE_1__.TOAST_SUCCESS_TYPE);
+      (0,_ui__WEBPACK_IMPORTED_MODULE_1__.showToast)(data.success, 'success');
       userModal.hide();
       form[0].reset();
       table.ajax.reload();
     },
     error: function error(jqXHR, textStatus, errorThrown) {
       console.log(jqXHR.responseJSON);
-      (0,_ui__WEBPACK_IMPORTED_MODULE_1__.showToast)(jqXHR.responseJSON.errors.nombre, _ui__WEBPACK_IMPORTED_MODULE_1__.TOAST_ERROR_TYPE);
+      (0,_ui__WEBPACK_IMPORTED_MODULE_1__.showToast)(jqXHR.responseJSON.errors.nombre, 'error');
     }
   });
 });
@@ -337,11 +339,11 @@ $('#table').on('click', 'tbody .delete-item', function () {
       type: request_type,
       url: request_url,
       success: function success(data) {
-        (0,_ui__WEBPACK_IMPORTED_MODULE_1__.showToast)(data.success, _ui__WEBPACK_IMPORTED_MODULE_1__.TOAST_SUCCESS_TYPE);
+        (0,_ui__WEBPACK_IMPORTED_MODULE_1__.showToast)(data.success, 'success');
         table.ajax.reload();
       },
       error: function error(jqXHR, textStatus, errorThrown) {
-        (0,_ui__WEBPACK_IMPORTED_MODULE_1__.showToast)(jqXHR.responseJSON.error, _ui__WEBPACK_IMPORTED_MODULE_1__.TOAST_ERROR_TYPE);
+        (0,_ui__WEBPACK_IMPORTED_MODULE_1__.showToast)(jqXHR.responseJSON.error, 'error');
       }
     });
   });
