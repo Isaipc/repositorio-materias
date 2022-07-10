@@ -32,7 +32,7 @@ Route::group(['middleware' => 'auth'], function () {
             Route::delete('{materia}', 'AlumnoEnMateriaController@destroy');
         });
 
-        Route::get('archivos/{archivo}/show', 'ArchivoController@show')->name('archivos.show');
+        Route::get('archivos/{archivo}/{nombre}', 'ArchivoController@show')->name('archivos.show');
     });
 
     Route::group(['middleware' => ['role:Administrador']], function () {
