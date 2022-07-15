@@ -2,50 +2,6 @@
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
-/***/ "./resources/js/constants.js":
-/*!***********************************!*\
-  !*** ./resources/js/constants.js ***!
-  \***********************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "DEFAULT_FORMAT": () => (/* binding */ DEFAULT_FORMAT),
-/* harmony export */   "HUMAN_FORMAT": () => (/* binding */ HUMAN_FORMAT),
-/* harmony export */   "OUTPUT_DATE_FORMAT": () => (/* binding */ OUTPUT_DATE_FORMAT),
-/* harmony export */   "TIMESTAMP_FORMAT": () => (/* binding */ TIMESTAMP_FORMAT),
-/* harmony export */   "dtLanguageOptions": () => (/* binding */ dtLanguageOptions),
-/* harmony export */   "dtOverrideGlobals": () => (/* binding */ dtOverrideGlobals)
-/* harmony export */ });
-var HUMAN_FORMAT = null;
-var TIMESTAMP_FORMAT = 'DD/MM/YYYY h:m A';
-var OUTPUT_DATE_FORMAT = 'dddd DD/MMM/YYYY';
-var DEFAULT_FORMAT = 'YYYY-MM-DD hh:mm:ss A';
-var dtLanguageOptions = {
-  emptyTable: "No hay datos disponibles",
-  zeroRecords: "No se encontraron resultados",
-  infoFiltered: "(filtrado de _MAX_ registros totales)",
-  infoEmpty: "Mostrando 0 registros",
-  search: 'Buscar',
-  info: "Mostrando pagina _PAGE_ de _PAGES_",
-  paginate: {
-    first: "Primero",
-    last: "Ultimo",
-    next: "Siguiente",
-    previous: "Anterior"
-  },
-  lengthMenu: "Mostrar _MENU_ filas",
-  processing: 'Procesando ...'
-};
-var dtOverrideGlobals = {
-  language: dtLanguageOptions,
-  paginate: true,
-  processing: true
-};
-
-
-/***/ }),
-
 /***/ "./resources/js/ui.js":
 /*!****************************!*\
   !*** ./resources/js/ui.js ***!
@@ -223,72 +179,39 @@ var generateRandomKey = function generateRandomKey() {
 var __webpack_exports__ = {};
 // This entry need to be wrapped in an IIFE because it need to be isolated against other modules in the chunk.
 (() => {
-/*!******************************************!*\
-  !*** ./resources/js/contenido-alumno.js ***!
-  \******************************************/
+/*!******************************!*\
+  !*** ./resources/js/home.js ***!
+  \******************************/
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./constants */ "./resources/js/constants.js");
-/* harmony import */ var _ui__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ui */ "./resources/js/ui.js");
+/* harmony import */ var _ui__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ui */ "./resources/js/ui.js");
 
-
-var materia_id = document.getElementById('materiaId').value;
-var table = $('#table').DataTable({
-  language: _constants__WEBPACK_IMPORTED_MODULE_0__.dtLanguageOptions,
-  paginate: true,
-  ajax: {
-    url: "/unidades-ajax/".concat(materia_id),
-    dataSrc: 'data'
-  },
-  columns: [{
-    className: 'dt-control',
-    orderable: false,
-    data: null,
-    defaultContent: ""
-  }, {
-    data: 'nombre'
-  }]
+var claveModalElement = document.getElementById('claveModal');
+var claveModal = new bootstrap.Modal(claveModalElement);
+$('#assignMateria').on('click', function () {
+  return claveModal.show();
 });
-$('#detachMateria').on('click', function () {
-  var request_url = "/claves-materia/".concat(materia_id);
-  var request_type = 'DELETE';
-  var title = 'Dar de baja';
-  var item = this.dataset.name;
-  (0,_ui__WEBPACK_IMPORTED_MODULE_1__.confirmDialog)(title, item, 'confirmDetach', function (confirm) {
-    if (confirm) $.ajax({
-      url: request_url,
-      type: request_type,
-      success: function success(data) {
-        (0,_ui__WEBPACK_IMPORTED_MODULE_1__.showToast)(data.success, 'success');
-        setTimeout(function () {
-          return window.location.href = "/";
-        }, 5000);
-      },
-      error: function error(jqXHR, textStatus, errorThrown) {
-        (0,_ui__WEBPACK_IMPORTED_MODULE_1__.showToast)(jqXHR.responseJSON.error, 'error');
-      }
-    });
+$('#form').on('submit', function (e) {
+  e.preventDefault();
+  var form = $('#form');
+  var data = form.serialize();
+  $.ajax({
+    type: 'POST',
+    url: '/claves-materia',
+    dataType: 'json',
+    data: data,
+    success: function success(data) {
+      (0,_ui__WEBPACK_IMPORTED_MODULE_0__.showToast)(data.success, 'success');
+      claveModal.hide();
+      form[0].reset();
+      setTimeout(function () {
+        return window.location.href = "/";
+      }, 3000);
+    },
+    error: function error(jqXHR, textStatus, errorThrown) {
+      (0,_ui__WEBPACK_IMPORTED_MODULE_0__.showToast)(jqXHR.responseJSON.message, 'error');
+    }
   });
 });
-$('#table').on('requestChild.dt', function (e, row) {
-  var data = row.data();
-  row.child(format(data)).show();
-});
-$('#table').on('click', 'tbody td.dt-control', function () {
-  var tr = $(this).closest('tr');
-  var row = table.row(tr);
-  if (row.child.isShown()) row.child.hide();else {
-    row.child(format(row.data())).show();
-  }
-});
-
-function format(data) {
-  var rowItems = '';
-  if (data.archivos.length == 0) return "<span class=\"text-muted\">No hay archivos disponibles</span>";
-  data.archivos.forEach(function (e) {
-    rowItems += "<tr>\n                <td></td>    \n                <td>    \n                    <a href=\"/archivos/".concat(e.id, "\" class=\"text-decoration-none has-tooltip\" \n                    data-bs-toggle=\"tooltip\" data-bs-placement=\"top\" title=\"Mostrar detalles\"\n                    target=\"_blank\" rel=\"noopener noreferrer\">\n                    <i class=\"bi bi-filetype-").concat(e.extension, "\" style=\"font-size: 1.5rem;\"></i>\n                    ").concat(e.nombre, "\n                    </a>\n                </td>\n            </tr>");
-  });
-  return $(rowItems).toArray();
-}
 })();
 
 /******/ })()

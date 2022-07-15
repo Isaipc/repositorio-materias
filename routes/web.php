@@ -26,10 +26,9 @@ Route::group(['middleware' => 'auth'], function () {
             Route::get('unidades-ajax/{materia}', 'UnidadAJAXController@index');
         });
 
-        Route::prefix('alumnos/materias')->group(function () {
-            Route::post('', 'AlumnoEnMateriaController@store');
-            Route::get('', 'AlumnoEnMateriaController@index');
-            Route::delete('{materia}', 'AlumnoEnMateriaController@destroy');
+        Route::prefix('claves-materia')->group(function () {
+            Route::post('', 'ClaveMateriaController@store')->name('claves-materia.store');
+            Route::delete('{materia}', 'ClaveMateriaController@destroy')->name('claves-materia.destroy');
         });
 
         Route::get('archivos/{archivo}/{nombre}', 'ArchivoController@show')->name('archivos.show');
@@ -89,8 +88,6 @@ Route::group(['middleware' => 'auth'], function () {
         });
 
         Route::prefix('unidades')->group(function () {
-            // Route::get('', 'UnidadAJAXController@index')->name('unidades.index');
-            // Route::get('eliminados', 'UnidadAJAXController@trash')->name('unidades.trash');
             Route::get('{unidad}', 'UnidadController@show');
         });
         Route::prefix('unidades-ajax')->group(function () {

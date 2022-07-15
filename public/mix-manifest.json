@@ -3,8 +3,10 @@
     "/js/materias.js": "/js/materias.js",
     "/js/materias-archived.js": "/js/materias-archived.js",
     "/js/alumnos.js": "/js/alumnos.js",
+    "/js/alumnos-en-materia.js": "/js/alumnos-en-materia.js",
     "/js/alumnos-archived.js": "/js/alumnos-archived.js",
     "/js/contenido-admin.js": "/js/contenido-admin.js",
     "/js/contenido-alumno.js": "/js/contenido-alumno.js",
+    "/js/home.js": "/js/home.js",
     "/css/app.css": "/css/app.css"
 }

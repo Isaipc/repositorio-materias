@@ -9,8 +9,8 @@
     @hasrole('Alumno')
         Mis materias
         <span class="float-end">
-            <button id="assignMateria" class="btn btn-md btn-primary" data-bs-toggle="tooltip" data-bs-placement="top"
-                title="Registrarse en materia">
+            <button id="assignMateria" class="btn btn-md btn-primary" data-bs-placement="top" data-bs-toggle="modal"
+                data-bs-target="#claveModal" title="Registrarse en materia">
                 <i class="bi bi-key-fill" style="font-size: 1.2rem;"></i>
             </button>
         </span>
@@ -21,7 +21,8 @@
     <!-- Clave Modal -->
     <div class="modal fade" id="claveModal" tabindex="-1" role="dialog" aria-labelledby="modelTitleId"
         aria-hidden="true">
-        <form id="form" action="javascript:void(0)" method="POST">
+        <form id="form" action="{{ route('claves-materia.store') }}" method="POST">
+            @csrf
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -43,9 +44,16 @@
     </div>
 
     <div class="container">
-        <div class="row row-cols-lg-4 row-cols-md-2 row-cols-sm-1 row-cols-1 g-2 g-lg-3">
-            @hasrole('Administrador')
-                @foreach ($materias_rep as $m)
+        @if ($materias->count() == 0)
+            <div class="alert alert-light text-center" role="alert">
+                <div>
+                    <i class="bi bi-info-circle-fill" style="font-size: 3rem; color: orange;"></i>
+                </div>
+                <span class="text-muted"> No hay materias registradas</span>
+            </div>
+        @else
+            <div class="row row-cols-lg-4 row-cols-md-2 row-cols-sm-1 row-cols-1 g-2 g-lg-3">
+                @foreach ($materias as $m)
                     <div class="col p-2">
                         <div class="card bg-light">
                             <div class="card-header">
@@ -61,17 +69,20 @@
                             <div class="card-body">
                                 {{-- <div class="d-lg-flex justify-content-around gap-2 mt-2"> --}}
                                 <div class="d-grid gap-2 mt-2">
-                                    <a href="{{ route('archivos.index', $m) }}" class="btn btn-md btn-primary">
+                                    <a href="{{ route('unidades.index', $m) }}" class="btn btn-md btn-primary">
                                         <i class="bi bi-files"></i>
                                         Mostrar contenido
                                     </a>
-                                    <a href="{{ route('alumnos.index', $m) }}" class="btn btn-md btn-primary">
-                                        <i class="bi bi-people-fill"></i>
-                                        Alumnos
-                                        <span class="badge bg-light text-dark">
-                                            {{ $m->alumnos->count() }}
-                                        </span>
-                                    </a>
+
+                                    @hasrole('Administrador')
+                                        <a href="{{ route('alumnos.index', $m) }}" class="btn btn-md btn-primary">
+                                            <i class="bi bi-people-fill"></i>
+                                            Alumnos
+                                            <span class="badge bg-light text-dark">
+                                                {{ $m->alumnos->count() }}
+                                            </span>
+                                        </a>
+                                    @endhasrole
                                 </div>
                             </div>
                             <div class="card-footer">
@@ -86,97 +97,11 @@
                         </div>
                     </div>
                 @endforeach
-            @endhasrole
-        </div>
-    </div>
-    @hasrole('Alumno')
-        <div id="misMaterias" class="d-flex flex-wrap justify-content-center"></div>
-        <div id="misMateriasAlert" class="alert alert-light text-center" role="alert" style="display: none;">
-            <div>
-                <i class="bi bi-info-circle-fill" style="font-size: 3rem; color: orange;"></i>
             </div>
-            <span class="text-muted"> Todavía no estas registrado en alguna materia. </span>
-        </div>
-    @endhasrole
+        @endif
+    </div>
 @endsection
 
 @section('scripts')
-    <script>
-        const claveModalElement = document.getElementById('claveModal');
-        const claveModal = new bootstrap.Modal(claveModalElement, {
-            keyboard: true
-        });
-        const containerAlert = $('#misMateriasAlert');
-
-        $(() => {
-            getMaterias();
-        })
-
-        $('#assignMateria').on('click', function() {
-            claveModal.show();
-        });
-
-        $('#form').on('submit', function(e) {
-            var form = $('#form');
-            var data = form.serialize();
-            console.log(data);
-
-            $.ajax({
-                type: 'POST',
-                url: '/alumnos/materias',
-                dataType: 'json',
-                data: data,
-                success: (data) => {
-                    showToast(data.success, TOAST_SUCCESS_TYPE);
-                    claveModal.hide();
-                    form[0].reset();
-                    getMaterias();
-                },
-                error: (jqXHR, textStatus, errorThrown) => {
-                    showToast(jqXHR.responseJSON.message, TOAST_ERROR_TYPE);
-                }
-            });
-        });
-
-        function getMaterias() {
-            $.ajax({
-                type: 'GET',
-                url: '/alumnos/materias',
-                dataType: 'json',
-                success: (data) => {
-                    let container = $('#misMaterias');
-                    let htmlResult = '';
-
-                    if (data.materias.length == 0) {
-                        containerAlert.show();
-                    } else {
-                        containerAlert.hide();
-                        data.materias.forEach(e => {
-                            htmlResult += renderMateriaItem(e);
-                        });
-                        container.html(htmlResult);
-                    }
-                },
-                error: (jqXHR, textStatus, errorThrown) => {
-                    showToast(jqXHR.responseJSON.message, TOAST_ERROR_TYPE);
-                }
-            });
-        }
-
-        function renderMateriaItem(data) {
-            let html = `<div class="card bg-light col-md-4 ms-2 mt-2">
-                <div class="card-body text-center">
-                    <h5 class="card-title"> ${data.nombre} </h5>`;
-
-
-            html += data.estatus == 1 ?
-                `<a href="/materias/${data.id}/contenido" class="btn btn-md btn-primary">
-                            <i class="bi bi-files"></i>Mostrar contenido
-                            </a>` : `<p class="text-muted mt-3"> Esta materia no se encuentra disponible. </p>`;
-
-            html += `</div>
-            </div>`;
-            return html;
-        }
-    </script>
+    <script src="{{ asset('js/home.js') }}"></script>
 @endsection

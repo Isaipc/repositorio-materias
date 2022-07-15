@@ -28,7 +28,7 @@ const table = $('#table').DataTable({
 
 $('#detachMateria').on('click', function () {
 
-    const request_url = `/alumnos/materias/${materia_id}`
+    const request_url = `/claves-materia/${materia_id}`
     const request_type = 'DELETE'
     const title = 'Dar de baja'
     const item = this.dataset.name
@@ -40,9 +40,7 @@ $('#detachMateria').on('click', function () {
                 type: request_type,
                 success: (data) => {
                     showToast(data.success, 'success');
-                    setTimeout(function () {
-                        window.location.href = "/";
-                    }, 5000);
+                    setTimeout(() => window.location.href = "/", 5000);
                 },
                 error: (jqXHR, textStatus, errorThrown) => {
                     showToast(jqXHR.responseJSON.error, 'error');
