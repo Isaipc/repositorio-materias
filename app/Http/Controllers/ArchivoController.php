@@ -7,6 +7,7 @@ use App\Archivo;
 use App\Constants;
 use App\Unidad;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
 
@@ -39,6 +40,11 @@ class ArchivoController extends Controller implements Constants
      */
     public function show(Archivo $archivo)
     {
+        $user = Auth::user();
+
+        if (!$user->materias->contains($archivo->unidad->materia))
+            return redirect('/');
+
         return response()->file(str_replace("/", "\\", storage_path("app/{$archivo->path}")));
         // abort_if(!Storage::disk('files')->exists($path), 404, "The file doesn't exist. Check the path.");
         // return Storage::disk('files')->response($path);
