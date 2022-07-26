@@ -18,7 +18,7 @@
 @endsection
 
 @section('primary-content')
-    <div class="row">
+    <div class="row justify-content-between">
         <div class="col-md-6">
             <table class="table table-borderless">
                 <tbody>
@@ -48,6 +48,22 @@
                     </tr>
                 </tbody>
             </table>
+
+        </div>
+        <div class="col-md-4">
+            <div class="d-grid gap-2 mt-2">
+                <a href="{{ route('unidades.index', $item) }}" class="btn btn-md btn-primary">
+                    <i class="bi bi-files"></i>
+                    Contenido
+                </a>
+                <a href="{{ route('alumnos.index', $item) }}" class="btn btn-md btn-primary">
+                    <i class="bi bi-people-fill"></i>
+                    Alumnos
+                    <span class="badge bg-light text-dark">
+                        {{ $item->alumnos->count() }}
+                    </span>
+                </a>
+            </div>
         </div>
     </div>
 @endsection
