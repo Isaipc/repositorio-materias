@@ -93,10 +93,7 @@ class ArchivoAJAXController extends Controller
         $file = $request->file('file');
         $fileName = $request->nombre;
 
-        $path = $file->storeAs(
-            "private",
-            "{$unidad->materia->nombre}/{$unidad->nombre}/{$fileName}"
-        );
+        $path = $file->store('private');
 
         $archivo->extension = $file->getClientOriginalExtension();
         $archivo->path = $path;
