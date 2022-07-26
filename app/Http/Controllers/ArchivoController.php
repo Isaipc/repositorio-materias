@@ -42,6 +42,9 @@ class ArchivoController extends Controller implements Constants
     {
         $user = Auth::user();
 
+        if ($user->hasRole('Administrador'))
+            return response()->file(str_replace("/", "\\", storage_path("app/{$archivo->path}")));
+
         if (!$user->materias->contains($archivo->unidad->materia))
             return redirect('/');
 
