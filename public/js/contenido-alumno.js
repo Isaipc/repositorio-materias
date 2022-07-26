@@ -285,7 +285,7 @@ function format(data) {
   var rowItems = '';
   if (data.archivos.length == 0) return "<span class=\"text-muted\">No hay archivos disponibles</span>";
   data.archivos.forEach(function (e) {
-    rowItems += "<tr>\n                <td></td>    \n                <td>    \n                    <a href=\"/archivos/".concat(e.id, "\" class=\"text-decoration-none has-tooltip\" \n                    data-bs-toggle=\"tooltip\" data-bs-placement=\"top\" title=\"Mostrar detalles\"\n                    target=\"_blank\" rel=\"noopener noreferrer\">\n                    <i class=\"bi bi-filetype-").concat(e.extension, "\" style=\"font-size: 1.5rem;\"></i>\n                    ").concat(e.nombre, "\n                    </a>\n                </td>\n            </tr>");
+    rowItems += "<tr>\n                <td></td>    \n                <td>    \n                    <a href=\"/archivos/".concat(e.id, "/").concat(e.nombre, "\" class=\"text-decoration-none has-tooltip\" \n                    data-bs-toggle=\"tooltip\" data-bs-placement=\"top\" title=\"Mostrar detalles\"\n                    target=\"_blank\" rel=\"noopener noreferrer\">\n                    <i class=\"bi bi-filetype-").concat(e.extension, "\" style=\"font-size: 1.5rem;\"></i>\n                    ").concat(e.nombre, "\n                    </a>\n                </td>\n            </tr>");
   });
   return $(rowItems).toArray();
 }

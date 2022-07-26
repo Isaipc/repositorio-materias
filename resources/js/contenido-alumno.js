@@ -74,7 +74,7 @@ function format(data) {
         rowItems += `<tr>
                 <td></td>    
                 <td>    
-                    <a href="/archivos/${e.id}" class="text-decoration-none has-tooltip" 
+                    <a href="/archivos/${e.id}/${e.nombre}" class="text-decoration-none has-tooltip" 
                     data-bs-toggle="tooltip" data-bs-placement="top" title="Mostrar detalles"
                     target="_blank" rel="noopener noreferrer">
                     <i class="bi bi-filetype-${e.extension}" style="font-size: 1.5rem;"></i>
