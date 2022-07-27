@@ -17,8 +17,6 @@ class Unidad extends Model
         'estatus',
     ];
     
-    protected $with = ['archivos'];
-
     /**
      * all of the relationships to be touched.
      *
