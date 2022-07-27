@@ -15,7 +15,13 @@ class UnidadAJAXController extends Controller
      */
     public function index(Materia $materia)
     {
-        return response()->json(['data' => $materia->unidades()->where('estatus', '!=', config('constants.status_archived'))->get()]);
+        return response()->json([
+            'data' => $materia->unidades()
+            ->with(['archivos' => function($query) {
+                $query->where('estatus', '!=', config('constants.status_archived'));
+            }])
+            ->where('estatus', '!=', config('constants.status_archived'))->get()
+        ]);
     }
 
     /**
