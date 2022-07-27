@@ -107,4 +107,39 @@ class ArchivoAJAXController extends Controller
             'nombre' => 'required',
         ]);
     }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \App\Archivo  $archivo
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(Archivo $archivo)
+    {
+        $archivo->delete();
+
+        $response = response()->json(['success' => 'Se ha eliminado ' . $archivo->nombre]);
+        return $response;
+    }
+
+    /**
+     * Change the status.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Archivo  $archivo
+     * @return \Illuminate\Http\Response
+     */
+    public function changeStatus(Archivo $archivo, Request $request)
+    {
+        $validated = $request->validate([
+            'estatus' => 'required',
+        ]);
+
+        $archivo->estatus =  $request->estatus == "false"
+            ? config('constants.status_disabled')
+            : config('constants.status_enabled');
+        $archivo->save();
+        $response = response()->json(['success' => 'Se ha ' . $archivo->getEstatusName() . ' ' . $archivo->nombre]);
+        return $response;
+    }
 }

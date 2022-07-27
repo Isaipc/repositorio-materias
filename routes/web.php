@@ -82,6 +82,7 @@ Route::group(['middleware' => 'auth'], function () {
             Route::get('{unidad}', 'ArchivoAJAXController@index');
             Route::post('{unidad}', 'ArchivoAJAXController@store');
             Route::put('{archivo}', 'ArchivoAJAXController@update');
+            Route::put('{archivo}/change-status', 'ArchivoAJAXController@changeStatus');
             Route::delete('{archivo}/archive', 'ArchivoAJAXController@archive');
             Route::put('{archivo}/restore', 'ArchivoAJAXController@restore');
             Route::delete('{archivo}', 'ArchivoAJAXController@destroy');
