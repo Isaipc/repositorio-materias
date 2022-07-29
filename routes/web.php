@@ -80,7 +80,7 @@ Route::group(['middleware' => 'auth'], function () {
 
         Route::prefix('archivos-ajax')->group(function () {
             Route::get('{unidad}', 'ArchivoAJAXController@index');
-            Route::post('{unidad}', 'ArchivoAJAXController@store');
+            Route::post('', 'ArchivoAJAXController@store');
             Route::put('{archivo}', 'ArchivoAJAXController@update');
             Route::put('{archivo}/change-status', 'ArchivoAJAXController@changeStatus');
             Route::delete('{archivo}/archive', 'ArchivoAJAXController@archive');
