@@ -2,16 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Materia;
 use App\Archivo;
-use App\Constants;
 use App\Unidad;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Session;
-use Illuminate\Support\Facades\Storage;
 
-class ArchivoController extends Controller implements Constants
+class ArchivoController extends Controller
 {
     /**
      * display a listing of the resource.
