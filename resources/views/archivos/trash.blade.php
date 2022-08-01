@@ -8,10 +8,10 @@
 @endsection
 
 @section('primary-content')
-    <input id="materiaId" type="hidden" name="materia_id" value="{{ $item->id }}">
+    <input id="unidadId" type="hidden" name="unidad_id" value="{{ $item->id }}">
     <table id="table" class="table table-hover table-responsive-md table-md mt-2">
         <thead>
-            <th>Unidad</th>
+            <th>Archivo</th>
             <th>Eliminado</th>
             <th></th>
         </thead>
@@ -19,5 +19,5 @@
 @endsection
 
 @section('scripts')
-    <script src="{{ asset('js/contenido-archived.js') }}"></script>
+    <script src="{{ asset('js/archivos-archived.js') }}"></script>
 @endsection

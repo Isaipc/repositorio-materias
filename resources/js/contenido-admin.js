@@ -64,7 +64,7 @@ const dtOverrideGlobals = {
                 <button class="btn btn-sm btn-secondary upload-file has-tooltip" data-bs-toggle="tooltip"  data-row="${meta.row}" data-bs-placement="top" title="Subir archivo">
                     <i class="bi bi-upload"></i>
                 </button>
-                <a href="/archivos/${data.id}/eliminados" class="btn btn-sm btn-secondary has-tooltip" data-bs-toggle="tooltip" data-bs-placement="top" title="Archivos eliminados">
+                <a href="/unidades/${data.id}/archivos/eliminados" class="btn btn-sm btn-secondary has-tooltip" data-bs-toggle="tooltip" data-bs-placement="top" title="Archivos eliminados">
                     <i class="bi bi-trash"></i>
                 </a>
                 `

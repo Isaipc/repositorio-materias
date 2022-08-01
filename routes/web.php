@@ -75,11 +75,11 @@ Route::group(['middleware' => 'auth'], function () {
 
         Route::prefix('archivos')->group(function () {
             Route::get('{unidad}', 'ArchivoController@index')->name('archivos.index');
-            Route::get('{unidad}/trash', 'ArchivoController@trash')->name('archivos.trash');
         });
 
         Route::prefix('archivos-ajax')->group(function () {
             Route::get('{unidad}', 'ArchivoAJAXController@index');
+            Route::get('{unidad}/trash', 'ArchivoAJAXController@trash');
             Route::post('', 'ArchivoAJAXController@store');
             Route::put('{archivo}', 'ArchivoAJAXController@update');
             Route::put('{archivo}/change-status', 'ArchivoAJAXController@changeStatus');
@@ -90,6 +90,7 @@ Route::group(['middleware' => 'auth'], function () {
 
         Route::prefix('unidades')->group(function () {
             Route::get('{unidad}', 'UnidadController@show');
+            Route::get('{unidad}/archivos/eliminados', 'ArchivoController@trash')->name('archivos.trash');
         });
         Route::prefix('unidades-ajax')->group(function () {
             Route::get('{materia}/trash', 'UnidadAJAXController@trash');

@@ -22,6 +22,16 @@ class ArchivoAJAXController extends Controller
     }
 
     /**
+     * display a listing of the resource.
+     *
+     * @return \illuminate\http\response
+     */
+    public function trash(Unidad $unidad)
+    {
+        return response()->json(['data' => $unidad->archivos()->where('estatus', config('constants.status_archived'))->get()]);
+    }
+
+    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -40,11 +50,10 @@ class ArchivoAJAXController extends Controller
      */
     public function restore(Archivo $archivo)
     {
-        $archivo->estatus = 1;
+        $archivo->estatus = config('constants.status_disabled');
         $archivo->save();
 
-
-        return redirect()->route('archivos.index', $archivo->materia);
+        return response()->json(['success' => 'Se ha restaurado ' . $archivo->nombre]);
     }
 
     /**
@@ -119,10 +128,10 @@ class ArchivoAJAXController extends Controller
      */
     public function destroy(Archivo $archivo)
     {
+        Storage::delete([$archivo->path]);
         $archivo->delete();
 
-        $response = response()->json(['success' => 'Se ha eliminado ' . $archivo->nombre]);
-        return $response;
+        return response()->json(['success' => 'Se ha eliminado ' . $archivo->nombre]);
     }
 
     /**

@@ -223,21 +223,16 @@ var generateRandomKey = function generateRandomKey() {
 var __webpack_exports__ = {};
 // This entry need to be wrapped in an IIFE because it need to be isolated against other modules in the chunk.
 (() => {
-/*!*****************************************!*\
-  !*** ./resources/js/contenido-admin.js ***!
-  \*****************************************/
+/*!*******************************************!*\
+  !*** ./resources/js/archivos-archived.js ***!
+  \*******************************************/
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./constants */ "./resources/js/constants.js");
 /* harmony import */ var _ui__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ui */ "./resources/js/ui.js");
 
 
-var unidad_url = 'unidades-ajax';
-var archivo_url = 'archivos-ajax';
-var materia_id = document.getElementById('materiaId').value;
-var itemModalElement = document.getElementById('itemModal');
-var uploadFileModalElement = document.getElementById('uploadFileModal');
-var itemModal = new bootstrap.Modal(itemModalElement);
-var uploadFileModal = new bootstrap.Modal(uploadFileModalElement);
+var base_url = 'archivos-ajax';
+var unidad_id = document.getElementById('unidadId').value;
 var dtOverrideGlobals = {
   language: _constants__WEBPACK_IMPORTED_MODULE_0__.dtLanguageOptions,
   paginate: true,
@@ -247,85 +242,51 @@ var dtOverrideGlobals = {
     details: true
   },
   ajax: {
-    url: "/".concat(unidad_url, "/").concat(materia_id),
+    url: "/".concat(base_url, "/").concat(unidad_id, "/trash"),
     dataSrc: 'data'
   },
   columns: [{
-    className: 'dt-control',
-    orderable: false,
-    data: null,
-    defaultContent: ""
-  }, {
     data: 'nombre'
   }, {
-    data: null
+    data: 'updated_at'
   }, {
     data: null
   }],
   columnDefs: [{
-    targets: 2,
-    render: function render(data, type, row, meta) {
-      return "<div class=\"form-check form-switch\">\n                    <input class=\"form-check-input change-status\" ".concat(data.estatus == 1 ? 'checked' : '', " \n                    data-row=\"").concat(meta.row, "\"\n                    type=\"checkbox\" role=\"switch\">\n                </div>");
-    }
-  }, {
     targets: -1,
     render: function render(data, type, row, meta) {
-      return "<button class=\"btn btn-sm btn-primary edit-item has-tooltip\" data-row=\"".concat(meta.row, "\"\n                    data-bs-toggle=\"tooltip\" data-bs-placement=\"top\" title=\"Editar\">\n                    <i class=\"bi bi-pencil-fill\"></i>\n                </button>\n                <button class=\"btn btn-sm btn-danger delete-item has-tooltip\" data-row=\"").concat(meta.row, "\"\n                    data-bs-toggle=\"tooltip\" data-bs-placement=\"top\" title=\"Eliminar\">\n                    <i class=\"bi bi-trash-fill\"></i>\n                </button>\n                <button class=\"btn btn-sm btn-secondary upload-file has-tooltip\" data-bs-toggle=\"tooltip\"  data-row=\"").concat(meta.row, "\" data-bs-placement=\"top\" title=\"Subir archivo\">\n                    <i class=\"bi bi-upload\"></i>\n                </button>\n                <a href=\"/unidades/").concat(data.id, "/archivos/eliminados\" class=\"btn btn-sm btn-secondary has-tooltip\" data-bs-toggle=\"tooltip\" data-bs-placement=\"top\" title=\"Archivos eliminados\">\n                    <i class=\"bi bi-trash\"></i>\n                </a>\n                ");
+      return "<button type=\"button\" class=\"btn btn-sm btn-success restore-item has-tooltip\" \n                    data-bs-toggle=\"tooltip\"\n                    data-row=\"".concat(meta.row, "\"\n                    data-bs-placement=\"top\" title=\"Restaurar\">\n                    <i class=\"bi bi-arrow-clockwise\"></i>\n                </button>\n                <button class=\"btn btn-sm btn-danger delete-item has-tooltip\" \n                    data-row=\"").concat(meta.row, "\"\n                    data-bs-toggle=\"tooltip\" data-bs-placement=\"top\" title=\"Eliminar permanentemente\">\n                    <i class=\"bi bi-x\"></i>\n                </button>");
     }
   }]
 };
 var table = $('#table').DataTable(dtOverrideGlobals);
-$('#table').on('requestChild.dt', function (e, row) {
-  var data = row.data();
-  row.child(format(data)).show();
-});
-$('#table').on('click', 'tbody td.dt-control', function () {
-  var tr = $(this).closest('tr');
-  var row = table.row(tr);
-  if (row.child.isShown()) row.child.hide();else {
-    row.child(format(row.data())).show();
-  }
-});
-$('.add-item').on('click', function () {
-  $('#unidadForm')[0].reset();
-  $('#id').val(0);
-  itemModalElement.querySelector('.modal-title').textContent = 'Agregar unidad';
-});
-$('#table tbody').on('change', '.change-status', function () {
+$('#table tbody').on('click', '.restore-item', function () {
   var data = table.row(this.dataset.row).data();
-  var ITEM_STATUS = this.checked;
-  $.ajax({
-    type: 'PUT',
-    url: "/unidades-ajax/".concat(data.id, "/change-status"),
-    dataType: 'json',
-    data: {
-      id: data.id,
-      estatus: ITEM_STATUS
-    },
-    success: function success(data) {
-      (0,_ui__WEBPACK_IMPORTED_MODULE_1__.showToast)(data.success, 'success');
-      table.ajax.reload();
-    },
-    error: function error(jqXHR, textStatus, errorThrown) {
-      (0,_ui__WEBPACK_IMPORTED_MODULE_1__.showToast)(jqXHR.responseJSON.error, 'error');
-    }
+  var request_url = "/".concat(base_url, "/").concat(data.id, "/restore");
+  var request_type = 'PUT';
+  var title = 'Restaurar';
+  var item = data.nombre;
+  (0,_ui__WEBPACK_IMPORTED_MODULE_1__.confirmDialog)(title, item, 'confirmRestore', function (confirm) {
+    if (confirm) $.ajax({
+      type: request_type,
+      url: request_url,
+      success: function success(data) {
+        (0,_ui__WEBPACK_IMPORTED_MODULE_1__.showToast)(data.success, 'success');
+        table.ajax.reload();
+      },
+      error: function error(jqXHR, textStatus, errorThrown) {
+        (0,_ui__WEBPACK_IMPORTED_MODULE_1__.showToast)(jqXHR.responseJSON.error, 'error');
+      }
+    });
   });
-});
-$('#table').on('click', 'tbody .edit-item', function () {
-  var data = table.row(this.dataset.row).data();
-  itemModal.show();
-  $('#id').val(data.id);
-  $('#nombre').val(data.nombre);
-  $('#estatus').prop('checked', (0,_ui__WEBPACK_IMPORTED_MODULE_1__.getSwitchStatus)(data.estatus));
-  itemModalElement.querySelector('.modal-title').textContent = 'Editar unidad';
 });
 $('#table').on('click', 'tbody .delete-item', function () {
   var data = table.row(this.dataset.row).data();
-  var request_url = "/".concat(unidad_url, "/").concat(data.id, "/archive");
+  var request_url = "/".concat(base_url, "/").concat(data.id);
   var request_type = 'DELETE';
-  var title = 'Archivar';
+  var title = 'Eliminar';
   var item = data.nombre;
-  (0,_ui__WEBPACK_IMPORTED_MODULE_1__.confirmDialog)(title, item, 'confirmArchive', function (confirm) {
+  (0,_ui__WEBPACK_IMPORTED_MODULE_1__.confirmDialog)(title, item, 'confirmDelete', function (confirm) {
     if (confirm) $.ajax({
       type: request_type,
       url: request_url,
@@ -339,137 +300,6 @@ $('#table').on('click', 'tbody .delete-item', function () {
     });
   });
 });
-$('#table').on('click', 'tbody .upload-file', function () {
-  var data = table.row(this.dataset.row).data();
-  $('#unidadId').val(data.id);
-  $('#fileId').val(0);
-  uploadFileModal.show();
-  uploadFileModalElement.querySelector('.modal-title').textContent = 'Subir archivo';
-});
-$('#table tbody').on('change', '.change-status-file', function () {
-  var ITEM_STATUS = this.checked;
-  $.ajax({
-    type: 'PUT',
-    url: "/".concat(archivo_url, "/").concat(this.dataset.id, "/change-status"),
-    dataType: 'json',
-    data: {
-      id: this.dataset.id,
-      estatus: ITEM_STATUS
-    },
-    success: function success(data) {
-      (0,_ui__WEBPACK_IMPORTED_MODULE_1__.showToast)(data.success, 'success');
-      table.ajax.reload();
-    },
-    error: function error(jqXHR, textStatus, errorThrown) {
-      (0,_ui__WEBPACK_IMPORTED_MODULE_1__.showToast)(jqXHR.responseJSON.error, 'error');
-    }
-  });
-});
-$('#table').on('click', 'tbody .edit-file', function () {
-  var data = table.row(this.dataset.row).data();
-  uploadFileModal.show();
-  $('#fileId').val(this.dataset.id);
-  $('#fileName').val(this.dataset.nombre);
-  $('#unidadId').val(this.dataset.unidad);
-  uploadFileModalElement.querySelector('.modal-title').textContent = 'Editar archivo';
-});
-$('#table').on('click', 'tbody .delete-file', function () {
-  var request_url = "/".concat(archivo_url, "/").concat(this.dataset.id, "/archive");
-  var request_type = 'DELETE';
-  var title = 'Archivar';
-  var item = this.dataset.nombre;
-  (0,_ui__WEBPACK_IMPORTED_MODULE_1__.confirmDialog)(title, item, 'confirmArchive', function (confirm) {
-    if (confirm) $.ajax({
-      type: request_type,
-      url: request_url,
-      success: function success(data) {
-        (0,_ui__WEBPACK_IMPORTED_MODULE_1__.showToast)(data.success, 'success');
-        table.ajax.reload();
-      },
-      error: function error(jqXHR, textStatus, errorThrown) {
-        (0,_ui__WEBPACK_IMPORTED_MODULE_1__.showToast)(jqXHR.responseJSON.error, 'error');
-      }
-    });
-  });
-});
-$('#unidadForm').on('submit', function (e) {
-  var form = $('#unidadForm');
-  var data = form.serialize();
-  var id = $('#id');
-  var request_url = '/unidades-ajax';
-  var request_type = 'POST';
-
-  if (id.val() != 0) {
-    request_url = "/unidades-ajax/".concat(id.val());
-    request_type = 'PUT';
-  }
-
-  $.ajax({
-    type: request_type,
-    url: request_url,
-    dataType: 'json',
-    data: data,
-    success: function success(data) {
-      (0,_ui__WEBPACK_IMPORTED_MODULE_1__.showToast)(data.success, 'success');
-      itemModal.hide();
-      form[0].reset();
-      table.ajax.reload();
-    },
-    error: function error(jqXHR, textStatus, errorThrown) {
-      (0,_ui__WEBPACK_IMPORTED_MODULE_1__.showToast)(jqXHR.responseJSON.error, 'error');
-    }
-  });
-});
-$('#fileUploadForm').on('submit', function (e) {
-  e.preventDefault();
-  var form = document.getElementById('fileUploadForm');
-  var id = document.getElementById('fileId').value;
-  var file = document.getElementById('file').files[0];
-  var unidadId = document.getElementById('unidadId').value;
-  var nombre = document.getElementById('fileName').value;
-  var formData = new FormData();
-  formData.append('id', id);
-  formData.append('unidad_id', unidadId);
-  formData.append('file', file);
-  formData.append('nombre', nombre);
-  var request_type = 'POST';
-  var request_url = "/".concat(archivo_url);
-
-  if (id != 0) {
-    request_url = "/".concat(archivo_url, "/").concat(id);
-    formData.append('_method', 'PUT');
-  }
-
-  $.ajax({
-    type: request_type,
-    url: request_url,
-    processData: false,
-    contentType: false,
-    // dataType: 'json',
-    data: formData,
-    success: function success(data) {
-      (0,_ui__WEBPACK_IMPORTED_MODULE_1__.showToast)(data.success, 'success');
-      uploadFileModal.hide();
-      $(form)[0].reset();
-      table.ajax.reload();
-    },
-    error: function error(jqXHR, textStatus, errorThrown) {
-      (0,_ui__WEBPACK_IMPORTED_MODULE_1__.showToast)(jqXHR.responseJSON.error, 'error');
-    }
-  });
-});
-$('#file').on('change', function () {
-  $('#fileName').val(this.files[0].name);
-});
-
-function format(data) {
-  if (data.archivos.length == 0) return "<span class=\"text-muted\">No hay archivos disponibles</span>";
-  var result = data.archivos.reduce(function (acc, e) {
-    return acc + "<tr>\n                <td></td>    \n                <td>    \n                    <a href=\"/archivos/".concat(e.id, "/").concat(e.nombre, "\" class=\"text-decoration-none has-tooltip\" \n                    data-bs-toggle=\"tooltip\" data-bs-placement=\"top\" title=\"Mostrar detalles\"\n                    target=\"_blank\" rel=\"noopener noreferrer\">\n                    <i class=\"bi bi-filetype-").concat(e.extension, "\" style=\"font-size: 1.2rem;\"></i>\n                    ").concat(e.nombre, "\n                    </a>\n                </td>\n                <td>\n                    <div class=\"form-check form-switch\">\n                        <input class=\"form-check-input change-status-file\" ").concat(e.estatus == 1 ? 'checked' : '', " \n                        data-id=\"").concat(e.id, "\"\n                        type=\"checkbox\" role=\"switch\">\n                    </div>\n                </td>\n                <td>\n                    <button class=\"btn btn-sm btn-primary edit-file has-tooltip\" \n                        data-id=\"").concat(e.id, "\" data-nombre=\"").concat(e.nombre, "\"\n                        data-unidad=\"").concat(data.id, "\"\n                        data-bs-toggle=\"tooltip\" data-bs-placement=\"top\" title=\"Editar\">\n                        <i class=\"bi bi-pencil-fill\"></i>\n                    </button>\n                    <button class=\"btn btn-sm btn-danger delete-file has-tooltip\" \n                        data-id=\"").concat(e.id, "\" data-nombre=\"").concat(e.nombre, "\"\n                        data-bs-toggle=\"tooltip\" data-bs-placement=\"top\" title=\"Eliminar\">\n                        <i class=\"bi bi-trash-fill\"></i>\n                    </button>\n            </td>\n        </tr>");
-  }, '');
-  return $(result).toArray();
-}
-
 new bootstrap.Tooltip(document.body, {
   selector: '.has-tooltip'
 });
