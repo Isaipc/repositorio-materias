@@ -73,14 +73,15 @@
             aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
-                    <form id="fileUploadForm" action="javascript:void(0)" method="POST" enctype="multipart/form-data">
+                    <form id="fileUploadForm" action="javascript:void(0)" method="POST">
                         <div class="modal-header">
                             <h5 class="modal-title">Subir archivo</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
+                            <input id="fileId" type="hidden" name="id" value="0">
                             <div class="mb-3">
-                                <input class="form-control" name="file" id="fileInput" type="file">
+                                <input class="form-control" name="file" id="file" type="file">
                             </div>
                             <input id="unidadId" type="hidden" name="unidad_id" value="0">
                             <div class="mb-3">

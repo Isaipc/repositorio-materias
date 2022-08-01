@@ -56,8 +56,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "STATUS_DISABLED": () => (/* binding */ STATUS_DISABLED),
 /* harmony export */   "STATUS_ENABLED": () => (/* binding */ STATUS_ENABLED),
-/* harmony export */   "TOAST_ERROR_TYPE": () => (/* binding */ TOAST_ERROR_TYPE),
-/* harmony export */   "TOAST_SUCCESS_TYPE": () => (/* binding */ TOAST_SUCCESS_TYPE),
 /* harmony export */   "confirmDialog": () => (/* binding */ confirmDialog),
 /* harmony export */   "generateRandomKey": () => (/* binding */ generateRandomKey),
 /* harmony export */   "getSwitchStatus": () => (/* binding */ getSwitchStatus),
@@ -65,8 +63,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 var STATUS_ENABLED = 1;
 var STATUS_DISABLED = 2;
-var TOAST_ERROR_TYPE = 1;
-var TOAST_SUCCESS_TYPE = 0;
 var defaultButtons = ['Cancelar', 'Aceptar'];
 var default_message = '¿Ejecutar acción?';
 var default_title = 'Acción';
@@ -84,6 +80,20 @@ var confirmation_type = {
     return "<div>\n            <i class=\"bi bi-exclamation-circle-fill\" style=\"font-size: 2.5rem; color: red;\"></i>\n        </div>\n        \xBFDesea darse de baja en <span class='text-danger'>".concat(itemName, "</span>?");
   }
 };
+var toast_type = {
+  success: function success() {
+    toastElHeader.classList.add('bg-success');
+    toastElTitle.textContent = 'Completado';
+  },
+  error: function error() {
+    toastElHeader.classList.add('bg-success');
+    toastElTitle.textContent = 'Error';
+  },
+  "default": function _default() {
+    toastElHeader.classList.add('bg-primary');
+    toastElTitle.textContent = 'Aviso';
+  }
+};
 
 var getConfirmBody = function getConfirmBody(confirmType, item) {
   var _confirmation_type$co, _confirmation_type$co2;
@@ -91,11 +101,15 @@ var getConfirmBody = function getConfirmBody(confirmType, item) {
   return (_confirmation_type$co = (_confirmation_type$co2 = confirmation_type[confirmType]) === null || _confirmation_type$co2 === void 0 ? void 0 : _confirmation_type$co2.call(confirmation_type, item)) !== null && _confirmation_type$co !== void 0 ? _confirmation_type$co : 'Función no encontrada';
 };
 
+var toastElement = document.getElementById('toast');
+var toastElHeader = toastElement.querySelector('.toast-header');
+var toastElTitle = toastElement.querySelector('.toast-title');
+var toastElBody = toastElement.querySelector('.toast-body');
+var toast = bootstrap.Toast.getInstance(toastElement);
 var confirmationModalElement = document.getElementById('confirmationModal');
 var confirmationTitle = confirmationModalElement.querySelector('.modal-title');
 var confirmationBody = confirmationModalElement.querySelector('.modal-body');
 var confirmationModal = new bootstrap.Modal(confirmationModalElement);
-var toastElement = document.getElementById('toast');
 
 var confirmDialog = function confirmDialog(title, item, type, callback) {
   var okButton = document.getElementById('okBtn');
@@ -117,27 +131,15 @@ var confirmDialog = function confirmDialog(title, item, type, callback) {
   });
 };
 
-var showToast = function showToast(msg, type) {
-  var toastElHeader = toastElement.querySelector('.toast-header');
-  var toastElTitle = toastElement.querySelector('.toast-title');
-  var toastElBody = toastElement.querySelector('.toast-body');
+var showToast = function showToast(msg) {
+  var _toast_type$toastType;
 
-  switch (type) {
-    case TOAST_SUCCESS_TYPE:
-      toastElHeader.classList.remove('bg-danger');
-      toastElHeader.classList.add('bg-success');
-      toastElTitle.textContent = 'Completado';
-      break;
-
-    case TOAST_ERROR_TYPE:
-      toastElHeader.classList.remove('bg-success');
-      toastElHeader.classList.add('bg-danger');
-      toastElTitle.textContent = 'Error';
-      break;
-  }
-
+  var toastType = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'default';
+  toastElHeader.classList.remove('bg-primary');
+  toastElHeader.classList.remove('bg-success');
+  toastElHeader.classList.remove('bg-danger');
+  (_toast_type$toastType = toast_type[toastType]) === null || _toast_type$toastType === void 0 ? void 0 : _toast_type$toastType.call(toast_type);
   toastElBody.textContent = msg;
-  var toast = bootstrap.Toast.getInstance(toastElement);
   toast.show();
 };
 
@@ -230,7 +232,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var unidad_url = 'unidades-ajax';
-var archivo_url = 'archivos';
+var archivo_url = 'archivos-ajax';
 var materia_id = document.getElementById('materiaId').value;
 var itemModalElement = document.getElementById('itemModal');
 var uploadFileModalElement = document.getElementById('uploadFileModal');
@@ -268,7 +270,7 @@ var dtOverrideGlobals = {
   }, {
     targets: -1,
     render: function render(data, type, row, meta) {
-      return "<button class=\"btn btn-sm btn-primary edit-item has-tooltip\" data-row=\"".concat(meta.row, "\"\n                    data-bs-toggle=\"tooltip\" data-bs-placement=\"top\" title=\"Editar\">\n                    <i class=\"bi bi-pencil-fill\"></i>\n                </button>\n                <button class=\"btn btn-sm btn-danger delete-item has-tooltip\" data-row=\"").concat(meta.row, "\"\n                    data-bs-toggle=\"tooltip\" data-bs-placement=\"top\" title=\"Eliminar\">\n                    <i class=\"bi bi-trash-fill\"></i>\n                </button>\n                <button class=\"btn btn-sm btn-secondary upload-file has-tooltip\" data-bs-toggle=\"tooltip\" data-bs-placement=\"top\" title=\"Subir archivo\">\n                    <i class=\"bi bi-upload\"></i>\n                </button>");
+      return "<button class=\"btn btn-sm btn-primary edit-item has-tooltip\" data-row=\"".concat(meta.row, "\"\n                    data-bs-toggle=\"tooltip\" data-bs-placement=\"top\" title=\"Editar\">\n                    <i class=\"bi bi-pencil-fill\"></i>\n                </button>\n                <button class=\"btn btn-sm btn-danger delete-item has-tooltip\" data-row=\"").concat(meta.row, "\"\n                    data-bs-toggle=\"tooltip\" data-bs-placement=\"top\" title=\"Eliminar\">\n                    <i class=\"bi bi-trash-fill\"></i>\n                </button>\n                <button class=\"btn btn-sm btn-secondary upload-file has-tooltip\" data-bs-toggle=\"tooltip\"  data-row=\"").concat(meta.row, "\" data-bs-placement=\"top\" title=\"Subir archivo\">\n                    <i class=\"bi bi-upload\"></i>\n                </button>\n                <a href=\"/archivos/").concat(data.id, "/eliminados\" class=\"btn btn-sm btn-secondary has-tooltip\" data-bs-toggle=\"tooltip\" data-bs-placement=\"top\" title=\"Archivos eliminados\">\n                    <i class=\"bi bi-trash\"></i>\n                </a>\n                ");
     }
   }]
 };
@@ -301,11 +303,11 @@ $('#table tbody').on('change', '.change-status', function () {
       estatus: ITEM_STATUS
     },
     success: function success(data) {
-      (0,_ui__WEBPACK_IMPORTED_MODULE_1__.showToast)(data.success, _ui__WEBPACK_IMPORTED_MODULE_1__.TOAST_SUCCESS_TYPE);
+      (0,_ui__WEBPACK_IMPORTED_MODULE_1__.showToast)(data.success, 'success');
       table.ajax.reload();
     },
     error: function error(jqXHR, textStatus, errorThrown) {
-      (0,_ui__WEBPACK_IMPORTED_MODULE_1__.showToast)(jqXHR.responseJSON.error, _ui__WEBPACK_IMPORTED_MODULE_1__.TOAST_ERROR_TYPE);
+      (0,_ui__WEBPACK_IMPORTED_MODULE_1__.showToast)(jqXHR.responseJSON.error, 'error');
     }
   });
 });
@@ -328,11 +330,11 @@ $('#table').on('click', 'tbody .delete-item', function () {
       type: request_type,
       url: request_url,
       success: function success(data) {
-        (0,_ui__WEBPACK_IMPORTED_MODULE_1__.showToast)(data.success, _ui__WEBPACK_IMPORTED_MODULE_1__.TOAST_SUCCESS_TYPE);
+        (0,_ui__WEBPACK_IMPORTED_MODULE_1__.showToast)(data.success, 'success');
         table.ajax.reload();
       },
       error: function error(jqXHR, textStatus, errorThrown) {
-        (0,_ui__WEBPACK_IMPORTED_MODULE_1__.showToast)(jqXHR.responseJSON.error, _ui__WEBPACK_IMPORTED_MODULE_1__.TOAST_ERROR_TYPE);
+        (0,_ui__WEBPACK_IMPORTED_MODULE_1__.showToast)(jqXHR.responseJSON.error, 'error');
       }
     });
   });
@@ -340,7 +342,55 @@ $('#table').on('click', 'tbody .delete-item', function () {
 $('#table').on('click', 'tbody .upload-file', function () {
   var data = table.row(this.dataset.row).data();
   $('#unidadId').val(data.id);
+  $('#fileId').val(0);
   uploadFileModal.show();
+  uploadFileModalElement.querySelector('.modal-title').textContent = 'Subir archivo';
+});
+$('#table tbody').on('change', '.change-status-file', function () {
+  var ITEM_STATUS = this.checked;
+  $.ajax({
+    type: 'PUT',
+    url: "/".concat(archivo_url, "/").concat(this.dataset.id, "/change-status"),
+    dataType: 'json',
+    data: {
+      id: this.dataset.id,
+      estatus: ITEM_STATUS
+    },
+    success: function success(data) {
+      (0,_ui__WEBPACK_IMPORTED_MODULE_1__.showToast)(data.success, 'success');
+      table.ajax.reload();
+    },
+    error: function error(jqXHR, textStatus, errorThrown) {
+      (0,_ui__WEBPACK_IMPORTED_MODULE_1__.showToast)(jqXHR.responseJSON.error, 'error');
+    }
+  });
+});
+$('#table').on('click', 'tbody .edit-file', function () {
+  var data = table.row(this.dataset.row).data();
+  uploadFileModal.show();
+  $('#fileId').val(this.dataset.id);
+  $('#fileName').val(this.dataset.nombre);
+  $('#unidadId').val(this.dataset.unidad);
+  uploadFileModalElement.querySelector('.modal-title').textContent = 'Editar archivo';
+});
+$('#table').on('click', 'tbody .delete-file', function () {
+  var request_url = "/".concat(archivo_url, "/").concat(this.dataset.id, "/archive");
+  var request_type = 'DELETE';
+  var title = 'Archivar';
+  var item = this.dataset.nombre;
+  (0,_ui__WEBPACK_IMPORTED_MODULE_1__.confirmDialog)(title, item, 'confirmArchive', function (confirm) {
+    if (confirm) $.ajax({
+      type: request_type,
+      url: request_url,
+      success: function success(data) {
+        (0,_ui__WEBPACK_IMPORTED_MODULE_1__.showToast)(data.success, 'success');
+        table.ajax.reload();
+      },
+      error: function error(jqXHR, textStatus, errorThrown) {
+        (0,_ui__WEBPACK_IMPORTED_MODULE_1__.showToast)(jqXHR.responseJSON.error, 'error');
+      }
+    });
+  });
 });
 $('#unidadForm').on('submit', function (e) {
   var form = $('#unidadForm');
@@ -360,49 +410,64 @@ $('#unidadForm').on('submit', function (e) {
     dataType: 'json',
     data: data,
     success: function success(data) {
-      (0,_ui__WEBPACK_IMPORTED_MODULE_1__.showToast)(data.success, _ui__WEBPACK_IMPORTED_MODULE_1__.TOAST_SUCCESS_TYPE);
+      (0,_ui__WEBPACK_IMPORTED_MODULE_1__.showToast)(data.success, 'success');
       itemModal.hide();
       form[0].reset();
       table.ajax.reload();
     },
     error: function error(jqXHR, textStatus, errorThrown) {
-      (0,_ui__WEBPACK_IMPORTED_MODULE_1__.showToast)(jqXHR.responseJSON.error, _ui__WEBPACK_IMPORTED_MODULE_1__.TOAST_ERROR_TYPE);
+      (0,_ui__WEBPACK_IMPORTED_MODULE_1__.showToast)(jqXHR.responseJSON.error, 'error');
     }
   });
 });
 $('#fileUploadForm').on('submit', function (e) {
+  e.preventDefault();
   var form = document.getElementById('fileUploadForm');
-  var formData = new FormData(form);
-  var unidadId = $('#unidadId').val();
+  var id = document.getElementById('fileId').value;
+  var file = document.getElementById('file').files[0];
+  var unidadId = document.getElementById('unidadId').value;
+  var nombre = document.getElementById('fileName').value;
+  var formData = new FormData();
+  formData.append('id', id);
+  formData.append('unidad_id', unidadId);
+  formData.append('file', file);
+  formData.append('nombre', nombre);
+  var request_type = 'POST';
+  var request_url = "/".concat(archivo_url);
+
+  if (id != 0) {
+    request_url = "/".concat(archivo_url, "/").concat(id);
+    formData.append('_method', 'PUT');
+  }
+
   $.ajax({
-    type: 'POST',
-    url: "/".concat(archivo_url, "/").concat(unidadId),
+    type: request_type,
+    url: request_url,
     processData: false,
     contentType: false,
     // dataType: 'json',
     data: formData,
     success: function success(data) {
-      (0,_ui__WEBPACK_IMPORTED_MODULE_1__.showToast)(data.success, _ui__WEBPACK_IMPORTED_MODULE_1__.TOAST_SUCCESS_TYPE);
+      (0,_ui__WEBPACK_IMPORTED_MODULE_1__.showToast)(data.success, 'success');
       uploadFileModal.hide();
       $(form)[0].reset();
       table.ajax.reload();
     },
     error: function error(jqXHR, textStatus, errorThrown) {
-      (0,_ui__WEBPACK_IMPORTED_MODULE_1__.showToast)(jqXHR.responseJSON.error, _ui__WEBPACK_IMPORTED_MODULE_1__.TOAST_ERROR_TYPE);
+      (0,_ui__WEBPACK_IMPORTED_MODULE_1__.showToast)(jqXHR.responseJSON.error, 'error');
     }
   });
 });
-$('#fileInput').on('change', function () {
+$('#file').on('change', function () {
   $('#fileName').val(this.files[0].name);
 });
 
 function format(data) {
-  var rowItems = '';
   if (data.archivos.length == 0) return "<span class=\"text-muted\">No hay archivos disponibles</span>";
-  data.archivos.forEach(function (e) {
-    rowItems += "<tr>\n                <td></td>    \n                <td>    \n                    <a href=\"/archivos/".concat(e.id, "\" class=\"text-decoration-none has-tooltip\" \n                    data-bs-toggle=\"tooltip\" data-bs-placement=\"top\" title=\"Mostrar detalles\"\n                    target=\"_blank\" rel=\"noopener noreferrer\">\n                    <i class=\"bi bi-filetype-").concat(e.extension, "\" style=\"font-size: 1.5rem;\"></i>\n                    ").concat(e.nombre, "\n                    </a>\n                </td>\n                <td>\n                    <div class=\"form-check form-switch\">\n                        <input class=\"form-check-input change-status\" ").concat(data.estatus == 1 ? 'checked' : '', " \n                        type=\"checkbox\" role=\"switch\">\n                    </div>\n                </td>\n                <td>\n                    <button class=\"btn btn-sm btn-primary edit-item has-tooltip\" \n                        data-bs-toggle=\"tooltip\" data-bs-placement=\"top\" title=\"Editar\">\n                        <i class=\"bi bi-pencil-fill\"></i>\n                    </button>\n                    <button class=\"btn btn-sm btn-danger delete-item has-tooltip\" \n                        data-bs-toggle=\"tooltip\" data-bs-placement=\"top\" title=\"Eliminar\">\n                        <i class=\"bi bi-trash-fill\"></i>\n                    </button>\n            </td>\n        </tr>");
-  });
-  return $(rowItems).toArray();
+  var result = data.archivos.reduce(function (acc, e) {
+    return acc + "<tr>\n                <td></td>    \n                <td>    \n                    <a href=\"/archivos/".concat(e.id, "/").concat(e.nombre, "\" class=\"text-decoration-none has-tooltip\" \n                    data-bs-toggle=\"tooltip\" data-bs-placement=\"top\" title=\"Mostrar detalles\"\n                    target=\"_blank\" rel=\"noopener noreferrer\">\n                    <i class=\"bi bi-filetype-").concat(e.extension, "\" style=\"font-size: 1.2rem;\"></i>\n                    ").concat(e.nombre, "\n                    </a>\n                </td>\n                <td>\n                    <div class=\"form-check form-switch\">\n                        <input class=\"form-check-input change-status-file\" ").concat(e.estatus == 1 ? 'checked' : '', " \n                        data-id=\"").concat(e.id, "\"\n                        type=\"checkbox\" role=\"switch\">\n                    </div>\n                </td>\n                <td>\n                    <button class=\"btn btn-sm btn-primary edit-file has-tooltip\" \n                        data-id=\"").concat(e.id, "\" data-nombre=\"").concat(e.nombre, "\"\n                        data-unidad=\"").concat(data.id, "\"\n                        data-bs-toggle=\"tooltip\" data-bs-placement=\"top\" title=\"Editar\">\n                        <i class=\"bi bi-pencil-fill\"></i>\n                    </button>\n                    <button class=\"btn btn-sm btn-danger delete-file has-tooltip\" \n                        data-id=\"").concat(e.id, "\" data-nombre=\"").concat(e.nombre, "\"\n                        data-bs-toggle=\"tooltip\" data-bs-placement=\"top\" title=\"Eliminar\">\n                        <i class=\"bi bi-trash-fill\"></i>\n                    </button>\n            </td>\n        </tr>");
+  }, '');
+  return $(result).toArray();
 }
 
 new bootstrap.Tooltip(document.body, {

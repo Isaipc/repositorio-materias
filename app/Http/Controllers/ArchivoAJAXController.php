@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Archivo;
 use App\Unidad;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ArchivoAJAXController extends Controller
 {
@@ -26,12 +27,10 @@ class ArchivoAJAXController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Unidad $unidad, Request $request)
+    public function store(Request $request)
     {
         $this->validator($request);
-        $this->save($unidad, new Archivo, $request);
-
-        return  response()->json(['success' => 'Se ha subido el archivo']);
+        return $this->save(new Archivo, $request);
     }
     /**
      * update the specified resource in storage.
@@ -55,14 +54,10 @@ class ArchivoAJAXController extends Controller
      * @param  \App\Archivo  $archivo
      * @return \Illuminate\Http\Response
      */
-    public function update(Archivo $archivo, Request $request)
+    public function update(Request $request, Archivo $archivo)
     {
         $this->validator($request);
-
-        $unidad = $archivo->unidad;
-        $this->save($unidad, $archivo, $request);
-
-        return  response()->json(['success' => 'Se ha subido el archivo']);
+        return $this->save($archivo, $request);
     }
 
     /**
@@ -80,10 +75,14 @@ class ArchivoAJAXController extends Controller
         return $response;
     }
 
-    protected function save(Unidad $unidad, Archivo $archivo, $request)
+    protected function save(Archivo $archivo, Request $request)
     {
+        $unidad = Unidad::find($request->unidad_id);
+
         $archivo->nombre = $request->nombre;
-        $archivo->estatus =  isset($request->estatus) ? 1 : 2;
+        $archivo->estatus =  isset($request->estatus)
+            ? config('constants.status_enabled')
+            : config('constants.status_disabled');
 
         if (!$request->hasFile('file'))
             abort(500, 'Archivo no encontrado');
@@ -92,13 +91,17 @@ class ArchivoAJAXController extends Controller
             abort(500, 'No se pudo subir el archivo. Formato invalido');
 
         $file = $request->file('file');
-        $fileName = $request->nombre;
+
+        if ($archivo->id != 0)
+            Storage::delete([$archivo->path]);
 
         $path = $file->store('private');
 
         $archivo->extension = $file->getClientOriginalExtension();
         $archivo->path = $path;
+
         $unidad->archivos()->save($archivo);
+        return  response()->json(['success' => 'Se ha subido el archivo']);
     }
 
     protected function validator(Request $request)
