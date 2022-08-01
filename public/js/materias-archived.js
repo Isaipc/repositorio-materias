@@ -250,7 +250,7 @@ var dtOverrideGlobals = {
   columnDefs: [{
     targets: 0,
     render: function render(data, type, row, meta) {
-      return "<a href=\"/materias/".concat(data.id, "\" class=\"btn btn-link has-tooltip\" data-bs-toggle=\"tooltip\"\n                data-bs-placement=\"top\" title=\"Mostrar detalles\">\n                    <i class=\"bi bi-box-arrow-up-right\"></i>\n            </a>\n            ").concat(data.nombre);
+      return "".concat(data.nombre, "\n            <a href=\"/materias/").concat(data.id, "\" class=\"btn btn-link has-tooltip\" data-bs-toggle=\"tooltip\"\n                data-bs-placement=\"top\" title=\"Mostrar detalles\">\n                    <i class=\"bi bi-box-arrow-up-right\"></i>\n            </a>");
     }
   }, {
     targets: -1,

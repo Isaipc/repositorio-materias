@@ -23,11 +23,11 @@ let dtOverrideGlobals = {
     columnDefs: [{
         targets: 0,
         render: (data, type, row, meta) =>
-            `<a href="/materias/${data.id}" class="btn btn-link has-tooltip" data-bs-toggle="tooltip"
+            `${data.nombre}
+            <a href="/materias/${data.id}" class="btn btn-link has-tooltip" data-bs-toggle="tooltip"
                 data-bs-placement="top" title="Mostrar detalles">
                     <i class="bi bi-box-arrow-up-right"></i>
-            </a>
-            ${data.nombre}`
+            </a>`
     },
     {
         targets: -1,
