@@ -34,25 +34,12 @@
                                 <i class="bi @if (request()->is('usuarios*')) bi-people-fill @else bi-people @endif"></i>
                                 {{ __('Alumnos') }} </a>
                         </li>
-                    @endcan
+                   @endcan
                 @endguest
             </ul>
 
-
             <!-- Right Side Of Navbar -->
             <ul class="navbar-nav ms-auto">
-                @auth
-                    <li class="nav-item me-3">
-                        <a href="" class="btn btn-primary btn-md position-relative" data-bs-toggle="tooltip"
-                            data-bs-placement="bottom" title="Notificaciones">
-                            <i class="bi bi-bell-fill"></i>
-                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                                99+
-                                <span class="visually-hidden"></span>
-                            </span>
-                        </a>
-                    </li>
-                @endauth
                 @guest
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('login') }}">{{ __('Ingresar') }}</a>
