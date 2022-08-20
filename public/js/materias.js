@@ -293,10 +293,7 @@ $('#materiaForm').on('submit', function (e) {
   var url = '/materias-ajax';
   var type = 'POST';
 
-  if (id.val() == 0) {
-    url = '/materias-ajax';
-    type = 'POST';
-  } else {
+  if (id.val() != 0) {
     url = "/materias-ajax/".concat(id.val());
     type = 'PUT';
   }

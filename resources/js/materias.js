@@ -96,10 +96,7 @@ $('#materiaForm').on('submit', function (e) {
     let url = '/materias-ajax'
     let type = 'POST'
 
-    if (id.val() == 0) {
-        url = '/materias-ajax'
-        type = 'POST';
-    } else {
+    if (id.val() != 0) {
         url = `/materias-ajax/${id.val()}`
         type = 'PUT';
     }
