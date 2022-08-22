@@ -18,14 +18,17 @@ const dtLanguageOptions = {
     },
     lengthMenu: "Mostrar _MENU_ filas",
     processing: 'Procesando ...'
-};
+}
 
 const dtOverrideGlobals = {
     language: dtLanguageOptions,
     paginate: true,
     processing: true,
-};
+}
 
+const status_unprocessable_entity = 422
+const status_server_error = 500
+const status_default_error = 400
 
 export {
     HUMAN_FORMAT,
