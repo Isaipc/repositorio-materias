@@ -15,7 +15,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "OUTPUT_DATE_FORMAT": () => (/* binding */ OUTPUT_DATE_FORMAT),
 /* harmony export */   "TIMESTAMP_FORMAT": () => (/* binding */ TIMESTAMP_FORMAT),
 /* harmony export */   "dtLanguageOptions": () => (/* binding */ dtLanguageOptions),
-/* harmony export */   "dtOverrideGlobals": () => (/* binding */ dtOverrideGlobals)
+/* harmony export */   "dtOverrideGlobals": () => (/* binding */ dtOverrideGlobals),
+/* harmony export */   "status_default_error": () => (/* binding */ status_default_error),
+/* harmony export */   "status_server_error": () => (/* binding */ status_server_error),
+/* harmony export */   "status_unprocessable_entity": () => (/* binding */ status_unprocessable_entity)
 /* harmony export */ });
 var HUMAN_FORMAT = null;
 var TIMESTAMP_FORMAT = 'DD/MM/YYYY h:m A';
@@ -42,7 +45,9 @@ var dtOverrideGlobals = {
   paginate: true,
   processing: true
 };
-
+var status_unprocessable_entity = 422;
+var status_server_error = 500;
+var status_default_error = 400;
 
 /***/ }),
 
@@ -57,6 +62,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "STATUS_DISABLED": () => (/* binding */ STATUS_DISABLED),
 /* harmony export */   "STATUS_ENABLED": () => (/* binding */ STATUS_ENABLED),
 /* harmony export */   "confirmDialog": () => (/* binding */ confirmDialog),
+/* harmony export */   "defaultButtons": () => (/* binding */ defaultButtons),
+/* harmony export */   "default_message": () => (/* binding */ default_message),
+/* harmony export */   "default_title": () => (/* binding */ default_title),
 /* harmony export */   "generateRandomKey": () => (/* binding */ generateRandomKey),
 /* harmony export */   "getSwitchStatus": () => (/* binding */ getSwitchStatus),
 /* harmony export */   "showToast": () => (/* binding */ showToast)
@@ -110,7 +118,6 @@ var confirmationModalElement = document.getElementById('confirmationModal');
 var confirmationTitle = confirmationModalElement.querySelector('.modal-title');
 var confirmationBody = confirmationModalElement.querySelector('.modal-body');
 var confirmationModal = new bootstrap.Modal(confirmationModalElement);
-
 var confirmDialog = function confirmDialog(title, item, type, callback) {
   var okButton = document.getElementById('okBtn');
   var cancelButton = document.getElementById('cancelBtn');
@@ -130,7 +137,6 @@ var confirmDialog = function confirmDialog(title, item, type, callback) {
     $('#cancelBtn').replaceWith($('#cancelBtn').clone());
   });
 };
-
 var showToast = function showToast(msg) {
   var _toast_type$toastType;
 
@@ -142,11 +148,9 @@ var showToast = function showToast(msg) {
   toastElBody.textContent = msg;
   toast.show();
 };
-
 var getSwitchStatus = function getSwitchStatus(status) {
   return status == STATUS_ENABLED;
 };
-
 var generateRandomKey = function generateRandomKey() {
   var length = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 5;
   var result = '';
@@ -159,8 +163,6 @@ var generateRandomKey = function generateRandomKey() {
 
   return result;
 };
-
-
 
 /***/ })
 
@@ -227,8 +229,8 @@ var __webpack_exports__ = {};
   !*** ./resources/js/materias.js ***!
   \**********************************/
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./constants */ "./resources/js/constants.js");
-/* harmony import */ var _ui__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ui */ "./resources/js/ui.js");
+/* harmony import */ var _ui__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ui */ "./resources/js/ui.js");
+/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./constants */ "./resources/js/constants.js");
 
 
 var base_url = 'materias-ajax';
@@ -236,8 +238,16 @@ var materiaModalElement = document.getElementById('materiaModal');
 var materiaModal = new bootstrap.Modal(materiaModalElement, {
   keyboard: true
 });
+var materiaForm = document.getElementById('materiaForm');
+
+var _error = document.getElementById('error');
+
+var nombre = document.getElementById('nombre');
+var clave = document.getElementById('clave');
+var nombreInvalidFeedback = document.getElementById('nombreInvalidFeedback');
+var claveInvalidFeedback = document.getElementById('claveInvalidFeedback');
 var dtOverrideGlobals = {
-  language: _constants__WEBPACK_IMPORTED_MODULE_0__.dtLanguageOptions,
+  language: _.dtLanguageOptions,
   paginate: true,
   processing: true,
   responsive: {
@@ -281,12 +291,31 @@ var dtOverrideGlobals = {
 var table = $('#table').DataTable(dtOverrideGlobals);
 $('#addMateria').on('click', function () {
   materiaModal.show();
-  $('#materiaForm')[0].reset();
+  materiaForm.reset();
+  materiaForm.classList.remove('was-validated');
+
+  _error.classList.add('d-none');
+
+  removeValidationStyles(nombre);
+  removeValidationStyles(clave);
   $('#materiaId').val(0);
-  $('#clave').val((0,_ui__WEBPACK_IMPORTED_MODULE_1__.generateRandomKey)());
+  $('#clave').val(_ui__WEBPACK_IMPORTED_MODULE_0__.generateRandomKey());
   materiaModalElement.querySelector('.modal-title').textContent = 'Agregar materia';
 });
-$('#materiaForm').on('submit', function (e) {
+
+var removeValidationStyles = function removeValidationStyles(inputEl) {
+  return inputEl.classList.remove('is-invalid', 'is-valid');
+};
+
+nombre.addEventListener('keydown', function () {
+  return removeValidationStyles(nombre);
+});
+clave.addEventListener('keydown', function () {
+  return removeValidationStyles(clave);
+});
+materiaForm.addEventListener('submit', function (e) {
+  e.preventDefault();
+  e.stopPropagation();
   var form = $('#materiaForm');
   var data = form.serialize();
   var id = $('#materiaId');
@@ -304,22 +333,50 @@ $('#materiaForm').on('submit', function (e) {
     dataType: 'json',
     data: data,
     success: function success(data) {
-      (0,_ui__WEBPACK_IMPORTED_MODULE_1__.showToast)(data.success, 'success');
+      _ui__WEBPACK_IMPORTED_MODULE_0__.showToast(data.success, 'success');
       materiaModal.hide();
       form[0].reset();
+      materiaForm.classList.add('was-validated');
       table.ajax.reload();
     },
     error: function error(jqXHR, textStatus, errorThrown) {
-      (0,_ui__WEBPACK_IMPORTED_MODULE_1__.showToast)(jqXHR.responseJSON.message, 'error');
+      console.log(jqXHR.responseJSON.message);
+
+      if (jqXHR.status == _constants__WEBPACK_IMPORTED_MODULE_1__.status_unprocessable_entity) {
+        var errors = jqXHR.responseJSON.errors;
+
+        if (errors.nombre) {
+          nombre.classList.remove('is-valid');
+          nombre.classList.add('is-invalid');
+          nombreInvalidFeedback.innerHTML = errors.nombre.map(function (e) {
+            return "<li>".concat(e, "</li>");
+          });
+        }
+
+        if (errors.clave) {
+          clave.classList.remove('is-valid');
+          clave.classList.add('is-invalid');
+          claveInvalidFeedback.innerHTML = errors.clave.map(function (e) {
+            return "<li>".concat(e, "</li>");
+          });
+        }
+      }
+
+      if (jqXHR.status == _constants__WEBPACK_IMPORTED_MODULE_1__.status_server_error) {
+        _error.innerHTML = jqXHR.responseJSON.error;
+
+        _error.classList.remove('d-none');
+      }
     }
   });
-});
+}, false);
 $('#table').on('click', 'tbody .edit-item', function () {
   var data = table.row(this.dataset.row).data();
   materiaModal.show();
+  materiaForm.classList.remove('was-validated');
   $('#materiaId').val(data.id);
   $('#nombre').val(data.nombre);
-  $('#estatus').prop('checked', (0,_ui__WEBPACK_IMPORTED_MODULE_1__.getSwitchStatus)(data.estatus));
+  $('#estatus').prop('checked', _ui__WEBPACK_IMPORTED_MODULE_0__.getSwitchStatus(data.estatus));
   $('#clave').val(data.clave);
   materiaModalElement.querySelector('.modal-title').textContent = 'Editar materia';
 });
@@ -329,22 +386,22 @@ $('#table').on('click', 'tbody .delete-item', function () {
   var request_type = 'DELETE';
   var title = 'Archivar';
   var item = data.nombre;
-  (0,_ui__WEBPACK_IMPORTED_MODULE_1__.confirmDialog)(title, item, 'confirmArchive', function (confirm) {
+  _ui__WEBPACK_IMPORTED_MODULE_0__.confirmDialog(title, item, 'confirmArchive', function (confirm) {
     if (confirm) $.ajax({
       type: request_type,
       url: request_url,
       success: function success(data) {
-        (0,_ui__WEBPACK_IMPORTED_MODULE_1__.showToast)(data.success, 'success');
+        _ui__WEBPACK_IMPORTED_MODULE_0__.showToast(data.success, 'success');
         table.ajax.reload();
       },
       error: function error(jqXHR, textStatus, errorThrown) {
-        (0,_ui__WEBPACK_IMPORTED_MODULE_1__.showToast)(jqXHR.responseJSON.error, 'error');
+        _ui__WEBPACK_IMPORTED_MODULE_0__.showToast(jqXHR.responseJSON.error, 'error');
       }
     });
   });
 });
 $('#buttonRandomKey').on('click', function () {
-  $('#clave').val((0,_ui__WEBPACK_IMPORTED_MODULE_1__.generateRandomKey)());
+  $('#clave').val(_ui__WEBPACK_IMPORTED_MODULE_0__.generateRandomKey());
 });
 $('#table tbody').on('change', '.change-status', function () {
   var data = table.row(this.dataset.row).data();
@@ -358,11 +415,11 @@ $('#table tbody').on('change', '.change-status', function () {
       estatus: ITEM_STATUS
     },
     success: function success(data) {
-      (0,_ui__WEBPACK_IMPORTED_MODULE_1__.showToast)(data.success, 'success');
+      _ui__WEBPACK_IMPORTED_MODULE_0__.showToast(data.success, 'success');
       table.ajax.reload();
     },
     error: function error(jqXHR, textStatus, errorThrown) {
-      (0,_ui__WEBPACK_IMPORTED_MODULE_1__.showToast)(jqXHR.responseJSON.error, 'error');
+      _ui__WEBPACK_IMPORTED_MODULE_0__.showToast(jqXHR.responseJSON.error, 'error');
     }
   });
 });

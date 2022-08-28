@@ -15,7 +15,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "OUTPUT_DATE_FORMAT": () => (/* binding */ OUTPUT_DATE_FORMAT),
 /* harmony export */   "TIMESTAMP_FORMAT": () => (/* binding */ TIMESTAMP_FORMAT),
 /* harmony export */   "dtLanguageOptions": () => (/* binding */ dtLanguageOptions),
-/* harmony export */   "dtOverrideGlobals": () => (/* binding */ dtOverrideGlobals)
+/* harmony export */   "dtOverrideGlobals": () => (/* binding */ dtOverrideGlobals),
+/* harmony export */   "status_default_error": () => (/* binding */ status_default_error),
+/* harmony export */   "status_server_error": () => (/* binding */ status_server_error),
+/* harmony export */   "status_unprocessable_entity": () => (/* binding */ status_unprocessable_entity)
 /* harmony export */ });
 var HUMAN_FORMAT = null;
 var TIMESTAMP_FORMAT = 'DD/MM/YYYY h:m A';
@@ -42,7 +45,9 @@ var dtOverrideGlobals = {
   paginate: true,
   processing: true
 };
-
+var status_unprocessable_entity = 422;
+var status_server_error = 500;
+var status_default_error = 400;
 
 /***/ }),
 
@@ -57,6 +62,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "STATUS_DISABLED": () => (/* binding */ STATUS_DISABLED),
 /* harmony export */   "STATUS_ENABLED": () => (/* binding */ STATUS_ENABLED),
 /* harmony export */   "confirmDialog": () => (/* binding */ confirmDialog),
+/* harmony export */   "defaultButtons": () => (/* binding */ defaultButtons),
+/* harmony export */   "default_message": () => (/* binding */ default_message),
+/* harmony export */   "default_title": () => (/* binding */ default_title),
 /* harmony export */   "generateRandomKey": () => (/* binding */ generateRandomKey),
 /* harmony export */   "getSwitchStatus": () => (/* binding */ getSwitchStatus),
 /* harmony export */   "showToast": () => (/* binding */ showToast)
@@ -110,7 +118,6 @@ var confirmationModalElement = document.getElementById('confirmationModal');
 var confirmationTitle = confirmationModalElement.querySelector('.modal-title');
 var confirmationBody = confirmationModalElement.querySelector('.modal-body');
 var confirmationModal = new bootstrap.Modal(confirmationModalElement);
-
 var confirmDialog = function confirmDialog(title, item, type, callback) {
   var okButton = document.getElementById('okBtn');
   var cancelButton = document.getElementById('cancelBtn');
@@ -130,7 +137,6 @@ var confirmDialog = function confirmDialog(title, item, type, callback) {
     $('#cancelBtn').replaceWith($('#cancelBtn').clone());
   });
 };
-
 var showToast = function showToast(msg) {
   var _toast_type$toastType;
 
@@ -142,11 +148,9 @@ var showToast = function showToast(msg) {
   toastElBody.textContent = msg;
   toast.show();
 };
-
 var getSwitchStatus = function getSwitchStatus(status) {
   return status == STATUS_ENABLED;
 };
-
 var generateRandomKey = function generateRandomKey() {
   var length = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 5;
   var result = '';
@@ -159,8 +163,6 @@ var generateRandomKey = function generateRandomKey() {
 
   return result;
 };
-
-
 
 /***/ })
 

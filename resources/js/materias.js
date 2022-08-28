@@ -1,21 +1,19 @@
-import {
-    dtLanguageOptions,
-} from './constants'
-
-import {
-    showToast,
-    generateRandomKey,
-    getSwitchStatus,
-    confirmDialog
-} from './ui';
+import * as ui from './ui'
+import * as constants from './constants'
 
 const base_url = 'materias-ajax'
 
 const materiaModalElement = document.getElementById('materiaModal');
 const materiaModal = new bootstrap.Modal(materiaModalElement, { keyboard: true });
+const materiaForm = document.getElementById('materiaForm')
+const error = document.getElementById('error')
+const nombre = document.getElementById('nombre')
+const clave = document.getElementById('clave')
+const nombreInvalidFeedback = document.getElementById('nombreInvalidFeedback')
+const claveInvalidFeedback = document.getElementById('claveInvalidFeedback')
 
 let dtOverrideGlobals = {
-    language: dtLanguageOptions,
+    language: _.dtLanguageOptions,
     paginate: true,
     processing: true,
     responsive: {
@@ -83,13 +81,26 @@ const table = $('#table').DataTable(dtOverrideGlobals);
 
 $('#addMateria').on('click', function () {
     materiaModal.show();
-    $('#materiaForm')[0].reset();
+    materiaForm.reset()
+    materiaForm.classList.remove('was-validated')
+    error.classList.add('d-none')
+    removeValidationStyles(nombre)
+    removeValidationStyles(clave)
     $('#materiaId').val(0);
-    $('#clave').val(generateRandomKey());
+    $('#clave').val(ui.generateRandomKey());
     materiaModalElement.querySelector('.modal-title').textContent = 'Agregar materia';
-});
+})
 
-$('#materiaForm').on('submit', function (e) {
+const removeValidationStyles = (inputEl) => inputEl.classList.remove('is-invalid', 'is-valid')
+
+nombre.addEventListener('keydown', () => removeValidationStyles(nombre))
+clave.addEventListener('keydown', () => removeValidationStyles(clave))
+
+materiaForm.addEventListener('submit', e => {
+
+    e.preventDefault()
+    e.stopPropagation()
+
     var form = $('#materiaForm');
     var data = form.serialize();
     var id = $('#materiaId');
@@ -107,24 +118,49 @@ $('#materiaForm').on('submit', function (e) {
         dataType: 'json',
         data: data,
         success: (data) => {
-            showToast(data.success, 'success');
+            ui.showToast(data.success, 'success');
             materiaModal.hide();
             form[0].reset();
+            materiaForm.classList.add('was-validated')
             table.ajax.reload();
         },
         error: (jqXHR, textStatus, errorThrown) => {
-            showToast(jqXHR.responseJSON.message, 'error');
+            console.log(jqXHR.responseJSON.message)
+
+            if (jqXHR.status == constants.status_unprocessable_entity) {
+
+                const errors = jqXHR.responseJSON.errors
+
+                if (errors.nombre) {
+                    nombre.classList.remove('is-valid')
+                    nombre.classList.add('is-invalid')
+                    nombreInvalidFeedback.innerHTML = errors.nombre.map(e => `<li>${e}</li>`)
+                }
+                if (errors.clave) {
+                    clave.classList.remove('is-valid')
+                    clave.classList.add('is-invalid')
+                    claveInvalidFeedback.innerHTML = errors.clave.map(e => `<li>${e}</li>`)
+                }
+            }
+
+            if (jqXHR.status == constants.status_server_error) {
+                error.innerHTML = jqXHR.responseJSON.error
+                error.classList.remove('d-none')
+            }
         }
-    });
-});
+    })
+
+
+}, false)
 
 $('#table').on('click', 'tbody .edit-item', function () {
     const data = table.row(this.dataset.row).data();
     materiaModal.show();
+    materiaForm.classList.remove('was-validated')
 
     $('#materiaId').val(data.id);
     $('#nombre').val(data.nombre);
-    $('#estatus').prop('checked', getSwitchStatus(data.estatus));
+    $('#estatus').prop('checked', ui.getSwitchStatus(data.estatus));
     $('#clave').val(data.clave);
 
     materiaModalElement.querySelector('.modal-title').textContent = 'Editar materia';
@@ -137,24 +173,24 @@ $('#table').on('click', 'tbody .delete-item', function () {
     const title = 'Archivar'
     const item = data.nombre
 
-    confirmDialog(title, item, 'confirmArchive', (confirm) => {
+    ui.confirmDialog(title, item, 'confirmArchive', (confirm) => {
         if (confirm)
             $.ajax({
                 type: request_type,
                 url: request_url,
                 success: (data) => {
-                    showToast(data.success, 'success');
+                    ui.showToast(data.success, 'success');
                     table.ajax.reload();
                 },
                 error: (jqXHR, textStatus, errorThrown) => {
-                    showToast(jqXHR.responseJSON.error, 'error');
+                    ui.showToast(jqXHR.responseJSON.error, 'error');
                 }
             })
     })
 })
 
 $('#buttonRandomKey').on('click', function () {
-    $('#clave').val(generateRandomKey());
+    $('#clave').val(ui.generateRandomKey());
 
 });
 
@@ -171,11 +207,11 @@ $('#table tbody').on('change', '.change-status', function () {
             estatus: ITEM_STATUS
         },
         success: (data) => {
-            showToast(data.success, 'success');
+            ui.showToast(data.success, 'success');
             table.ajax.reload();
         },
         error: (jqXHR, textStatus, errorThrown) => {
-            showToast(jqXHR.responseJSON.error, 'error');
+            ui.showToast(jqXHR.responseJSON.error, 'error');
         }
     });
 
