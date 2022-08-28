@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Materia;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class MateriaAJAXController extends Controller
 {
@@ -52,7 +53,7 @@ class MateriaAJAXController extends Controller
     {
         $validated = $request->validate([
             'nombre' => 'required|unique:materias',
-            'clave' => 'required'
+            'clave' => 'required|unique:materias'
         ]);
         return $this->save(new Materia, $request);
     }
@@ -81,7 +82,7 @@ class MateriaAJAXController extends Controller
     {
         $validated = $request->validate([
             'nombre' => 'required',
-            'clave' => 'required'
+            'clave' => ['required' , Rule::unique('materias')->ignore($materia)]
         ]);
         return $this->save($materia, $request);
     }
