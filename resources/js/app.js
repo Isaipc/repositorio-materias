@@ -11,12 +11,7 @@ require('bootstrap-icons/font/bootstrap-icons');
 require('datatables.net-bs5');
 require('datatables.net-responsive-bs5');
 
-import {
-    HUMAN_FORMAT,
-    TIMESTAMP_FORMAT,
-    OUTPUT_DATE_FORMAT,
-    DEFAULT_FORMAT
-} from './constants'
+import * as constants from  './constants'
 
 // INIT BOOTSTRAP COMPONENTS
 
@@ -43,10 +38,10 @@ var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
 new bootstrap.Tooltip(document.body, { selector: '.has-tooltip' });
 
 var dateFormats = [
-    HUMAN_FORMAT,
-    TIMESTAMP_FORMAT,
-    OUTPUT_DATE_FORMAT,
-    DEFAULT_FORMAT
+    constants.HUMAN_FORMAT,
+    constants.TIMESTAMP_FORMAT,
+    constants.OUTPUT_DATE_FORMAT,
+    constants.DEFAULT_FORMAT
 ];
 
 var currentDateFormat = 0;
@@ -73,8 +68,8 @@ $(function () {
         }
         currentDateFormat++;
     })
-
 });
 
 const formatDateForHumans = (date) => _moment(date).fromNow()
 const formatDateTo = (date) => _moment(date).format(dateFormats[currentDateFormat])
+
