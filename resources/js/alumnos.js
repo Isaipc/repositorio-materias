@@ -1,12 +1,3 @@
-import {
-    dtLanguageOptions,
-} from './constants'
-
-import {
-    showToast,
-    confirmDialog
-} from './ui';
-
 const base_url = 'usuarios'
 const userModalElement = document.getElementById('userModal');
 const userModal = new bootstrap.Modal(userModalElement, {
