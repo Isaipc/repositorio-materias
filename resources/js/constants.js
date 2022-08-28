@@ -1,9 +1,9 @@
-const HUMAN_FORMAT = null;
-const TIMESTAMP_FORMAT = 'DD/MM/YYYY h:m A'
-const OUTPUT_DATE_FORMAT = 'dddd DD/MMM/YYYY'
-const DEFAULT_FORMAT = 'YYYY-MM-DD hh:mm:ss A';
+export const HUMAN_FORMAT = null;
+export const TIMESTAMP_FORMAT = 'DD/MM/YYYY h:m A'
+export const OUTPUT_DATE_FORMAT = 'dddd DD/MMM/YYYY'
+export const DEFAULT_FORMAT = 'YYYY-MM-DD hh:mm:ss A';
 
-const dtLanguageOptions = {
+export const dtLanguageOptions = {
     emptyTable: "No hay datos disponibles",
     zeroRecords: "No se encontraron resultados",
     infoFiltered: "(filtrado de _MAX_ registros totales)",
@@ -20,21 +20,12 @@ const dtLanguageOptions = {
     processing: 'Procesando ...'
 }
 
-const dtOverrideGlobals = {
+export const dtOverrideGlobals = {
     language: dtLanguageOptions,
     paginate: true,
     processing: true,
 }
 
-const status_unprocessable_entity = 422
-const status_server_error = 500
-const status_default_error = 400
-
-export {
-    HUMAN_FORMAT,
-    TIMESTAMP_FORMAT,
-    OUTPUT_DATE_FORMAT,
-    DEFAULT_FORMAT,
-    dtLanguageOptions,
-    dtOverrideGlobals,
-};
+export const status_unprocessable_entity = 422
+export const status_server_error = 500
+export const status_default_error = 400

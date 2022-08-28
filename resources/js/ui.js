@@ -1,8 +1,8 @@
-const STATUS_ENABLED = 1;
-const STATUS_DISABLED = 2;
-const defaultButtons = ['Cancelar', 'Aceptar']
-const default_message = '¿Ejecutar acción?'
-const default_title = 'Acción'
+export const STATUS_ENABLED = 1;
+export const STATUS_DISABLED = 2;
+export const defaultButtons = ['Cancelar', 'Aceptar']
+export const default_message = '¿Ejecutar acción?'
+export const default_title = 'Acción'
 const confirmation_type = {
     confirmArchive: (itemName) =>
         `<div>
@@ -56,7 +56,7 @@ const confirmationTitle = confirmationModalElement.querySelector('.modal-title')
 const confirmationBody = confirmationModalElement.querySelector('.modal-body')
 const confirmationModal = new bootstrap.Modal(confirmationModalElement);
 
-const confirmDialog = (title, item, type, callback) => {
+export const confirmDialog = (title, item, type, callback) => {
     const okButton = document.getElementById('okBtn')
     const cancelButton = document.getElementById('cancelBtn')
 
@@ -79,7 +79,7 @@ const confirmDialog = (title, item, type, callback) => {
     })
 }
 
-const showToast = (msg, toastType = 'default') => {
+export const showToast = (msg, toastType = 'default') => {
     toastElHeader.classList.remove('bg-primary')
     toastElHeader.classList.remove('bg-success')
     toastElHeader.classList.remove('bg-danger')
@@ -88,11 +88,11 @@ const showToast = (msg, toastType = 'default') => {
     toast.show()
 }
 
-const getSwitchStatus = (status) => {
+export const getSwitchStatus = (status) => {
     return status == STATUS_ENABLED;
 }
 
-const generateRandomKey = (length = 5) => {
+export const generateRandomKey = (length = 5) => {
     var result = '';
     var characters = 'ABCDEFGHIJKLMNÑOPQRSTUVWXYZabcdefghijklmnñopqrstuvwxyz0123456789';
     var charactersLength = characters.length;
@@ -101,12 +101,4 @@ const generateRandomKey = (length = 5) => {
             charactersLength));
     }
     return result;
-}
-export {
-    confirmDialog,
-    getSwitchStatus,
-    generateRandomKey,
-    showToast,
-    STATUS_DISABLED,
-    STATUS_ENABLED
 }
