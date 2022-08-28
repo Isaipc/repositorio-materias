@@ -1,3 +1,6 @@
+import * as ui from './ui'
+import * as constants from './constants'
+
 const base_url = 'usuarios'
 const userModalElement = document.getElementById('userModal');
 const userModal = new bootstrap.Modal(userModalElement, {
@@ -5,7 +8,7 @@ const userModal = new bootstrap.Modal(userModalElement, {
 });
 
 let dtOverrideGlobals = {
-    language: dtLanguageOptions,
+    language: constants.dtLanguageOptions,
     paginate: true,
     processing: true,
     responsive: true,
@@ -87,14 +90,14 @@ $('#userForm').on('submit', function (e) {
         dataType: 'json',
         data: data,
         success: (data) => {
-            showToast(data.success, 'success');
+            ui.showToast(data.success, 'success');
             userModal.hide();
             form[0].reset();
             table.ajax.reload();
         },
         error: (jqXHR, textStatus, errorThrown) => {
             console.log(jqXHR.responseJSON);
-            showToast(jqXHR.responseJSON.errors.nombre, 'error');
+            ui.showToast(jqXHR.responseJSON.errors.nombre, 'error');
         }
     });
 });
@@ -117,17 +120,17 @@ $('#table').on('click', 'tbody .delete-item', function () {
     const title = 'Archivar'
     const item = data.nombre
 
-    confirmDialog(title, item, 'confirmArchive', (confirm) => {
+    ui.confirmDialog(title, item, 'confirmArchive', (confirm) => {
         if (confirm)
             $.ajax({
                 type: request_type,
                 url: request_url,
                 success: (data) => {
-                    showToast(data.success, 'success');
+                    ui.showToast(data.success, 'success');
                     table.ajax.reload();
                 },
                 error: (jqXHR, textStatus, errorThrown) => {
-                    showToast(jqXHR.responseJSON.error, 'error');
+                    ui.showToast(jqXHR.responseJSON.error, 'error');
                 }
             })
     })
