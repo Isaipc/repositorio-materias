@@ -247,7 +247,7 @@ var clave = document.getElementById('clave');
 var nombreInvalidFeedback = document.getElementById('nombreInvalidFeedback');
 var claveInvalidFeedback = document.getElementById('claveInvalidFeedback');
 var dtOverrideGlobals = {
-  language: _.dtLanguageOptions,
+  language: _constants__WEBPACK_IMPORTED_MODULE_1__.dtLanguageOptions,
   paginate: true,
   processing: true,
   responsive: {

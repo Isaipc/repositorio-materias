@@ -13,7 +13,7 @@ const nombreInvalidFeedback = document.getElementById('nombreInvalidFeedback')
 const claveInvalidFeedback = document.getElementById('claveInvalidFeedback')
 
 let dtOverrideGlobals = {
-    language: _.dtLanguageOptions,
+    language: constants.dtLanguageOptions,
     paginate: true,
     processing: true,
     responsive: {
