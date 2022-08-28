@@ -50,7 +50,7 @@ class Handler extends ExceptionHandler
     {
 
         // is this request asks for json?
-        if ($request->header('Content-Type') == 'application/json') {
+        if ($request->wantsJson()) {
 
             /*  is this exception? */
 
@@ -71,6 +71,7 @@ class Handler extends ExceptionHandler
 
                 $status = 400;
 
+                // return response()->json($response, $status);
                 // get correct status code
 
                 // is this validation exception
@@ -90,7 +91,7 @@ class Handler extends ExceptionHandler
 
                     $status = 500;
 
-                    $response['error'] = 'Can not finish your query request!';
+                    $response['error'] = 'No se pudo completar la solicitud, por favor intente más tarde.';
 
                     // is it http exception (this can give us status code)
                 } else if ($this->isHttpException($exception)) {
