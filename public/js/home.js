@@ -13,6 +13,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "STATUS_DISABLED": () => (/* binding */ STATUS_DISABLED),
 /* harmony export */   "STATUS_ENABLED": () => (/* binding */ STATUS_ENABLED),
 /* harmony export */   "confirmDialog": () => (/* binding */ confirmDialog),
+/* harmony export */   "defaultButtons": () => (/* binding */ defaultButtons),
+/* harmony export */   "default_message": () => (/* binding */ default_message),
+/* harmony export */   "default_title": () => (/* binding */ default_title),
 /* harmony export */   "generateRandomKey": () => (/* binding */ generateRandomKey),
 /* harmony export */   "getSwitchStatus": () => (/* binding */ getSwitchStatus),
 /* harmony export */   "showToast": () => (/* binding */ showToast)
@@ -66,7 +69,6 @@ var confirmationModalElement = document.getElementById('confirmationModal');
 var confirmationTitle = confirmationModalElement.querySelector('.modal-title');
 var confirmationBody = confirmationModalElement.querySelector('.modal-body');
 var confirmationModal = new bootstrap.Modal(confirmationModalElement);
-
 var confirmDialog = function confirmDialog(title, item, type, callback) {
   var okButton = document.getElementById('okBtn');
   var cancelButton = document.getElementById('cancelBtn');
@@ -86,7 +88,6 @@ var confirmDialog = function confirmDialog(title, item, type, callback) {
     $('#cancelBtn').replaceWith($('#cancelBtn').clone());
   });
 };
-
 var showToast = function showToast(msg) {
   var _toast_type$toastType;
 
@@ -98,11 +99,9 @@ var showToast = function showToast(msg) {
   toastElBody.textContent = msg;
   toast.show();
 };
-
 var getSwitchStatus = function getSwitchStatus(status) {
   return status == STATUS_ENABLED;
 };
-
 var generateRandomKey = function generateRandomKey() {
   var length = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 5;
   var result = '';
@@ -115,8 +114,6 @@ var generateRandomKey = function generateRandomKey() {
 
   return result;
 };
-
-
 
 /***/ })
 
