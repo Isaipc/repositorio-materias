@@ -36,7 +36,7 @@
         <!-- Save Modal -->
         <div class="modal fade" id="itemModal" tabindex="-1" role="dialog" aria-labelledby="modelTitleId"
             aria-hidden="true">
-            <form id="unidadForm" action="javascript:void(0)" method="POST">
+            <form id="unidadForm" action="javascript:void(0)" method="POST" class="needs-validation" novalidate>
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -45,16 +45,17 @@
                         </div>
                         <div class="modal-body">
                             <input type="hidden" name="materia_id" value="{{ $item->id }}">
-                            <input id="id" type="hidden" name="id" value="0">
+                            <input id="unidadId" type="hidden" name="id" value="0">
                             <div class="mb-3">
-                                <label for="nombre" class="form-label text-md-right">Nombre</label>
-                                <input id="nombre" type="text" class="form-control" name="nombre" maxlength="100" required
+                                <label for="unidadName" class="form-label text-md-right">Nombre</label>
+                                <input id="unidadName" type="text" class="form-control" name="nombre" maxlength="100" required
                                     value="{{ old('nombre') }}">
+                                <ul id="unidadNameInvalidFeedback" class="invalid-feedback"></ul>
                             </div>
                             <div class="mb-3">
                                 <div class="form-check form-switch">
-                                    <input id="estatus" class="form-check-input" name="estatus" type="checkbox" role="switch"
-                                        id="est">
+                                    <input id="unidadStatus" class="form-check-input" name="estatus" type="checkbox"
+                                        role="switch" id="est">
                                     <label class="form-check-label" for="estatus">Habilitado para los alumnos</label>
                                 </div>
                             </div>
@@ -73,21 +74,24 @@
             aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
-                    <form id="fileUploadForm" action="javascript:void(0)" method="POST">
+                    <form id="uploadFileForm" action="javascript:void(0)" method="POST" class="needs-validation" novalidate>
                         <div class="modal-header">
                             <h5 class="modal-title">Subir archivo</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
+                            <div id="error" class="alert alert-danger d-none"></div>
                             <input id="fileId" type="hidden" name="id" value="0">
                             <div class="mb-3">
-                                <input class="form-control" name="file" id="file" type="file">
+                                <input class="form-control" name="file" id="file" type="file" required>
+                                <ul id="fileInvalidFeedback" class="invalid-feedback"></ul>
                             </div>
                             <input id="unidadId" type="hidden" name="unidad_id" value="0">
                             <div class="mb-3">
                                 <label for="fileName" class="col-form-label">Nombre</label>
                                 <input id="fileName" type="text" class="form-control" name="nombre"
-                                    value="{{ old('nombre') }}" autofocus>
+                                    value="{{ old('nombre') }}" autofocus required>
+                                <ul id="fileNameInvalidFeedback" class="invalid-feedback"></ul>
                             </div>
                         </div>
                         <div class="modal-footer">

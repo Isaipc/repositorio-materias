@@ -15,7 +15,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "OUTPUT_DATE_FORMAT": () => (/* binding */ OUTPUT_DATE_FORMAT),
 /* harmony export */   "TIMESTAMP_FORMAT": () => (/* binding */ TIMESTAMP_FORMAT),
 /* harmony export */   "dtLanguageOptions": () => (/* binding */ dtLanguageOptions),
-/* harmony export */   "dtOverrideGlobals": () => (/* binding */ dtOverrideGlobals)
+/* harmony export */   "dtOverrideGlobals": () => (/* binding */ dtOverrideGlobals),
+/* harmony export */   "status_default_error": () => (/* binding */ status_default_error),
+/* harmony export */   "status_server_error": () => (/* binding */ status_server_error),
+/* harmony export */   "status_unprocessable_entity": () => (/* binding */ status_unprocessable_entity)
 /* harmony export */ });
 var HUMAN_FORMAT = null;
 var TIMESTAMP_FORMAT = 'DD/MM/YYYY h:m A';
@@ -42,7 +45,9 @@ var dtOverrideGlobals = {
   paginate: true,
   processing: true
 };
-
+var status_unprocessable_entity = 422;
+var status_server_error = 500;
+var status_default_error = 400;
 
 /***/ }),
 
@@ -57,6 +62,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "STATUS_DISABLED": () => (/* binding */ STATUS_DISABLED),
 /* harmony export */   "STATUS_ENABLED": () => (/* binding */ STATUS_ENABLED),
 /* harmony export */   "confirmDialog": () => (/* binding */ confirmDialog),
+/* harmony export */   "defaultButtons": () => (/* binding */ defaultButtons),
+/* harmony export */   "default_message": () => (/* binding */ default_message),
+/* harmony export */   "default_title": () => (/* binding */ default_title),
 /* harmony export */   "generateRandomKey": () => (/* binding */ generateRandomKey),
 /* harmony export */   "getSwitchStatus": () => (/* binding */ getSwitchStatus),
 /* harmony export */   "showToast": () => (/* binding */ showToast)
@@ -110,7 +118,6 @@ var confirmationModalElement = document.getElementById('confirmationModal');
 var confirmationTitle = confirmationModalElement.querySelector('.modal-title');
 var confirmationBody = confirmationModalElement.querySelector('.modal-body');
 var confirmationModal = new bootstrap.Modal(confirmationModalElement);
-
 var confirmDialog = function confirmDialog(title, item, type, callback) {
   var okButton = document.getElementById('okBtn');
   var cancelButton = document.getElementById('cancelBtn');
@@ -130,7 +137,6 @@ var confirmDialog = function confirmDialog(title, item, type, callback) {
     $('#cancelBtn').replaceWith($('#cancelBtn').clone());
   });
 };
-
 var showToast = function showToast(msg) {
   var _toast_type$toastType;
 
@@ -142,11 +148,9 @@ var showToast = function showToast(msg) {
   toastElBody.textContent = msg;
   toast.show();
 };
-
 var getSwitchStatus = function getSwitchStatus(status) {
   return status == STATUS_ENABLED;
 };
-
 var generateRandomKey = function generateRandomKey() {
   var length = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 5;
   var result = '';
@@ -159,8 +163,6 @@ var generateRandomKey = function generateRandomKey() {
 
   return result;
 };
-
-
 
 /***/ })
 
@@ -233,11 +235,8 @@ __webpack_require__.r(__webpack_exports__);
 
 var unidad_url = 'unidades-ajax';
 var archivo_url = 'archivos-ajax';
-var materia_id = document.getElementById('materiaId').value;
-var itemModalElement = document.getElementById('itemModal');
-var uploadFileModalElement = document.getElementById('uploadFileModal');
-var itemModal = new bootstrap.Modal(itemModalElement);
-var uploadFileModal = new bootstrap.Modal(uploadFileModalElement);
+var bsItemModal = new bootstrap.Modal(itemModal);
+var bsUploadFileModal = new bootstrap.Modal(uploadFileModal);
 var dtOverrideGlobals = {
   language: _constants__WEBPACK_IMPORTED_MODULE_0__.dtLanguageOptions,
   paginate: true,
@@ -247,7 +246,7 @@ var dtOverrideGlobals = {
     details: true
   },
   ajax: {
-    url: "/".concat(unidad_url, "/").concat(materia_id),
+    url: "/".concat(unidad_url, "/").concat(materiaId.value),
     dataSrc: 'data'
   },
   columns: [{
@@ -287,9 +286,10 @@ $('#table').on('click', 'tbody td.dt-control', function () {
   }
 });
 $('.add-item').on('click', function () {
-  $('#unidadForm')[0].reset();
-  $('#id').val(0);
-  itemModalElement.querySelector('.modal-title').textContent = 'Agregar unidad';
+  unidadForm.reset();
+  unidadId.value = 0;
+  uploadFileModal.querySelector('.modal-title').textContent = 'Agregar unidad';
+  removeValidationStyles(unidadName);
 });
 $('#table tbody').on('change', '.change-status', function () {
   var data = table.row(this.dataset.row).data();
@@ -303,21 +303,22 @@ $('#table tbody').on('change', '.change-status', function () {
       estatus: ITEM_STATUS
     },
     success: function success(data) {
-      (0,_ui__WEBPACK_IMPORTED_MODULE_1__.showToast)(data.success, 'success');
+      _ui__WEBPACK_IMPORTED_MODULE_1__.showToast(data.success, 'success');
       table.ajax.reload();
     },
     error: function error(jqXHR, textStatus, errorThrown) {
-      (0,_ui__WEBPACK_IMPORTED_MODULE_1__.showToast)(jqXHR.responseJSON.error, 'error');
+      _ui__WEBPACK_IMPORTED_MODULE_1__.showToast(jqXHR.responseJSON.error, 'error');
     }
   });
 });
 $('#table').on('click', 'tbody .edit-item', function () {
   var data = table.row(this.dataset.row).data();
-  itemModal.show();
-  $('#id').val(data.id);
-  $('#nombre').val(data.nombre);
-  $('#estatus').prop('checked', (0,_ui__WEBPACK_IMPORTED_MODULE_1__.getSwitchStatus)(data.estatus));
-  itemModalElement.querySelector('.modal-title').textContent = 'Editar unidad';
+  bsItemModal.show();
+  unidadId.value = data.id;
+  unidadName.value = data.nombre;
+  $('#unidadStatus').prop('checked', _ui__WEBPACK_IMPORTED_MODULE_1__.getSwitchStatus(data.estatus));
+  itemModal.querySelector('.modal-title').textContent = 'Editar unidad';
+  removeValidationStyles(unidadName);
 });
 $('#table').on('click', 'tbody .delete-item', function () {
   var data = table.row(this.dataset.row).data();
@@ -325,26 +326,28 @@ $('#table').on('click', 'tbody .delete-item', function () {
   var request_type = 'DELETE';
   var title = 'Archivar';
   var item = data.nombre;
-  (0,_ui__WEBPACK_IMPORTED_MODULE_1__.confirmDialog)(title, item, 'confirmArchive', function (confirm) {
+  _ui__WEBPACK_IMPORTED_MODULE_1__.confirmDialog(title, item, 'confirmArchive', function (confirm) {
     if (confirm) $.ajax({
       type: request_type,
       url: request_url,
       success: function success(data) {
-        (0,_ui__WEBPACK_IMPORTED_MODULE_1__.showToast)(data.success, 'success');
+        _ui__WEBPACK_IMPORTED_MODULE_1__.showToast(data.success, 'success');
         table.ajax.reload();
       },
       error: function error(jqXHR, textStatus, errorThrown) {
-        (0,_ui__WEBPACK_IMPORTED_MODULE_1__.showToast)(jqXHR.responseJSON.error, 'error');
+        _ui__WEBPACK_IMPORTED_MODULE_1__.showToast(jqXHR.responseJSON.error, 'error');
       }
     });
   });
 });
 $('#table').on('click', 'tbody .upload-file', function () {
   var data = table.row(this.dataset.row).data();
-  $('#unidadId').val(data.id);
-  $('#fileId').val(0);
-  uploadFileModal.show();
-  uploadFileModalElement.querySelector('.modal-title').textContent = 'Subir archivo';
+  unidadId.value = data.id;
+  fileId.value = 0;
+  bsUploadFileModal.show();
+  uploadFileModal.querySelector('.modal-title').textContent = 'Subir archivo';
+  removeValidationStyles(fileName);
+  removeValidationStyles(file);
 });
 $('#table tbody').on('change', '.change-status-file', function () {
   var ITEM_STATUS = this.checked;
@@ -357,50 +360,53 @@ $('#table tbody').on('change', '.change-status-file', function () {
       estatus: ITEM_STATUS
     },
     success: function success(data) {
-      (0,_ui__WEBPACK_IMPORTED_MODULE_1__.showToast)(data.success, 'success');
+      _ui__WEBPACK_IMPORTED_MODULE_1__.showToast(data.success, 'success');
       table.ajax.reload();
     },
     error: function error(jqXHR, textStatus, errorThrown) {
-      (0,_ui__WEBPACK_IMPORTED_MODULE_1__.showToast)(jqXHR.responseJSON.error, 'error');
+      _ui__WEBPACK_IMPORTED_MODULE_1__.showToast(jqXHR.responseJSON.error, 'error');
     }
   });
 });
 $('#table').on('click', 'tbody .edit-file', function () {
   var data = table.row(this.dataset.row).data();
-  uploadFileModal.show();
-  $('#fileId').val(this.dataset.id);
-  $('#fileName').val(this.dataset.nombre);
-  $('#unidadId').val(this.dataset.unidad);
-  uploadFileModalElement.querySelector('.modal-title').textContent = 'Editar archivo';
+  bsUploadFileModal.show();
+  fileId.value = this.dataset.id;
+  fileName.value = this.dataset.nombre;
+  unidadId.value = this.dataset.unidad;
+  uploadFileModal.querySelector('.modal-title').textContent = 'Editar archivo';
+  removeValidationStyles(file);
+  removeValidationStyles(fileName);
 });
 $('#table').on('click', 'tbody .delete-file', function () {
   var request_url = "/".concat(archivo_url, "/").concat(this.dataset.id, "/archive");
   var request_type = 'DELETE';
   var title = 'Archivar';
   var item = this.dataset.nombre;
-  (0,_ui__WEBPACK_IMPORTED_MODULE_1__.confirmDialog)(title, item, 'confirmArchive', function (confirm) {
+  _ui__WEBPACK_IMPORTED_MODULE_1__.confirmDialog(title, item, 'confirmArchive', function (confirm) {
     if (confirm) $.ajax({
       type: request_type,
       url: request_url,
       success: function success(data) {
-        (0,_ui__WEBPACK_IMPORTED_MODULE_1__.showToast)(data.success, 'success');
+        _ui__WEBPACK_IMPORTED_MODULE_1__.showToast(data.success, 'success');
         table.ajax.reload();
       },
       error: function error(jqXHR, textStatus, errorThrown) {
-        (0,_ui__WEBPACK_IMPORTED_MODULE_1__.showToast)(jqXHR.responseJSON.error, 'error');
+        _ui__WEBPACK_IMPORTED_MODULE_1__.showToast(jqXHR.responseJSON.error, 'error');
       }
     });
   });
 });
-$('#unidadForm').on('submit', function (e) {
+unidadForm.addEventListener('submit', function (e) {
+  e.preventDefault();
+  e.stopPropagation();
   var form = $('#unidadForm');
   var data = form.serialize();
-  var id = $('#id');
   var request_url = '/unidades-ajax';
   var request_type = 'POST';
 
-  if (id.val() != 0) {
-    request_url = "/unidades-ajax/".concat(id.val());
+  if (unidadId.value != 0) {
+    request_url = "/unidades-ajax/".concat(unidadId.value);
     request_type = 'PUT';
   }
 
@@ -410,33 +416,56 @@ $('#unidadForm').on('submit', function (e) {
     dataType: 'json',
     data: data,
     success: function success(data) {
-      (0,_ui__WEBPACK_IMPORTED_MODULE_1__.showToast)(data.success, 'success');
-      itemModal.hide();
+      _ui__WEBPACK_IMPORTED_MODULE_1__.showToast(data.success, 'success');
+      bsItemModal.hide();
       form[0].reset();
       table.ajax.reload();
     },
-    error: function error(jqXHR, textStatus, errorThrown) {
-      (0,_ui__WEBPACK_IMPORTED_MODULE_1__.showToast)(jqXHR.responseJSON.error, 'error');
-    }
+    error: function (_error) {
+      function error(_x, _x2, _x3) {
+        return _error.apply(this, arguments);
+      }
+
+      error.toString = function () {
+        return _error.toString();
+      };
+
+      return error;
+    }(function (jqXHR, textStatus, errorThrown) {
+      console.log(jqXHR.responseJSON.message);
+
+      if (jqXHR.status == _constants__WEBPACK_IMPORTED_MODULE_0__.status_unprocessable_entity) {
+        var errors = jqXHR.responseJSON.errors;
+
+        if (errors.nombre) {
+          unidadName.classList.remove('is-valid');
+          unidadName.classList.add('is-invalid');
+          unidadNameInvalidFeedback.innerHTML = errors.nombre.map(function (e) {
+            return "<li>".concat(e, "</li>");
+          });
+        }
+      }
+
+      if (jqXHR.status == _constants__WEBPACK_IMPORTED_MODULE_0__.status_server_error) {
+        error.innerHTML = jqXHR.responseJSON.error;
+        error.classList.remove('d-none');
+      }
+    })
   });
 });
-$('#fileUploadForm').on('submit', function (e) {
+uploadFileForm.addEventListener('submit', function (e) {
   e.preventDefault();
-  var form = document.getElementById('fileUploadForm');
-  var id = document.getElementById('fileId').value;
-  var file = document.getElementById('file').files[0];
-  var unidadId = document.getElementById('unidadId').value;
-  var nombre = document.getElementById('fileName').value;
+  e.stopPropagation();
   var formData = new FormData();
-  formData.append('id', id);
-  formData.append('unidad_id', unidadId);
-  formData.append('file', file);
-  formData.append('nombre', nombre);
+  formData.append('id', fileId.value);
+  formData.append('unidad_id', unidadId.value);
+  formData.append('file', file.files[0]);
+  formData.append('nombre', fileName.value);
   var request_type = 'POST';
   var request_url = "/".concat(archivo_url);
 
-  if (id != 0) {
-    request_url = "/".concat(archivo_url, "/").concat(id);
+  if (fileId.value != 0) {
+    request_url = "/".concat(archivo_url, "/").concat(fileId.value);
     formData.append('_method', 'PUT');
   }
 
@@ -448,18 +477,53 @@ $('#fileUploadForm').on('submit', function (e) {
     // dataType: 'json',
     data: formData,
     success: function success(data) {
-      (0,_ui__WEBPACK_IMPORTED_MODULE_1__.showToast)(data.success, 'success');
-      uploadFileModal.hide();
-      $(form)[0].reset();
+      _ui__WEBPACK_IMPORTED_MODULE_1__.showToast(data.success, 'success');
+      bsUploadFileModal.hide();
+      uploadFileForm.reset();
       table.ajax.reload();
     },
-    error: function error(jqXHR, textStatus, errorThrown) {
-      (0,_ui__WEBPACK_IMPORTED_MODULE_1__.showToast)(jqXHR.responseJSON.error, 'error');
-    }
+    error: function (_error2) {
+      function error(_x4, _x5, _x6) {
+        return _error2.apply(this, arguments);
+      }
+
+      error.toString = function () {
+        return _error2.toString();
+      };
+
+      return error;
+    }(function (jqXHR, textStatus, errorThrown) {
+      console.log(jqXHR.responseJSON.message);
+
+      if (jqXHR.status == _constants__WEBPACK_IMPORTED_MODULE_0__.status_unprocessable_entity) {
+        var errors = jqXHR.responseJSON.errors;
+
+        if (errors.nombre) {
+          fileName.classList.remove('is-valid');
+          fileName.classList.add('is-invalid');
+          fileNameInvalidFeedback.innerHTML = errors.nombre.map(function (e) {
+            return "<li>".concat(e, "</li>");
+          });
+        }
+
+        if (errors.file) {
+          file.classList.remove('is-valid');
+          file.classList.add('is-invalid');
+          fileInvalidFeedback.innerHTML = errors.file.map(function (e) {
+            return "<li>".concat(e, "</li>");
+          });
+        }
+      }
+
+      if (jqXHR.status == _constants__WEBPACK_IMPORTED_MODULE_0__.status_server_error) {
+        error.innerHTML = jqXHR.responseJSON.error;
+        error.classList.remove('d-none');
+      }
+    })
   });
 });
 $('#file').on('change', function () {
-  $('#fileName').val(this.files[0].name);
+  fileName.value = this.files[0].name;
 });
 
 function format(data) {
@@ -472,6 +536,17 @@ function format(data) {
 
 new bootstrap.Tooltip(document.body, {
   selector: '.has-tooltip'
+});
+
+var removeValidationStyles = function removeValidationStyles(inputEl) {
+  return inputEl.classList.remove('is-invalid', 'is-valid');
+};
+
+unidadName.addEventListener('keydown', function () {
+  return removeValidationStyles(unidadName);
+});
+fileName.addEventListener('keydown', function () {
+  return removeValidationStyles(fileName);
 });
 })();
 

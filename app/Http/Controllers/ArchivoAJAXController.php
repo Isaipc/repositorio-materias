@@ -117,6 +117,7 @@ class ArchivoAJAXController extends Controller
     {
         return $request->validate([
             'nombre' => 'required',
+            'file' => 'file|max:10240|mimes:pdf,jpeg,jpg,png,gif'
         ]);
     }
 
