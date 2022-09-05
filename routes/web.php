@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Auth;
 */
 
 Auth::routes(['verify' => true]);
-Route::group(['middleware' => 'auth'], function () {
+Route::group(['middleware' => ['auth', 'verified']], function () {
 
     Route::group(['middleware' => ['role:Alumno|Administrador']], function () {
         Route::get('/', 'HomeController@index')->name('home');
