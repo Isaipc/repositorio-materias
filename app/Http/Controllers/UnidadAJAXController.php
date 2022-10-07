@@ -20,7 +20,7 @@ class UnidadAJAXController extends Controller
             ->with(['archivos' => function($query) {
                 $query->where('estatus', '!=', config('constants.status_archived'));
             }])
-            ->where('estatus', '!=', config('constants.status_archived'))->get()
+            ->where('estatus', config('constants.status_enabled'))->get()
         ]);
     }
 
