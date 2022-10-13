@@ -2,6 +2,7 @@
     "/js/app.js": "/js/app.js",
     "/js/materias.js": "/js/materias.js",
     "/js/materias-archived.js": "/js/materias-archived.js",
+    "/js/materias-edit.js": "/js/materias-edit.js",
     "/js/alumnos.js": "/js/alumnos.js",
     "/js/alumnos-en-materia.js": "/js/alumnos-en-materia.js",
     "/js/alumnos-archived.js": "/js/alumnos-archived.js",

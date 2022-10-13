@@ -14,6 +14,7 @@ const mix = require('laravel-mix');
 mix.js('resources/js/app.js', 'public/js')
     .js('resources/js/materias.js', 'public/js')
     .js('resources/js/materias-archived.js', 'public/js')
+    .js('resources/js/materias-edit.js', 'public/js')
     .js('resources/js/alumnos.js', 'public/js')
     .js('resources/js/alumnos-en-materia.js', 'public/js')
     .js('resources/js/alumnos-archived.js', 'public/js')

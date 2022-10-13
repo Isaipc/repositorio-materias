@@ -45,36 +45,5 @@
 @endsection
 
 @section('scripts')
-    <script>
-        const confirmationModalElement = document.getElementById('confirmationModal');
-        const confirmationModal = new bootstrap.Modal(confirmationModalElement, {
-            keyboard: true
-        });
-
-        $('#materiaForm').on('submit', function(e) {
-            const form = $('#materiaForm');
-            const data = form.serialize();
-
-            $.ajax({
-                url: `/materias-ajax/{{ $item->id }}`,
-                type: 'PUT',
-                dataType: 'json',
-                data: data,
-                success: (data) => {
-                    showToast(data.success, 'success');
-                    setTimeout(function() {
-                        window.location.href = "/";
-                    }, 2500);
-                },
-                error: (jqXHR, textStatus, errorThrown) => {
-                    showToast(jqXHR.responseJSON.message, 'error');
-                }
-            });
-        });
-
-        $('#buttonRandomKey').on('click', function() {
-            $('#clave').val(generateRandomKey());
-        });
-    </script>
-
+    <script src="{{ asset('js/materias-edit.js') }}"></script>
 @endsection
