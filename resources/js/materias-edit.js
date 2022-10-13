@@ -12,7 +12,10 @@ $('#materiaForm').on('submit', function (e) {
         data: data,
         success: (data) => {
             ui.showToast(data.success, 'success')
-       },
+            setTimeout(function () {
+                window.location.href = "/";
+            }, 2500)
+        },
         error: (jqXHR, textStatus, errorThrown) => {
             ui.showToast(jqXHR.responseJSON.message, 'error')
         }

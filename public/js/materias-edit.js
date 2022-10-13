@@ -193,6 +193,9 @@ $('#materiaForm').on('submit', function (e) {
     data: data,
     success: function success(data) {
       _ui__WEBPACK_IMPORTED_MODULE_0__.showToast(data.success, 'success');
+      setTimeout(function () {
+        window.location.href = "/";
+      }, 2500);
     },
     error: function error(jqXHR, textStatus, errorThrown) {
       _ui__WEBPACK_IMPORTED_MODULE_0__.showToast(jqXHR.responseJSON.message, 'error');
