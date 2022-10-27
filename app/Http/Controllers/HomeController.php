@@ -25,11 +25,11 @@ class HomeController extends Controller
     public function index()
     {
         $user = Auth::user();
-        $materiasAdmin = Materia::actives()->get();
+        $materias = Materia::actives()->get();
 
         return view('home', [
             'materias' => $user->hasRole('Administrador') ?
-                $materiasAdmin : $user->materias
+                $materias : $user->materias->where('estatus', config('constants.status_enabled'))
         ]);
     }
 }
