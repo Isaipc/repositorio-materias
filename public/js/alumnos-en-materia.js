@@ -106,7 +106,7 @@ var toast_type = {
 var getConfirmBody = function getConfirmBody(confirmType, item) {
   var _confirmation_type$co, _confirmation_type$co2;
 
-  return (_confirmation_type$co = (_confirmation_type$co2 = confirmation_type[confirmType]) === null || _confirmation_type$co2 === void 0 ? void 0 : _confirmation_type$co2.call(confirmation_type, item)) !== null && _confirmation_type$co !== void 0 ? _confirmation_type$co : 'Función no encontrada';
+  return (_confirmation_type$co = (_confirmation_type$co2 = confirmation_type[confirmType]) === null || _confirmation_type$co2 === void 0 ? void 0 : _confirmation_type$co2.call(confirmation_type, item)) !== null && _confirmation_type$co !== void 0 ? _confirmation_type$co : "".concat(item);
 };
 
 var toastElement = document.getElementById('toast');
@@ -264,7 +264,7 @@ var dtOverrideGlobals = {
   }, {
     targets: -1,
     render: function render(data, type, row, meta) {
-      return "<div>\n                <button class=\"btn btn-sm btn-danger delete-item has-tooltip\"\n                    data-row=\"".concat(meta.row, "\"\n                    data-bs-toggle=\"tooltip\" data-bs-placement=\"top\" title=\"Eliminar\">\n                    <i class=\"bi bi-trash-fill\"></i>\n                </button>\n            </div>");
+      return "<div>\n                <button class=\"btn btn-sm btn-danger delete-item has-tooltip\"\n                    data-row=\"".concat(meta.row, "\"\n                    data-bs-toggle=\"tooltip\" data-bs-placement=\"top\" title=\"Quitar participante\">\n                    <i class=\"bi bi-trash-fill\"></i>\n                </button>\n            </div>");
     }
   }]
 };
@@ -273,9 +273,9 @@ $('#table').on('click', 'tbody .delete-item', function () {
   console.log(data);
   var request_url = "/alumnos-en-materia/quitar/".concat(materia_id, "/").concat(data.id, "/");
   var request_type = 'DELETE';
-  var title = 'Eliminar de materia';
-  var item = data.nombre;
-  _ui__WEBPACK_IMPORTED_MODULE_0__.confirmDialog(title, item, 'confirmDelete', function (confirm) {
+  var title = 'Quitar participante';
+  var body = "<div>\n            <i class=\"bi bi-exclamation-diamond-fill\" style=\"font-size: 2.5rem; color: orange;\"></i>\n        </div>\n        \xBFDesea quitar el participante <span class='text-danger'>".concat(data.nombre, "</span> de este curso?");
+  _ui__WEBPACK_IMPORTED_MODULE_0__.confirmDialog(title, body, '', function (confirm) {
     if (confirm) $.ajax({
       type: request_type,
       url: request_url,

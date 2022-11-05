@@ -36,7 +36,7 @@ const dtOverrideGlobals = {
             `<div>
                 <button class="btn btn-sm btn-danger delete-item has-tooltip"
                     data-row="${meta.row}"
-                    data-bs-toggle="tooltip" data-bs-placement="top" title="Eliminar">
+                    data-bs-toggle="tooltip" data-bs-placement="top" title="Quitar participante">
                     <i class="bi bi-trash-fill"></i>
                 </button>
             </div>`
@@ -48,10 +48,15 @@ $('#table').on('click', 'tbody .delete-item', function () {
     console.log(data)
     const request_url = `/alumnos-en-materia/quitar/${materia_id}/${data.id}/`
     const request_type = 'DELETE'
-    const title = 'Eliminar de materia'
-    const item = data.nombre
+    const title = 'Quitar participante'
+    const body = 
+        `<div>
+            <i class="bi bi-exclamation-diamond-fill" style="font-size: 2.5rem; color: orange;"></i>
+        </div>
+        ¿Desea quitar el participante <span class='text-danger'>${data.nombre}</span> de este curso?`
+ 
 
-    ui.confirmDialog(title, item, 'confirmDelete', (confirm) => {
+    ui.confirmDialog(title, body, '', (confirm) => {
         if (confirm)
             $.ajax({
                 type: request_type,
