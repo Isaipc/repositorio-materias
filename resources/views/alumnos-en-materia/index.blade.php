@@ -4,7 +4,7 @@
 
 @section('primary-title')
     <i class="bi bi-people-fill"></i>
-    {{ __('Alumnos en materias') }}
+    {{ __('Alumnos en ') }} {{ $item->nombre}}
 @endsection
 
 @section('primary-content')
