@@ -46,7 +46,7 @@ const dtOverrideGlobals = {
 $('#table').on('click', 'tbody .delete-item', function () {
     const data = table.row(this.dataset.row).data();
     console.log(data)
-    const request_url = `/alumnos-en-materia/${data.pivot.id}`
+    const request_url = `/alumnos-en-materia/quitar/${materia_id}/${data.id}/`
     const request_type = 'DELETE'
     const title = 'Eliminar de materia'
     const item = data.nombre

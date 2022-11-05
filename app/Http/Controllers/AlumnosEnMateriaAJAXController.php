@@ -24,20 +24,11 @@ class AlumnosEnMateriaAJAXController extends Controller
      * @param  \App\Materia  $materia
      * @return \Illuminate\Http\Response
      */
-    public function destroy(AlumnoEnMateria $alumnoEnMateria)
+    public function destroy(Materia $materia, User $user)
     {
-
-        echo($alumnoEnMateria);
-        $user = User::find($alumnoEnMateria->usuario_id);
-
-        $materia = Materia::find($alumnoEnMateria->materia_id);
+        $materia->alumnos()->detach($user->id);
         
-        var_dump($alumnoEnMateria);
-        var_dump($user);
-
-        // $alumnoEnMateria->delete();
-
-        return response()->json(['success' => 'Se ha eliminado a ' . $user->nombre . ' de ' . $materia->id]);
+        return response()->json(['success' => 'El alumno ' . $user->nombre . ' ya no es participe del curso:' . $materia->nombre]);
     }
     
     /**

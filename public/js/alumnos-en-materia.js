@@ -271,7 +271,7 @@ var dtOverrideGlobals = {
 $('#table').on('click', 'tbody .delete-item', function () {
   var data = table.row(this.dataset.row).data();
   console.log(data);
-  var request_url = "/alumnos-en-materia/".concat(data.pivot.id);
+  var request_url = "/alumnos-en-materia/quitar/".concat(materia_id, "/").concat(data.id, "/");
   var request_type = 'DELETE';
   var title = 'Eliminar de materia';
   var item = data.nombre;

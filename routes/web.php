@@ -72,7 +72,7 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
             Route::get('{materia}/unidades/eliminados', 'UnidadController@trash')->name('unidades.trash');
         });
         Route::get('alumnos-en-materia/{materia}', 'AlumnosEnMateriaAJAXController@index');
-        Route::delete('alumnos-en-materia/{alumnoEnMateria}', 'AlumnosEnMateriaAJAXController@destroy');
+        Route::delete('alumnos-en-materia/quitar/{materia}/{user}', 'AlumnosEnMateriaAJAXController@destroy');
         Route::delete('alumnos-en-materia/close-course/{materia}', 'AlumnosEnMateriaAJAXController@closeCourse');
 
         Route::prefix('archivos')->group(function () {
