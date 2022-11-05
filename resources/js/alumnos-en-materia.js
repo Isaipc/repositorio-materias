@@ -76,9 +76,14 @@ $('#closeCourse').on('click', function () {
     const request_url = `/alumnos-en-materia/close-course/${this.dataset.id}`
     const request_type = 'DELETE'
     const title = 'Cerrar curso'
-    const item = this.dataset.name
+    const body = 
+        `<div>
+            <i class="bi bi-exclamation-diamond-fill" style="font-size: 2.5rem; color: orange;"></i>
+        </div>
+        ¿Desea cerrar este curso? Esto quitará el acceso a todos los participantes a su contenido.`
+ 
 
-    ui.confirmDialog(title, item, 'confirmDelete', (confirm) => {
+    ui.confirmDialog(title, body, '', (confirm) => {
         if (confirm)
             $.ajax({
                 type: request_type,

@@ -293,8 +293,8 @@ $('#closeCourse').on('click', function () {
   var request_url = "/alumnos-en-materia/close-course/".concat(this.dataset.id);
   var request_type = 'DELETE';
   var title = 'Cerrar curso';
-  var item = this.dataset.name;
-  _ui__WEBPACK_IMPORTED_MODULE_0__.confirmDialog(title, item, 'confirmDelete', function (confirm) {
+  var body = "<div>\n            <i class=\"bi bi-exclamation-diamond-fill\" style=\"font-size: 2.5rem; color: orange;\"></i>\n        </div>\n        \xBFDesea cerrar este curso? Esto quitar\xE1 el acceso a todos los participantes a su contenido.";
+  _ui__WEBPACK_IMPORTED_MODULE_0__.confirmDialog(title, body, '', function (confirm) {
     if (confirm) $.ajax({
       type: request_type,
       url: request_url,
