@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Materia;
 use App\Unidad;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class UnidadAJAXController extends Controller
 {
@@ -15,12 +16,23 @@ class UnidadAJAXController extends Controller
      */
     public function index(Materia $materia)
     {
-        return response()->json([
-            'data' => $materia->unidades()
+        $user = Auth::user();
+
+        $unidades =  $user->hasRole('Administrador') ?
+            $materia->unidades()
             ->with(['archivos' => function($query) {
                 $query->where('estatus', '!=', config('constants.status_archived'));
             }])
             ->where('estatus', '!=', config('constants.status_archived'))->get()
+            : $materia->unidades()
+            ->with(['archivos' => function($query) {
+                $query->where('estatus', '!=', config('constants.status_archived'));
+            }])
+            ->where('estatus', config('constants.status_enabled'))->get();
+ 
+
+        return response()->json([
+            'data' => $unidades
         ]);
     }
 
