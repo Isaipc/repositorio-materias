@@ -106,7 +106,7 @@ var toast_type = {
 var getConfirmBody = function getConfirmBody(confirmType, item) {
   var _confirmation_type$co, _confirmation_type$co2;
 
-  return (_confirmation_type$co = (_confirmation_type$co2 = confirmation_type[confirmType]) === null || _confirmation_type$co2 === void 0 ? void 0 : _confirmation_type$co2.call(confirmation_type, item)) !== null && _confirmation_type$co !== void 0 ? _confirmation_type$co : 'Función no encontrada';
+  return (_confirmation_type$co = (_confirmation_type$co2 = confirmation_type[confirmType]) === null || _confirmation_type$co2 === void 0 ? void 0 : _confirmation_type$co2.call(confirmation_type, item)) !== null && _confirmation_type$co !== void 0 ? _confirmation_type$co : "".concat(item);
 };
 
 var toastElement = document.getElementById('toast');

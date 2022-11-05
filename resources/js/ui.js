@@ -43,7 +43,7 @@ const toast_type = {
 }
 
 const getConfirmBody = (confirmType, item) => {
-    return confirmation_type[confirmType]?.(item) ?? 'Función no encontrada'
+    return confirmation_type[confirmType]?.(item) ?? `${item}`
 }
 const toastElement = document.getElementById('toast');
 const toastElHeader = toastElement.querySelector('.toast-header');
