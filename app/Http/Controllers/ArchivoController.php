@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Archivo;
 use App\Unidad;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class ArchivoController extends Controller
 {
@@ -36,15 +37,15 @@ class ArchivoController extends Controller
     public function show(Archivo $archivo)
     {
         $user = Auth::user();
+        $path = str_replace("/", "\\", storage_path("app/{$archivo->path}"));
 
         if ($user->hasRole('Administrador'))
-            return response()->file(str_replace("/", "\\", storage_path("app/{$archivo->path}")));
+            return response()->file($path);
 
-        if (!$user->materias->contains($archivo->unidad->materia))
+        if (!$user->materias->contains($archivo->unidad->materia) || $archivo->estatus != config('constants.status_enabled'))
             return redirect('/');
 
-        return response()->file(str_replace("/", "\\", storage_path("app/{$archivo->path}")));
-        // abort_if(!Storage::disk('files')->exists($path), 404, "The file doesn't exist. Check the path.");
+        return response()->file($path);
         // return Storage::disk('files')->response($path);
     }
 }
