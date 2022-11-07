@@ -44,6 +44,7 @@
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
+
                             <input type="hidden" name="materia_id" value="{{ $item->id }}">
                             <input id="unidadId" type="hidden" name="id" value="0">
                             <div class="mb-3">
@@ -80,6 +81,10 @@
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
+                            <div class="progress mb-2">
+                                <div class="progress-bar" role="progressbar" aria-label="Basic example" aria-valuenow="75"
+                                    aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
                             <div id="error" class="alert alert-danger d-none"></div>
                             <input id="fileId" type="hidden" name="id" value="0">
                             <div class="mb-3">

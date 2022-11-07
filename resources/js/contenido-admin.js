@@ -153,6 +153,9 @@ $('#table').on('click', 'tbody .upload-file', function () {
     fileId.value = 0
     bsUploadFileModal.show();
     uploadFileModal.querySelector('.modal-title').textContent = 'Subir archivo'
+    uploadFileForm.reset()
+    $('.progress-bar').width('0%')
+    $('.progress').hide()
 
     removeValidationStyles(fileName)
     removeValidationStyles(file)
@@ -188,6 +191,8 @@ $('#table').on('click', 'tbody .edit-file', function () {
     unidadId.value = this.dataset.unidad
 
     uploadFileModal.querySelector('.modal-title').textContent = 'Editar archivo'
+
+    $('.progress').hide()
 
     removeValidationStyles(file)
     removeValidationStyles(fileName)
@@ -285,14 +290,20 @@ uploadFileForm.addEventListener('submit', e => {
         type: request_type,
         url: request_url,
         processData: false,
+        cache: false,
         contentType: false,
-        // dataType: 'json',
         data: formData,
+        beforeSend: () => {
+            $('.progress').show()
+            $('.progress-bar').width('0%')
+            console.log('loading ...')
+        },
         success: (data) => {
             ui.showToast(data.success, 'success');
             bsUploadFileModal.hide();
             uploadFileForm.reset();
             table.ajax.reload();
+            $('.progress').hide()
         },
         error: (jqXHR, textStatus, errorThrown) => {
             console.log(jqXHR.responseJSON.message)
@@ -318,6 +329,19 @@ uploadFileForm.addEventListener('submit', e => {
                 error.classList.remove('d-none')
             }
 
+        },
+        xhr: () => {
+            let xhr = new window.XMLHttpRequest()
+            xhr.upload.addEventListener("progress", (event) => {
+                if (event.lengthComputable) {
+                    let percentComplete = ((event.loaded / event.total) * 100)
+                    $('.progress-bar').width(percentComplete + '%')
+                    $('.progress-bar').html(percentComplete + '%')
+                    console.log(percentComplete)
+                }
+            }, false)
+
+            return xhr;
         }
     })
 })

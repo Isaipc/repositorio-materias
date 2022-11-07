@@ -346,6 +346,9 @@ $('#table').on('click', 'tbody .upload-file', function () {
   fileId.value = 0;
   bsUploadFileModal.show();
   uploadFileModal.querySelector('.modal-title').textContent = 'Subir archivo';
+  uploadFileForm.reset();
+  $('.progress-bar').width('0%');
+  $('.progress').hide();
   removeValidationStyles(fileName);
   removeValidationStyles(file);
 });
@@ -375,6 +378,7 @@ $('#table').on('click', 'tbody .edit-file', function () {
   fileName.value = this.dataset.nombre;
   unidadId.value = this.dataset.unidad;
   uploadFileModal.querySelector('.modal-title').textContent = 'Editar archivo';
+  $('.progress').hide();
   removeValidationStyles(file);
   removeValidationStyles(fileName);
 });
@@ -473,14 +477,20 @@ uploadFileForm.addEventListener('submit', function (e) {
     type: request_type,
     url: request_url,
     processData: false,
+    cache: false,
     contentType: false,
-    // dataType: 'json',
     data: formData,
+    beforeSend: function beforeSend() {
+      $('.progress').show();
+      $('.progress-bar').width('0%');
+      console.log('loading ...');
+    },
     success: function success(data) {
       _ui__WEBPACK_IMPORTED_MODULE_1__.showToast(data.success, 'success');
       bsUploadFileModal.hide();
       uploadFileForm.reset();
       table.ajax.reload();
+      $('.progress').hide();
     },
     error: function (_error2) {
       function error(_x4, _x5, _x6) {
@@ -519,7 +529,19 @@ uploadFileForm.addEventListener('submit', function (e) {
         error.innerHTML = jqXHR.responseJSON.error;
         error.classList.remove('d-none');
       }
-    })
+    }),
+    xhr: function xhr() {
+      var xhr = new window.XMLHttpRequest();
+      xhr.upload.addEventListener("progress", function (event) {
+        if (event.lengthComputable) {
+          var percentComplete = event.loaded / event.total * 100;
+          $('.progress-bar').width(percentComplete + '%');
+          $('.progress-bar').html(percentComplete + '%');
+          console.log(percentComplete);
+        }
+      }, false);
+      return xhr;
+    }
   });
 });
 $('#file').on('change', function () {
