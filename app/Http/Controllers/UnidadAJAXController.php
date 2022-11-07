@@ -26,7 +26,7 @@ class UnidadAJAXController extends Controller
             ->where('estatus', '!=', config('constants.status_archived'))->get()
             : $materia->unidades()
             ->with(['archivos' => function($query) {
-                $query->where('estatus', '!=', config('constants.status_archived'));
+                $query->where('estatus', config('constants.status_enabled'));
             }])
             ->where('estatus', config('constants.status_enabled'))->get();
  
